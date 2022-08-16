@@ -25,9 +25,19 @@ from apps.user.views import home
 #urls error page
 from apps.handler.views import handler_404, handler_500
 
+#cliente
+from apps.cliente.views import (add_ciudad, edit_ciudad, list_ciudades, get_list_ciudades)
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name="index"),
+
+    #cliente urls
+    path('configuracion/listCiudades/', list_ciudades , name="list_ciudades"),
+    path('configuracion/get_list_ciudades/', get_list_ciudades , name="get_list_ciudades"),
+    path('configuracion/addCiudad/',  add_ciudad, name="add_ciudad"),
+    path('configuracion/editCiudad/<int:id>/',edit_ciudad , name="edit_ciudad"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

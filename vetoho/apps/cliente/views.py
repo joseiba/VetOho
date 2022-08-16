@@ -7,11 +7,9 @@ from django.http import JsonResponse
 import json
 import math
 
+from apps.cliente.forms import CiudadForm, ClienteForm
+from apps.cliente.models import Ciudad
 
-from vetoho.apps.cliente.forms import CiudadForm, ClienteForm
-from vetoho.apps.cliente.models import Ciudad
-
-# Create your views here.
 #Ciudades 
 @login_required()
 #@permission_required('configuracion.add_confiempresa')
@@ -24,7 +22,7 @@ def add_ciudad(request):
             form.save()
             return redirect('/configuracion/listCiudades/')
     context = {'form' : form}
-    return render(request, 'configuraciones/ciudad/add_ciudad_modal.html', context)
+    return render(request, 'configuracion/ciudad/add_ciudad_modal.html', context)
 
 
 @login_required()
@@ -43,12 +41,12 @@ def edit_ciudad(request, id):
             messages.success(request, 'Se ha editado correctamente!')
             return redirect('/configuracion/listCiudades/')
     context = {'form' : form, 'ciudad': ciudad}
-    return render(request, 'configuraciones/ciudad/edit_ciudad_modal.html', context)
+    return render(request, 'configuracion/ciudad/edit_ciudad_modal.html', context)
 
-@login_required()
+#@login_required()
 #@permission_required('configuracion.view_confiempresa')
 def list_ciudades(request):
-    return render(request, 'configuraciones/ciudad/list_ciudad.html')
+    return render(request, 'configuracion/ciudad/list_ciudad.html')
 
 @login_required()
 def get_list_ciudades(request):
