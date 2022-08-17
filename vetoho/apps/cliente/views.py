@@ -11,7 +11,7 @@ from apps.cliente.forms import CiudadForm, ClienteForm
 from apps.cliente.models import Ciudad
 
 #Ciudades 
-@login_required()
+#@login_required()
 #@permission_required('configuracion.add_confiempresa')
 def add_ciudad(request):
     form = CiudadForm
@@ -25,7 +25,7 @@ def add_ciudad(request):
     return render(request, 'configuracion/ciudad/add_ciudad_modal.html', context)
 
 
-@login_required()
+#@login_required()
 #@permission_required('configuracion.change_confiempresa')
 def edit_ciudad(request, id):
     ciudad = Ciudad.objects.get(id=id)
@@ -51,14 +51,12 @@ def list_ciudades(request):
 #@login_required()
 def get_list_ciudades(request):
     query = request.GET.get('busqueda')
-    print("viene aca")
     if query != "":
         ciudad = Ciudad.objects.filter(Q(nombre_ciudad__icontains=query))
     else:
         ciudad = Ciudad.objects.all()
 
     total = ciudad.count()
-
 
     _start = request.GET.get('start')
     _length = request.GET.get('length')

@@ -109,9 +109,9 @@
               <div class="float-left">
                 <form >
                   <div class="input-group">
-                      <input type="search" class="form-control form-control-lg" placeholder="Buscar nombre de ciudad">
+                      <input type="search" class="form-control form-control-lg" id="searchTerm" placeholder="Buscar nombre de ciudad">
                       <div class="input-group-append">
-                          <button type="submit" class="btn btn-lg btn-default">
+                          <button type="button" id="busqueda" class="btn btn-lg btn-default">
                               <i class="fa fa-search"></i>
                           </button>
                       </div>
@@ -129,7 +129,7 @@
                 <tr>
                   <th>N°</th>
                   <th>Nombre de Ciudad</th>
-                  <th>Acción</th>
+                  <th class="text-center">Acción</th>
                 </tr>
                 </thead>
                 <tbody>                   
@@ -165,6 +165,7 @@
         $('input').on("cut copy paste",function(e) {
             e.preventDefault();
         });
+
         var get_list = function (busqueda) {
             $("#list_ciudades").DataTable({
                 destroy: true,
@@ -187,7 +188,6 @@
                     data: {'busqueda': busqueda},
                     error: function (data) {
                         $.fn.DataTable.ext.errorMode = 'none'
-
                     }
                 },
                 columns: [
@@ -208,11 +208,11 @@
                             //                             Editar\
                             //                         </button>';
                             // {% endif %}
-                            return '<button class="btn btn-warning" onclick="abrir_modal_edicion(\'/configuracion/editCiudad/' + data + '/\');">\
+                            return '<button class="btn btn-warning text-center"" onclick="abrir_modal_edicion(\'/configuracion/editCiudad/' + data + '/\');">\
                                                         Editar\
                                                     </button>';
 
-                            return "-";
+                            // return "-";
                             
                         }
                     }
@@ -251,21 +251,21 @@
         
         get_list(query);
 
-        // $("#searchTerm").change(function(){
-        //     var busqueda = $("#searchTerm").val()
-        //     sessionStorage.setItem("busqueda", busqueda)
-        // })
+        $("#searchTerm").change(function(){
+            var busqueda = $("#searchTerm").val()
+            sessionStorage.setItem("busqueda", busqueda)
+        })
 
-        // $("#busqueda").click(function(){
-        //     var busqueda = sessionStorage.getItem("busqueda")
-        //     if(busqueda == "" || busqueda == undefined || busqueda == null){
-        //         busqueda = "";
-        //         get_list(busqueda)
-        //     }
-        //     else{
-        //         get_list(busqueda)
-        //     }
-        // }) 
+        $("#busqueda").click(function(){
+            var busqueda = sessionStorage.getItem("busqueda")
+            if(busqueda == "" || busqueda == undefined || busqueda == null){
+                busqueda = "";
+                get_list(busqueda)
+            }
+            else{
+                get_list(busqueda)
+            }
+        }) 
     })
 </script>
 
