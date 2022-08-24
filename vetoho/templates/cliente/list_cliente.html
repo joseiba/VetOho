@@ -106,7 +106,7 @@
         var get_list = function (busqueda) {
             $("#list_cliente").DataTable({
                 destroy: true,
-                dom: 'Bfrtip',
+                //dom: 'Bfrtip',
                 // buttons: [                
                 //     {
                 //         extend: 'pdfHtml5',
@@ -159,14 +159,17 @@
 
                             var buttons = "";
 
-                            buttons +=  '<button class="btn btn-warning">\
-                                                         <a href="/cliente/edit/' + data + '/" style="color: black">\
+                            buttons +=  '<button class="btn btn-warning mr-1">\
+                                                         <a href="/cliente/editCliente/' + data + '/" style="color: black">\
                                                              Editar\
                                                          </a>\
                                                    </button>';
+                            buttons += '<button class="btn btn-danger"" onclick="abrir_modal_eliminacion(\'/cliente/bajaCliente/' + data + '/\');">\
+                                                        Dar de baja\
+                                        </button>';
                             // {% if perms.cliente.change_cliente %}
                             //     buttons +=  '<button class="btn btn-warning">\
-                            //                             <a href="/cliente/edit/' + data + '/" style="color: black">\
+                            //                             <a href="/cliente/editCliente/' + data + '/" style="color: black">\
                             //                                 Editar\
                             //                             </a>\
                             //                         </button>';

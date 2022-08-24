@@ -102,24 +102,30 @@ def edit_cliente(request, id):
         form = ClienteForm(request.POST, instance=cliente)
         if not form.has_changed():
             messages.info(request, "No has hecho ningun cambio!")
-            return redirect('/cliente/edit/'+ str(id))
+            return redirect('/cliente/editCliente/'+ str(id))
         if form.is_valid():
             cliente = form.save(commit=False)
             cliente.save()          
             messages.success(request, 'Se ha editado correctamente!')
-            return redirect('/cliente/edit/'+ str(id))
+            return redirect('/cliente/editCliente/'+ str(id))
 
-    context = {'form': form}
+    context = {'form': form, 'id':id}
     return render(request, 'cliente/edit_cliente.html', context)
 
 #Metodo para eliminar cliente
 #@login_required()
 #@permission_required('cliente.delete_cliente')
-def delete_cliente(request, id):
+def inactivar_cliente(request, id):
     cliente = Cliente.objects.get(id=id)
-    cliente.is_active = "N"
-    cliente.save()
-    return redirect('/cliente/list/')
+    if request.method == 'POST':
+        print("post")
+        cliente.is_active = "N"
+        cliente.save()
+        return redirect('/cliente/listCliente/')
+    context = {'cliente': cliente}
+    print("pantalla")
+    return render(request, 'cliente/baja_cliente.html', context)
+    
 
 #Metodo para listar todos los clientes
 # @login_required()
