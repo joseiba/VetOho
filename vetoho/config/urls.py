@@ -28,7 +28,8 @@ from apps.handler.views import handler_404, handler_500
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name="index"),
-    path('tipoProducto/', include(('apps.inventario.productos.urls','tipoproducto'), namespace='tipoproducto'))
+    path('tipoProducto/', include(('apps.inventario.productos.urls','tipoproducto'), namespace='tipoproducto')),
+    path('deposito/', include(('apps.inventario.depositos.urls','deposito'), namespace='deposito'))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
