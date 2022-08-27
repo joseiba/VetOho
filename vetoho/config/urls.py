@@ -15,7 +15,7 @@ Including another URLconf
 """
 import statistics
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from cgitb import handler
 from django.conf.urls.static import static
 from config import settings
@@ -44,6 +44,8 @@ urlpatterns = [
     path('cliente/get_list_client/', list_client_ajax, name="list_client_ajax"),
     path('cliente/editCliente/<int:id>/', edit_cliente, name="edit_cliente"),
     path('cliente/bajaCliente/<int:id>/', inactivar_cliente, name="inactivar_cliente"),
+    path('tipoProducto/', include(('apps.inventario.productos.urls','tipoproducto'), namespace='tipoproducto')),
+    path('deposito/', include(('apps.inventario.depositos.urls','deposito'), namespace='deposito'))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
