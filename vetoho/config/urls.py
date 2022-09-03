@@ -25,6 +25,8 @@ from apps.user.views import home
 #urls error page
 from apps.handler.views import handler_404, handler_500
 
+from apps.usuario.views import (list_usuarios, list_usuarios_ajax, add_usuario, edit_usuario, add_rol, get_group_list, 
+change_password, edit_rol, delete_rol, baja_usuario, list_usuarios_baja_ajax, alta_usuario, list_usuarios_baja)
 #cliente
 from apps.cliente.views import (add_ciudad, edit_ciudad, list_ciudades, get_list_ciudades, add_cliente,
 edit_cliente, list_client_ajax, list_clientes, inactivar_cliente)
@@ -33,7 +35,20 @@ edit_cliente, list_client_ajax, list_clientes, inactivar_cliente)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name="index"),
-
+ #Usuarios
+    path('usuario/listUsuarios/', list_usuarios, name="list_usuarios"),
+    path('usuario/list_usuarios_ajax/', list_usuarios_ajax, name="list_usuarios_ajax"),
+    path('usuario/list_usuarios_baja_ajax/', list_usuarios_baja_ajax, name="list_usuarios_baja_ajax"),
+    path('usuario/add/', add_usuario , name="add_usuario"),
+    path('usuario/edit/<int:id>/', edit_usuario, name="edit_usuario"),
+    path('usuario/darBajaUsuario/<int:id>/', baja_usuario, name="baja_usuario"),
+    path('usuario/altaUsuarios/<int:id>/', alta_usuario, name="alta_usuario"),
+    path('usuario/addRol/', add_rol , name="add_rol"),
+    path('usuario/editRol/<int:id>/', edit_rol , name="edit_rol"),
+    path('usuario/eliminarRol/<int:id>/', delete_rol , name="delete_rol"),
+    path('usuario/get_group_list/', get_group_list , name="get_group_list"),
+    path('usuario/editPassword/<int:id>/', change_password , name="change_password"),
+    path('usuario/listUsuariosBaja/', list_usuarios_baja, name="list_usuarios_baja"),
     #cliente urls
     path('configuracion/listCiudades/', list_ciudades , name="list_ciudades"),
     path('configuracion/get_list_ciudades/', get_list_ciudades , name="get_list_ciudades"),
