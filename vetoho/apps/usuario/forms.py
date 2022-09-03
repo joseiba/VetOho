@@ -81,7 +81,6 @@ class UserFormChange(UserChangeForm):
             self.fields[fieldname].help_text = None
 
         try:
-            print(self.user.has_perms(['usuario.add_user']))
             if not self.user.has_perms(['usuario.add_user']):
                 for fieldname in ['groups']:
                     self.fields[fieldname].widget.attrs['class'] = 'd-none'

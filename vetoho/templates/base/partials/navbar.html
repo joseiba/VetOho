@@ -10,7 +10,7 @@
     </ul>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
-            <a href="#" class="nav-link">
+            <a href="{% url 'logout' %}" class="nav-link">
                 <i class="fas fa-sign-out-alt"></i> Salir
             </a>
         </li>
@@ -33,7 +33,7 @@
                 <img src="{% static 'base/img/user.png' %}" class="img-circle" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">NOMBRE USUARIO</a>
+                <span class="d-block text-uppercase" style="color: white;">{{ user.username}}</span>
             </div>
         </div>
 
@@ -238,7 +238,7 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{% url 'change_password' user.id %}" class="nav-link">
-                                    <i class="fas fa-clipboard"></i>
+                                    <i class="fas fa-pen"></i>
                                     <p>Cambiar Contraseña</p>
                                 </a>
                             </li>

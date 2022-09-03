@@ -20,22 +20,23 @@ from cgitb import handler
 from django.conf.urls.static import static
 from config import settings
 
-#urls users
-from apps.user.views import home
 #urls error page
 from apps.handler.views import handler_404, handler_500
 
-from apps.usuario.views import (list_usuarios, list_usuarios_ajax, add_usuario, edit_usuario, add_rol, get_group_list, 
-change_password, edit_rol, delete_rol, baja_usuario, list_usuarios_baja_ajax, alta_usuario, list_usuarios_baja)
+from apps.usuario.views import (Login, home_user, list_usuarios, list_usuarios_ajax, add_usuario, edit_usuario, add_rol, get_group_list, 
+change_password, edit_rol, delete_rol, baja_usuario, list_usuarios_baja_ajax, alta_usuario, list_usuarios_baja, logoutUser)
 #cliente
 from apps.cliente.views import (add_ciudad, edit_ciudad, list_ciudades, get_list_ciudades, add_cliente,
 edit_cliente, list_client_ajax, list_clientes, inactivar_cliente)
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', home, name="index"),
- #Usuarios
+    path('SuperAdminUserDev/', admin.site.urls),
+    path('', home_user, name="index"),
+    path('accounts/login/', Login.as_view(), name='login'),
+    path('logout/', logoutUser, name="logout"),
+    
+    #Usuarios
     path('usuario/listUsuarios/', list_usuarios, name="list_usuarios"),
     path('usuario/list_usuarios_ajax/', list_usuarios_ajax, name="list_usuarios_ajax"),
     path('usuario/list_usuarios_baja_ajax/', list_usuarios_baja_ajax, name="list_usuarios_baja_ajax"),

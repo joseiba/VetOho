@@ -53,9 +53,9 @@
               </form>                  
               </div>
               <div class="float-right">
-                <!-- <button type="submit"  class="btn btn-success btn-circle">
+                <button type="submit"  class="btn btn-success btn-circle">
                     <a style="color: white;" href="{% url 'list_usuarios_baja' %}">Usuarios de baja</a>
-                </button> -->
+                </button>
                 <button type="submit" class="btn btn-primary btn-circle">
                     <a style="color: white;" href="{% url 'add_usuario' %}">Agregar nuevo usuario</a>
                 </button>                 
@@ -71,7 +71,6 @@
                   <th>Apellidos</th>
                   <th>Email</th>
                   <th>Username</th>
-                  <th>Activo</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
@@ -167,16 +166,6 @@
                     {
                         name: 'Username',
                         data: 'username',
-                    },
-                    {
-                        name: 'Activo',
-                        data: 'activo',
-                        render: function(data){
-                            if(data)
-                                return "Activo";
-                            else
-                                return "Desactivado";
-                        }
                     },                     
                     {
                         name: 'Acciones',
@@ -184,7 +173,6 @@
                         render: function (data) {
                             var buttons = ""
 
-                            
                                 buttons += '<button class="btn btn-warning mr-1">\
                                                         <a href="/usuario/edit/' + data + '/" style="color: black">\
                                                             Editar\

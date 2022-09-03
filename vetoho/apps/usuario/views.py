@@ -56,7 +56,7 @@ class Login(FormView):
         #     confi_initial.save()
         return super(Login,self).form_valid(form)
 
-#@login_required()
+@login_required()
 def logoutUser(request):
     """[summary]
     Args:
@@ -67,7 +67,7 @@ def logoutUser(request):
     logout(request)
     return redirect('/accounts/login/')
 
-#@login_required()
+@login_required()
 def home_user(request):
     """[summary]
     Args:
@@ -93,12 +93,12 @@ def home_user(request):
     return render(request, "home/index.html")    
 
 
-#@login_required()
-#@permission_required('usuario.view_user')
+@login_required()
+@permission_required('usuario.view_user')
 def list_usuarios(request):    
     return render(request, "usuario/list_usuarios.html")
 
-#@login_required()
+@login_required()
 def list_usuarios_ajax(request):
     query = request.GET.get('busqueda')
     if query:
@@ -122,7 +122,7 @@ def list_usuarios_ajax(request):
         usuario = usuario[start:start + length]
 
     data = [{'id': usu.id,'nombre': usu.first_name, 
-            'apellido': usu.last_name, 'email': usu.email, 'activo': usu.is_active,
+            'apellido': usu.last_name, 'email': usu.email,
             'username': usu.username} for usu in usuario]        
         
     response = {
@@ -132,17 +132,18 @@ def list_usuarios_ajax(request):
     }
     return JsonResponse(response)
 
-#@login_required()
-#@permission_required('usuario.view_user')
+@login_required()
+@permission_required('usuario.view_user')
 def list_usuarios_baja(request):    
     return render(request, "usuario/list_usuarios_baja.html")
 
 
-#@login_required()
+@login_required()
 def list_usuarios_baja_ajax(request):
     query = request.GET.get('busqueda')
     if query != "":
-        usuario = User.objects.exclude(is_active=True).filter(Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(username__icontains=query))
+        usuario = User.objects.exclude(is_active=True).filter(Q(first_name__icontains=query) 
+        | Q(last_name__icontains=query) | Q(username__icontains=query))
         usuario = usuario.exclude(is_superuser=True)
     else:
         usuario = User.objects.exclude(is_active=True).all()
@@ -161,8 +162,9 @@ def list_usuarios_baja_ajax(request):
 
         usuario = usuario[start:start + length]
 
-    data = [{'id': usu.id,'nombre': usu.first_name, 'apellido': usu.last_name, 'email': usu.email, 'username': usu.username} for usu in usuario]        
-        
+    data = [{'id': usu.id,'nombre': usu.first_name, 'apellido': usu.last_name, 
+    'email': usu.email, 'username': usu.username} for usu in usuario]        
+            
     response = {
         'data': data,
         'recordsTotal': total,
@@ -170,8 +172,8 @@ def list_usuarios_baja_ajax(request):
     }
     return JsonResponse(response)
 
-#@login_required()
-#@permission_required('usuario.add_user')
+@login_required()
+@permission_required('usuario.add_user')
 def add_usuario(request):
     form = UserForm()
     group = Group.objects.all()
@@ -185,8 +187,8 @@ def add_usuario(request):
     context = {'form': form}
     return render(request, 'usuario/add_usuario.html', context)
 
-#@login_required()
-#@permission_required('usuario.change_user')
+@login_required()
+@permission_required('usuario.change_user')
 def edit_usuario(request, id):
     try:
         usuario = User.objects.get(id=id)
@@ -208,8 +210,8 @@ def edit_usuario(request, id):
             return redirect('/usuario/listUsuarios/')
 
 
-#@login_required()
-#@permission_required('usuario.delete_user')
+@login_required()
+@permission_required('usuario.delete_user')
 def baja_usuario(request, id):
     user = User.objects.get(id=id)
     confirm = True
@@ -227,8 +229,8 @@ def baja_usuario(request, id):
     context = {"user": user}
     return render(request, 'usuario/dar_baja_usuario_modal.html', context)
 
-#@login_required()
-#@permission_required('usuario.delete_user')
+@login_required()
+@permission_required('usuario.add_user')
 def alta_usuario(request, id):
     user = User.objects.get(id=id)
     if request.user == user:
@@ -241,8 +243,8 @@ def alta_usuario(request, id):
         return redirect('/usuario/listUsuariosBaja/')
 
 
-#@login_required()
-#@permission_required('usuario.change_user')
+@login_required()
+@permission_required('usuario.change_user')
 def change_password(request, id):
     form = ContraseñaChangeForm(request.user)
     if request.method == 'POST':
@@ -286,8 +288,8 @@ def get_group_list(request):
     }
     return JsonResponse(response)
 
-#@login_required()
-#@permission_required('usuario.add_user')
+@login_required()
+@permission_required('usuario.add_user')
 def add_rol(request):
     form = GroupForm()
     if request.method == 'POST':
@@ -302,8 +304,8 @@ def add_rol(request):
     context = {'form': form,'groups': Group.objects.all()}
     return render(request, 'usuario/add_rol.html', context)
 
-#@login_required()
-#@permission_required('usuario.add_user')
+@login_required()
+@permission_required('usuario.add_user')
 def edit_rol(request, id):
     group = Group.objects.get(id=id)
     form = GroupChangeForm(instance=group)
@@ -323,8 +325,8 @@ def edit_rol(request, id):
 
     return render(request, 'usuario/add_rol.html', context)
 
-#@login_required()
-#@permission_required('usuario.delete_user')
+@login_required()
+@permission_required('usuario.delete_user')
 def delete_rol(request, id):
     group = Group.objects.get(id=id)
     group.delete()
