@@ -211,7 +211,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li>-->
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
@@ -234,7 +234,17 @@
                             </a>
                         </li>
                     </ul>
-                </li> -->
+                    {% if perms.usuario.change_user %}
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{% url 'change_password' user.id %}" class="nav-link">
+                                    <i class="fas fa-clipboard"></i>
+                                    <p>Cambiar Contraseña</p>
+                                </a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </li> 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-box"></i>

@@ -31,12 +31,12 @@ class UserForm(UserCreationForm):
         widgets = {
             'first_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control','name': 'first_name', 'placeholder': 'Ingrese el nombre del usuario','onkeyup':'replaceDirection(this)', 'required': 'required', 'autocomplete':"off"
+                    'class': 'form-control','name': 'first_name', 'placeholder': 'Ingrese el nombre del usuario','onkeyup':'aceptarLetras(this)', 'required': 'required', 'autocomplete':"off"
                 }
             ),
             'last_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control','name': 'last_name', 'placeholder': 'Ingrese el apellido del usuario','onkeyup':'replaceDirection(this)', 'required': 'required', 'autocomplete':"off"
+                    'class': 'form-control','name': 'last_name', 'placeholder': 'Ingrese el apellido del usuario','onkeyup':'aceptarLetras(this)', 'required': 'required', 'autocomplete':"off"
                 }
             ),
             'email': forms.TextInput(
@@ -46,7 +46,7 @@ class UserForm(UserCreationForm):
             ),
             'username': forms.TextInput(
                 attrs={
-                    'class': 'form-control','name': 'username', 'placeholder': 'Nombre de usuario','onkeyup':'replaceDirection(this)', 'required': 'required', 'autocomplete':"off"
+                    'class': 'form-control','name': 'username', 'placeholder': 'Nombre de usuario','onkeyup':'aceptarNumerosYLetras(this)', 'required': 'required', 'autocomplete':"off"
                 }
             ),
         }
@@ -81,6 +81,7 @@ class UserFormChange(UserChangeForm):
             self.fields[fieldname].help_text = None
 
         try:
+            print(self.user.has_perms(['usuario.add_user']))
             if not self.user.has_perms(['usuario.add_user']):
                 for fieldname in ['groups']:
                     self.fields[fieldname].widget.attrs['class'] = 'd-none'
@@ -97,12 +98,12 @@ class UserFormChange(UserChangeForm):
         widgets = {
             'first_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control','name': 'first_name', 'placeholder': 'Ingrese el nombre del usuario','onkeyup':'replaceDirection(this)', 'required': 'required', 'autocomplete':"off"
+                    'class': 'form-control','name': 'first_name', 'placeholder': 'Ingrese el nombre del usuario','onkeyup':'aceptarLetras(this)', 'required': 'required', 'autocomplete':"off"
                 }
             ),
             'last_name': forms.TextInput(
                 attrs={
-                    'class': 'form-control','name': 'last_name', 'placeholder': 'Ingrese el apellido del usuario','onkeyup':'replaceDirection(this)', 'required': 'required', 'autocomplete':"off"
+                    'class': 'form-control','name': 'last_name', 'placeholder': 'Ingrese el apellido del usuario','onkeyup':'aceptarLetras(this)', 'required': 'required', 'autocomplete':"off"
                 }
             ),
             'email': forms.TextInput(
@@ -112,7 +113,7 @@ class UserFormChange(UserChangeForm):
             ),
             'username': forms.TextInput(
                 attrs={
-                    'class': 'form-control','name': 'username', 'placeholder': 'Nombre de usuario','onkeyup':'replaceDirection(this)', 'required': 'required', 'autocomplete':"off"
+                    'class': 'form-control','name': 'username', 'placeholder': 'Nombre de usuario','onkeyup':'aceptarNumerosYLetras(this)', 'required': 'required', 'autocomplete':"off"
                 }
             ),
         }
@@ -138,23 +139,24 @@ class UserFormChange(UserChangeForm):
 
 
 queryset = [
-"user",
-"producto",
-"especie",
-"raza",
-"cliente",
-"mascota",
-"reserva",
-"confiempresa",
-"servicio",
-"empleado",
-"facturacompra",
-"proveedor",
-"pedidocabecera",
-"facturacabeceraventa",
-"inventario",
-"tipovacuna",
-"reporte"]
+    "user",
+    "producto",
+    "especie",
+    "raza",
+    "cliente",
+    "mascota",
+    "reserva",
+    "confiempresa",
+    "servicio",
+    "empleado",
+    "facturacompra",
+    "proveedor",
+    "pedidocabecera",
+    "facturacabeceraventa",
+    "inventario",
+    "tipovacuna",
+    "reporte"
+]
 
 class GroupForm(ModelForm):
     def __init__(self, *args, **kwargs):

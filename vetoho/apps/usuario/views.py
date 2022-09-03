@@ -20,9 +20,6 @@ import json
 from apps.usuario.forms import FormLogin, UserForm, UserFormChange, GroupForm, GroupChangeForm, ContraseñaChangeForm
 from apps.usuario.models import User
 
-
-
-
 # Create your views here.
 
 class Login(FormView):
@@ -52,11 +49,11 @@ class Login(FormView):
 
     def form_valid(self,form):
         login(self.request,form.get_user())
-        confi = ConfiEmpresa.objects.filter()
-        if confi.count() == 0:
-            confi_initial = ConfiEmpresa()
-            confi_initial.id = 1
-            confi_initial.save()
+        # confi = ConfiEmpresa.objects.filter()
+        # if confi.count() == 0:
+        #     confi_initial = ConfiEmpresa()
+        #     confi_initial.id = 1
+        #     confi_initial.save()
         return super(Login,self).form_valid(form)
 
 #@login_required()
@@ -82,18 +79,18 @@ def home_user(request):
             de donde se encuentra el template            
         ]
         """  
-    context = {
-        'total_user': total_user(),
-        'total_cliente': total_cliente(),
-        'total_mascotas': total_mascotas(),
-        'total_productos': total_producto(),
-        'total_stock_minimo': total_stock_minimo(),
-        'total_pro_vencer': total_productos_a_vencer(),
-        'total_vacunas_aplicadas' : total_vacunas_aplicadas(),
-        'total_reservas_hoy': total_reservas_hoy(),
-        'total_proximas_vacunas': total_vacunas_proximas()
-    }
-    return render(request, "home/index.html", context)    
+    # context = {
+    #     'total_user': total_user(),
+    #     'total_cliente': total_cliente(),
+    #     'total_mascotas': total_mascotas(),
+    #     'total_productos': total_producto(),
+    #     'total_stock_minimo': total_stock_minimo(),
+    #     'total_pro_vencer': total_productos_a_vencer(),
+    #     'total_vacunas_aplicadas' : total_vacunas_aplicadas(),
+    #     'total_reservas_hoy': total_reservas_hoy(),
+    #     'total_proximas_vacunas': total_vacunas_proximas()
+    # }
+    return render(request, "home/index.html")    
 
 
 #@login_required()
@@ -105,7 +102,8 @@ def list_usuarios(request):
 def list_usuarios_ajax(request):
     query = request.GET.get('busqueda')
     if query:
-        usuario = User.objects.exclude(is_active=False).filter(Q(first_name__icontains=query) | Q(last_name__icontains=query) | Q(username__icontains=query))
+        usuario = User.objects.exclude(is_active=False).filter(Q(first_name__icontains=query) 
+            | Q(last_name__icontains=query) | Q(username__icontains=query))
         usuario = usuario.exclude(is_superuser=True)
     else:
         usuario = User.objects.exclude(is_active=False).all()
@@ -123,7 +121,9 @@ def list_usuarios_ajax(request):
 
         usuario = usuario[start:start + length]
 
-    data = [{'id': usu.id,'nombre': usu.first_name, 'apellido': usu.last_name, 'email': usu.email, 'username': usu.username} for usu in usuario]        
+    data = [{'id': usu.id,'nombre': usu.first_name, 
+            'apellido': usu.last_name, 'email': usu.email, 'activo': usu.is_active,
+            'username': usu.username} for usu in usuario]        
         
     response = {
         'data': data,
@@ -173,8 +173,6 @@ def list_usuarios_baja_ajax(request):
 #@login_required()
 #@permission_required('usuario.add_user')
 def add_usuario(request):
-
-    print ("quiero agg un usuario")
     form = UserForm()
     group = Group.objects.all()
     if request.method == 'POST':
@@ -262,7 +260,6 @@ def change_password(request, id):
 #Roles
 def get_group_list(request):
     query = request.GET.get('busqueda')
-    print("Estoy aqui prueba")
     if query != "":
         group = Group.objects.filter(Q(name__icontains=query))
     else:
