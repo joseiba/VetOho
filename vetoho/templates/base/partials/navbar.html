@@ -260,6 +260,28 @@
                             </a>
                         </li>
                     </ul>
+                    
+                    {% if perms.configuracion.view_servicio %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'list_servicio' %}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Lista de Servicios</p>
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
+
+                    {% if perms.empleado.view_empleado %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'list_empleado' %}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Lista de Empleados</p>
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
                     <!--<ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="#" class="nav-link">

@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load static %}
 
-{% block title %} Lista Ciudades {% endblock title %}
+{% block title %} Lista Empleados {% endblock title %}
 
 {% block css %}
 {{ block.super }}
@@ -17,13 +17,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Lista de Ciudades
+          <h1>Lista de Empleados
           </h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-            <li class="breadcrumb-item active">Ciudades</li>
+            <li class="breadcrumb-item active">Empleados</li>
           </ol>
         </div>
       </div>
@@ -41,7 +41,10 @@
               <div class="float-left">
                 <form >
                   <div class="input-group">
-                      <input type="search" class="form-control form-control-lg" id="searchTerm" placeholder="Buscar nombre de ciudad">
+                      <input type="search" class="form-control form-control-lg" id="searchTerm"
+                      ata-toggle="tooltip" data-placement="top"
+                      title="Buscar por nombre, apellido, cédula o servicio"
+                      placeholder="Buscar por nombre, apellido, cédula o servicio">
                       <div class="input-group-append">
                           <button type="button" id="busqueda" class="btn btn-lg btn-default">
                               <i class="fa fa-search"></i>
@@ -50,18 +53,23 @@
                   </div>
               </form>                  
               </div>
+              {% if perms.empleado.add_empleado %}  
               <div class="float-right">
-                <button type="button" class="btn btn-block btn-primary" onclick="abrir_modal_creacion('/configuracion/addCiudad/')">Agregar nuevo registro</button>
+                <button type="button" class="btn btn-block btn-primary" onclick="abrir_modal_creacion('/configuracion/addEmpleado/')">Agregar nuevo registro</button>
               </div>
+              {% endif %}
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="list_ciudades" class="table table-bordered table-hover" style="width: 50%; margin: auto;">
+              <table id="list_empleados" class="table table-bordered table-hover" style="margin: auto;">
                 <thead>
                 <tr>
-                  <th>N°</th>
-                  <th>Nombre de Ciudad</th>
-                  <th class="text-center">Acción</th>
+                  <th>Nombre</th>
+                  <th>Apellidos</th>
+                  <th>Cédula</th>
+                  <th>Disponible</th>
+                  <th>Servicio Asignado</th>
+                  <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>                   
@@ -87,6 +95,10 @@
 
 </div>
 
+<div class="modal fade" id="eliminacion" role="dialog">
+
+</div>
+
 {% endblock content %}
 
 {% block js_page %}
@@ -99,7 +111,7 @@
         });
 
         var get_list = function (busqueda) {
-            $("#list_ciudades").DataTable({
+            $("#list_empleados").DataTable({
                 destroy: true,
                 //dom: 'Bfrtip',
                 // buttons: [                
@@ -114,7 +126,7 @@
                 searching: false,
                 pageLength: 10,
                 ajax: {
-                    url: "/configuracion/get_list_ciudades/",
+                    url: "/configuracion/get_list_empleados_ajax/",
                     type: 'GET',
                     datatype: 'json',
                     data: {'busqueda': busqueda},
@@ -124,28 +136,51 @@
                 },
                 columns: [
                     {
-                        name: 'Nº',
-                        data: 'id',
+                        name: 'Nombres',
+                        data: 'nombre',
                     },
                     {
-                        name: 'Nombre de Ciudad',
-                        data: 'nombre',
-                    },                    
+                        name: 'Apellidos',
+                        data: 'apellido',
+                    },
                     {
-                        name: 'Acción',
+                        name: 'Cédula',
+                        data: 'cedula',
+                    },
+                    {
+                        name: 'Disponible',
+                        data: 'disponible',
+                        render: function(data){
+                            if(data){
+                                return "Si";
+                            }else{
+                                return "No";
+                            }                            
+                        }
+                    },
+                    {
+                        name: 'Servicio Asignado',
+                        data: 'nombre_servicio',
+                    },                   
+                    {
+                        name: 'Acciones',
                         data: 'id',
                         render: function (data) {
-                            // {% if perms.configuracion.change_confiempresa %}
-                            //     return '<button class="btn btn-warning" onclick="abrir_modal_edicion(\'/configuracion/editCiudad/' + data + '/\');">\
-                            //                             Editar\
-                            //                         </button>';
-                            // {% endif %}
-                            return '<button class="btn btn-warning text-center"" onclick="abrir_modal_edicion(\'/configuracion/editCiudad/' + data + '/\');">\
+                            var buttons = ""
+
+                            {% if perms.empleado.change_servicio %}
+                                buttons += ' <button class="btn btn-warning mr-2" onclick="abrir_modal_edicion(\'/configuracion/editEmpleado/' + data  + '/\');">\
                                                         Editar\
                                                     </button>';
+                            {% endif %}
 
-                            // return "-";
-                            
+                            {% if perms.empleado.delete_servicio %}
+                                buttons += '<button class="btn btn-danger" onclick="abrir_modal_eliminacion(\'/configuracion/bajaEmpleado/' + data + '/\');">\
+                                                        Baja empleado\
+                                                    </button>';
+                            {% endif %}
+
+                            return buttons;                            
                         }
                     }
 
@@ -198,6 +233,14 @@
                 get_list(busqueda)
             }
         }) 
+
+        {% if messages %}
+        
+            {% for message in messages %}
+              var text = "{{ message }}";
+              add_edit_registro(text);
+            {% endfor %}
+        {% endif %}
     })
 </script>
 
