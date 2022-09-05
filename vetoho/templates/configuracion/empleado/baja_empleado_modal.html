@@ -1,5 +1,5 @@
 <div class="modal-dialog">
-    <form action="{% url 'baja_usuario' user.id %}" method="POST">
+    <form action="{% url 'bajar_empleado' emp.id  %}" method="POST">
         {% csrf_token %}
         <div class="modal-content">
             <div class="modal-header">
@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p style="font-size: 19px;">Seguro que deseas dar de baja a <strong>{{ user.username }}</strong> ?</p>
+                <p style="font-size: 19px;">Seguro que deseas dar de baja a <strong>{{ emp.nombre_emp }}</strong> ?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

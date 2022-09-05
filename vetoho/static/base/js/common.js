@@ -88,3 +88,14 @@ function eliminar_registro(url, redirect_url) {
 		}
 	});
 }
+
+function add_edit_registro(text) { 
+	Swal.fire({
+		title: 'Éxito',
+		text: text,
+		icon: 'success',
+		confirmButtonColor: '#007bff',
+		showCancelButton: false,
+		allowOutsideClick: false
+	});
+}
