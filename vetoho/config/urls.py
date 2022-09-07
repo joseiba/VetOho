@@ -23,11 +23,18 @@ from config import settings
 #urls error page
 from apps.handler.views import handler_404, handler_500
 
-from apps.usuario.views import (Login, home_user, list_usuarios, list_usuarios_ajax, add_usuario, edit_usuario, add_rol, get_group_list, 
-change_password, edit_rol, delete_rol, baja_usuario, list_usuarios_baja_ajax, alta_usuario, list_usuarios_baja, logoutUser)
+from apps.usuario.views import (Login, home_user, list_usuarios, list_usuarios_ajax, add_usuario, edit_usuario, add_rol, 
+get_group_list, change_password, edit_rol, delete_rol, baja_usuario, list_usuarios_baja_ajax, alta_usuario, 
+list_usuarios_baja, logoutUser)
 #cliente
 from apps.cliente.views import (add_ciudad, edit_ciudad, list_ciudades, get_list_ciudades, add_cliente,
 edit_cliente, list_client_ajax, list_clientes, inactivar_cliente)
+
+from apps.configuracion.servicio.views import (add_servicio, edit_servicio, bajar_servicio, list_servicio, search_servicio,
+list_servicio_ajax)
+
+from apps.configuracion.empleado.views import (add_empleado, bajar_empleado, edit_empleado, get_list_empleados_ajax, 
+list_empleado, search_empleado)
 
 
 urlpatterns = [
@@ -50,6 +57,7 @@ urlpatterns = [
     path('usuario/get_group_list/', get_group_list , name="get_group_list"),
     path('usuario/editPassword/<int:id>/', change_password , name="change_password"),
     path('usuario/listUsuariosBaja/', list_usuarios_baja, name="list_usuarios_baja"),
+
     #cliente urls
     path('configuracion/listCiudades/', list_ciudades , name="list_ciudades"),
     path('configuracion/get_list_ciudades/', get_list_ciudades , name="get_list_ciudades"),
@@ -61,7 +69,24 @@ urlpatterns = [
     path('cliente/editCliente/<int:id>/', edit_cliente, name="edit_cliente"),
     path('cliente/bajaCliente/<int:id>/', inactivar_cliente, name="inactivar_cliente"),
     path('tipoProducto/', include(('apps.inventario.productos.urls','tipoproducto'), namespace='tipoproducto')),
-    path('deposito/', include(('apps.inventario.depositos.urls','deposito'), namespace='deposito'))
+    path('deposito/', include(('apps.inventario.depositos.urls','deposito'), namespace='deposito')),
+
+    #Servicios
+    path('configuracion/listServicio/', list_servicio , name="list_servicio"),
+    path('configuracion/addServicio/',  add_servicio, name="add_servicio"),
+    path('configuracion/editServicio/<int:id>/',edit_servicio , name="edit_servicio"),
+    path('configuracion/searchServicio/', search_servicio, name="search_servicio"),
+    path('configuracion/get_list_servicio_ajax/', list_servicio_ajax , name="list_servicio_ajax"),
+    path('configuracion/bajaServicio/<int:id>/', bajar_servicio, name="delete_servicio"),
+
+    #Empleados
+    path('configuracion/listEmpleado/', list_empleado , name="list_empleado"),
+    path('configuracion/get_list_servicio_ajax/', list_servicio_ajax , name="list_servicio_ajax"),
+    path('configuracion/addEmpleado/',  add_empleado, name="add_empleado"),
+    path('configuracion/editEmpleado/<int:id>/',edit_empleado , name="edit_empleado"),
+    path('configuracion/searchEmpleado/', search_empleado, name="search_empleado"),
+    path('configuracion/bajaEmpleado/<int:id>/', bajar_empleado, name="bajar_empleado"),
+    path('configuracion/get_list_empleados_ajax/', get_list_empleados_ajax, name="get_list_empleados_ajax"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
