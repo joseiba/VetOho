@@ -36,7 +36,7 @@ list_servicio_ajax)
 from apps.configuracion.empleado.views import (add_empleado, bajar_empleado, edit_empleado, get_list_empleados_ajax, 
 list_empleado, search_empleado)
 
-
+from apps.compras.views import (add_proveedor, edit_proveedor, list_proveedor_ajax, delete_proveedor, list_proveedor)
 urlpatterns = [
     path('SuperAdminUserDev/', admin.site.urls),
     path('', home_user, name="index"),
@@ -87,6 +87,13 @@ urlpatterns = [
     path('configuracion/searchEmpleado/', search_empleado, name="search_empleado"),
     path('configuracion/bajaEmpleado/<int:id>/', bajar_empleado, name="bajar_empleado"),
     path('configuracion/get_list_empleados_ajax/', get_list_empleados_ajax, name="get_list_empleados_ajax"),
+
+    #Proveedores
+    path('compra/addProveedor/', add_proveedor , name="add_proveedor"),
+    path('compra/listProveedor/', list_proveedor, name="list_proveedor"),
+    path('compra/get_list_proveedor/', list_proveedor_ajax, name="list_proveedor_ajax"),
+    path('compra/editProveedor/<int:id>/', edit_proveedor, name="edit_proveedor"),
+    path('compra/deleteProveedor/<int:id>/', delete_proveedor, name="delete_proveedor"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
