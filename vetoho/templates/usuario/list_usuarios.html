@@ -12,82 +12,83 @@
 {% endblock stylesheets %}
 
 {% block content %}
- <!-- Content Header (Page header) -->
- <section class="content-header">
+<!-- Content Header (Page header) -->
+<section class="content-header">
     <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1>Lista de usuarios
-          </h1>
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Lista de usuarios
+                </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+                    <li class="breadcrumb-item active">Usuarios</li>
+                </ol>
+            </div>
         </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-            <li class="breadcrumb-item active">Usuarios</li>
-          </ol>
-        </div>
-      </div>
     </div><!-- /.container-fluid -->
-  </section>
+</section>
 
-  <!-- Main content -->
-   <!-- Main content -->
-   <section class="content">
+<!-- Main content -->
+<!-- Main content -->
+<section class="content">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">            
-            <div class="card-header">
-              <div class="float-left">
-                <form >
-                  <div class="input-group">
-                      <input type="search" class="form-control form-control-lg" id="searchTerm"  data-toggle="tooltip" data-placement="top"
-                      title="Buscar por nombre, apellido o username"
-                      placeholder="Buscar por nombre, apellido o username"/>
-                      <div class="input-group-append">
-                          <button type="button" id="busqueda" class="btn btn-lg btn-default">
-                              <i class="fa fa-search"></i>
-                          </button>
-                      </div>
-                  </div>
-              </form>                  
-              </div>
-              <div class="float-right">
-                <button type="submit"  class="btn btn-success btn-circle">
-                    <a style="color: white;" href="{% url 'list_usuarios_baja' %}">Usuarios de baja</a>
-                </button>
-                <button type="submit" class="btn btn-primary btn-circle">
-                    <a style="color: white;" href="{% url 'add_usuario' %}">Agregar nuevo usuario</a>
-                </button>                 
-            
-              </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="float-left">
+                            <form>
+                                <div class="input-group">
+                                    <input type="search" class="form-control form-control-lg" id="searchTerm"
+                                        data-toggle="tooltip" data-placement="top"
+                                        title="Buscar por nombre, apellido o username"
+                                        placeholder="Buscar por nombre, apellido o username" />
+                                    <div class="input-group-append">
+                                        <button type="button" id="busqueda" class="btn btn-lg btn-default">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="float-right">
+                            <button type="submit" class="btn btn-success btn-circle">
+                                <a style="color: white;" href="{% url 'list_usuarios_baja' %}">Usuarios de baja</a>
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-circle">
+                                <a style="color: white;" href="{% url 'add_usuario' %}">Agregar nuevo usuario</a>
+                            </button>
+
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="list_usuarios" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Nombres</th>
+                                    <th>Apellidos</th>
+                                    <th>Email</th>
+                                    <th>Username</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="list_usuarios" class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <th>Nombres</th>
-                  <th>Apellidos</th>
-                  <th>Email</th>
-                  <th>Username</th>
-                  <th>Acciones</th>
-                </tr>
-                </thead>
-                <tbody>                   
-                </tbody>   
-              </table>
-            </div>
-            <!-- /.card-body -->
-          </div>                    
-          <!-- /.card -->
+            <!-- /.col -->
         </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
+        <!-- /.row -->
     </div>
     <!-- /.container-fluid -->
-  </section>
+</section>
 
 
 <div class="modal fade" id="edicion" role="dialog">
@@ -105,7 +106,7 @@
 
         $('input').on("cut copy paste", function (e) {
             e.preventDefault();
-        });        
+        });
 
         var get_list = function (busqueda) {
             $("#list_usuarios").DataTable({
@@ -126,7 +127,7 @@
                     url: "/usuario/list_usuarios_ajax/",
                     type: 'GET',
                     datatype: 'json',
-                    data: {'busqueda': busqueda},
+                    data: { 'busqueda': busqueda },
                     error: function (data) {
                         $.fn.DataTable.ext.errorMode = 'none'
 
@@ -136,8 +137,8 @@
                     {
                         name: 'Nombres',
                         data: 'nombre',
-                        render: function(data){
-                            if(data == ""){
+                        render: function (data) {
+                            if (data == "") {
                                 return "-"
                             }
                             return data
@@ -146,8 +147,8 @@
                     {
                         name: 'Apellidos',
                         data: 'apellido',
-                        render: function(data){
-                            if(data == ""){
+                        render: function (data) {
+                            if (data == "") {
                                 return "-"
                             }
                             return data
@@ -156,8 +157,8 @@
                     {
                         name: 'Email',
                         data: 'email',
-                        render: function(data){
-                            if(data == ""){
+                        render: function (data) {
+                            if (data == "") {
                                 return "-"
                             }
                             return data
@@ -166,22 +167,22 @@
                     {
                         name: 'Username',
                         data: 'username',
-                    },                     
+                    },
                     {
                         name: 'Acciones',
                         data: 'id',
                         render: function (data) {
                             var buttons = ""
 
-                                buttons += '<button class="btn btn-warning mr-1">\
+                            buttons += '<button class="btn btn-warning mr-1">\
                                                         <a href="/usuario/edit/' + data + '/" style="color: black">\
                                                             Editar\
                                                         </a>\
                                                     </button>';
-                           
-                                buttons += '<button class="btn btn-danger" onclick="abrir_modal_edicion(\'/usuario/darBajaUsuario/' + data + '/\');">\
+
+                            buttons += '<button class="btn btn-danger" onclick="abrir_modal_edicion(\'/usuario/darBajaUsuario/' + data + '/\');">\
                                             Dar de Baja</button>';
-                           
+
 
                             return buttons;
                         }
@@ -189,11 +190,11 @@
 
                 ],
                 columnDefs: [{
-                    targets: [2,4], // column index (start from 0)
+                    targets: [2, 4], // column index (start from 0)
                     orderable: false, // set orderable false for selected columns
                 }],
                 serverSide: false,
-                language: {                    
+                language: {
                     decimal: "",
                     emptyTable: "No hay información",
                     info: "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
@@ -218,25 +219,32 @@
         }
 
         var query = ""
-        
+
         get_list(query);
 
-        $("#searchTerm").change(function(){
+        $("#searchTerm").change(function () {
             var busqueda = $("#searchTerm").val()
             sessionStorage.setItem("busqueda", busqueda)
         })
 
-        $("#busqueda").click(function(){
+        $("#busqueda").click(function () {
             var busqueda = sessionStorage.getItem("busqueda")
-            if(busqueda == "" || busqueda == undefined || busqueda == null){
+            if (busqueda == "" || busqueda == undefined || busqueda == null) {
                 busqueda = "";
                 get_list(busqueda)
             }
-            else{
+            else {
                 get_list(busqueda)
             }
         })
-        
+
+        {% if messages %}
+
+            {% for message in messages %}
+                var text = "{{ message }}";
+                add_edit_registro(text);
+            {% endfor %}
+        {% endif %}
     })
 
 
