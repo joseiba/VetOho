@@ -50,7 +50,7 @@
                       </div>                
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form class="" action="{% url 'add_usuario' %}" method="POST">
+                    <form class="" action="{% url 'edit_usuario'  usuario.id %}" method="POST">
                     {% csrf_token %}
                       <div class="card-body">
                             <div>
