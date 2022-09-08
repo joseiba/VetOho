@@ -65,8 +65,8 @@
                 <thead>
                 <tr>
                   <th>Nombre tipo</th>
+                  <th>Vence</th>
                   <th>Fecha alta</th>
-                  <th>Fecha baja</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
@@ -121,12 +121,12 @@
                         data: 'nombre_tipo',
                     },
                     {
-                        name: 'Fecha alta',
-                        data: 'fecha_alta',
+                        name: 'Vence',
+                        data: 'vence',
                     },
                     {
-                        name: 'Fecha baja',
-                        data: 'fecha_baja',
+                        name: 'Fecha Alta',
+                        data: 'fecha_alta',
                     },                    
                     {
                         name: 'Acciones',
@@ -139,7 +139,7 @@
                                             <a style="color: black"> Editar </a>\
                                         </button>';
 
-                            buttons += ' <button class="btn btn-danger btn-circle btn-sm" onclick="eliminar_registro(\'/tipoProducto/baja/' +row.id+ '/\',\'/tipoProducto/list\')"><i class="fa fa-trash"></i></button>';
+                            buttons += ' <button class="btn btn-danger btn-circle btn-sm" onclick="eliminar_registro(\'/tipoProducto/baja/' +row.id+ '/\',\'/tipoProducto/list\')">Dar de Baja</button>';
 
                             return buttons;
                         },

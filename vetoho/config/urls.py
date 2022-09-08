@@ -87,6 +87,9 @@ urlpatterns = [
     path('configuracion/searchEmpleado/', search_empleado, name="search_empleado"),
     path('configuracion/bajaEmpleado/<int:id>/', bajar_empleado, name="bajar_empleado"),
     path('configuracion/get_list_empleados_ajax/', get_list_empleados_ajax, name="get_list_empleados_ajax"),
+
+    #Mascotas
+    path('mascota/', include(('apps.mascotas.urls','mascota'), namespace='mascota')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
