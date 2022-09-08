@@ -76,32 +76,49 @@
                         <p>Clientes</p>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a href="#" class="nav-link">
-                    <i class="fas fa-dolly"></i>
-                        <p>Proveedores</p>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-shopping-bag"></i>
-                        <p> Compras <i class="right fas fa-angle-left"></i>
+                        <i class="nav-icon fas fa-light fa-paw"></i>
+                        <p> Mascotas <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{% url 'mascota:list_especie' %}" class="nav-link">
+                                
+                                <p>Lista de Especies</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'mascota:list_raza' %}" class="nav-link">
+                                
+                                <p>Lista de Razas</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-shopping-bag"></i>
+                        <p> Inventario <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'tipoproducto:list_tipo_producto' %}" class="nav-link">
                                 <i class="fas fa-store-alt"></i>
-                                <p>Orden de Compras</p>
+                                <p>Tipos de Productos</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{% url 'deposito:list_deposito' %}" class="nav-link">
                                 <i class="fas fa-shopping-basket"></i>
-                                <p>Compras</p>
+                                <p>Depósitos</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                    </ul>
+                </li>
+                        <!-- <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="fab fa-cc-amazon-pay"></i>
                                 <p>Deudas a Pagar</p>

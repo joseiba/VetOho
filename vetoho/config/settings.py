@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'apps.inventario.depositos',
     'apps.usuario',
     'apps.configuracion.servicio',
-    'apps.configuracion.empleado'
+    'apps.configuracion.empleado',
+    'apps.mascotas'
 ]
 
 MIDDLEWARE = [
