@@ -8,7 +8,6 @@ urlpatterns = [
     path('edit/<int:id>/', edit_tipo_producto, name="edit_tipo_producto"),
     path('baja/<int:id>/', baja_tipo_producto, name="baja_tipo_producto"),
     path('alta/<int:id>/', alta_tipo_producto, name="alta_tipo_producto"),
-    path('search/', search_tipo_producto, name="search_tipo_producto"),
     path('vence_si_no/', vence_si_no, name="vence_si_no"),
     path('get_list_tipo_producto/', get_list_tipo_producto, name="get_list_tipo_producto"),
 ]

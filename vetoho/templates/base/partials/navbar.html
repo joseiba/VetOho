@@ -104,18 +104,23 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'tipoproducto:list_tipo_producto' %}" class="nav-link">
-                                <i class="fas fa-store-alt"></i>
-                                <p>Tipos de Productos</p>
-                            </a>
-                        </li>
+                        {% if perms.productos.view_tipoproducto %}
+                            <li class="nav-item">
+                                <a href="{% url 'tipoproducto:list_tipo_producto' %}" class="nav-link">
+                                    <i class="fas fa-store-alt"></i>
+                                    <p>Tipos de Productos</p>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% if perms.depositos.view_deposito %}
                         <li class="nav-item">
                             <a href="{% url 'deposito:list_deposito' %}" class="nav-link">
                                 <i class="fas fa-shopping-basket"></i>
                                 <p>Depósitos</p>
                             </a>
                         </li>
+                        {% endif %}
                     </ul>
                 </li>
                         <!-- <li class="nav-item">

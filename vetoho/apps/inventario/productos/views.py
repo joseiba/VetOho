@@ -1,4 +1,6 @@
+import math
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -10,10 +12,15 @@ from django.http import JsonResponse
 
 from apps.inventario.productos.forms import TipoProductoForm
 from apps.inventario.productos.models import TipoProducto
+from apps.inventario.depositos.models import Deposito
+from apps.inventario.productos.forms import ProductoForm
+from apps.inventario.productos.models import Producto
 
 date = datetime.now()
 
 #Metodo para agregar tipo producto
+@login_required()
+@permission_required('productos.add_tipoproducto')
 def add_tipo_producto(request):
     form = TipoProductoForm
     if request.method == 'POST':
@@ -23,10 +30,12 @@ def add_tipo_producto(request):
             messages.add_message(request, messages.SUCCESS, 'Tipo de producto agregado correctamente!')
             return redirect('/tipoProducto/list')
     context = {'form' : form}
-    return render(request, 'inventario/productos/add_tipo_producto.html', context)
+    return render(request, 'inventario/tipoProducto/add_tipo_producto.html', context)
 
 
 # Metodo para editar tipo producto
+@login_required()
+@permission_required('productos.change_tipoproducto')
 def edit_tipo_producto(request, id):
     tipo_producto = TipoProducto.objects.get(id=id)
     form = TipoProductoForm(instance=tipo_producto)
@@ -42,47 +51,28 @@ def edit_tipo_producto(request, id):
             return redirect('/tipoProducto/list/')
 
     context = {'form': form, 'tipo_producto':tipo_producto}
-    return render(request, 'inventario/productos/add_tipo_producto.html', context)
+    return render(request, 'inventario/tipoProducto/edit_tipo_producto.html', context)
 
 # Metodo para dar de baja tipo producto
+@login_required()
+@permission_required('productos.delete_tipoproducto')
 def baja_tipo_producto(request, id):
     try:
         tipo_producto = TipoProducto.objects.get(id=id)
-    except TipoProducto.DoesNotExist:
-        data = {
-            'error':True, 
-            'message':"No se encontro el registro."
+        tipo_producto.is_active = "N"
+        tipo_producto.save()
+        response = {
+            "mensaje": "OK"            
         }
-        return JsonResponse(data, safe=False)
-    #try:
-    #producto = Producto.objects.get(tipo_producto=id)
-    #except:
-    producto = None
-    if producto is None:
-        if tipo_producto.fecha_baja == "-":
-            tipo_producto.is_active = "N"
-            tipo_producto.fecha_baja = date.strftime("%d/%m/%Y %H:%M:%S hs")
-            tipo_producto.save()
-            data = {
-                'error':False, 
-                'message':"Registro eliminado correctamente."
-            }
-            return JsonResponse(data, safe=False)
-        else:
-            data = {
-                'error':False, 
-                'message':"El tipo de producto ya fue dado de baja!"
-            }
-            return JsonResponse(data, safe=False)
-    else:
-        data = {
-            'error':True, 
-            'message':"Este tipo de producto está asociado a productos en stock!"
-        }
-        return JsonResponse(data, safe=False)
+        return JsonResponse(response)   
+    except Exception as e:        
+        response = {'mensaje':"Error" }
+        return JsonResponse(response)
 
 
 # Metodo para dar de alta tipo producto
+@login_required()
+@permission_required('productos.add_tipoproducto')
 def alta_tipo_producto(request, id):
     tipo_producto = TipoProducto.objects.get(id=id)
     if request.method == 'POST':
@@ -95,21 +85,23 @@ def alta_tipo_producto(request, id):
             messages.success(request, 'El tipo de producto ya fue dado de alta!')
             return redirect('/tipoProducto/list/')
     context = {'tipo_producto':tipo_producto}
-    return render(request, 'inventario/productos/alta_tipo_producto.html', context)
+    return render(request, 'inventario/tipoProducto/alta_tipo_producto.html', context)
     
 
 #Metodo para listar todos los tipos de productos
+@login_required()
+@permission_required('productos.view_tipoproducto')
 def list_tipo_producto(request):
-    return render(request, "inventario/productos/list_tipo_producto.html")
+    return render(request, "inventario/tipoProducto/list_tipo_producto.html")
 
 
 def get_list_tipo_producto(request):
     query = request.GET.get('busqueda')
 
     if query:
-        tipos_productos = TipoProducto.objects.filter(Q(nombre_tipo__icontains=query))
+        tipos_productos = TipoProducto.objects.exclude(is_active="N").filter(Q(nombre_tipo__icontains=query))
     else:
-        tipos_productos = TipoProducto.objects.all()
+        tipos_productos = TipoProducto.objects.exclude(is_active="N").order_by('-last_modified')
 
     total = tipos_productos.count()
 
@@ -123,7 +115,7 @@ def get_list_tipo_producto(request):
 
         tipos_productos = tipos_productos[start:start + length]
 
-    data = [{'id': tp.id, 'nombre_tipo': tp.nombre_tipo, 'fecha_alta': tp.fecha_alta, 'fecha_baja': tp.fecha_baja } for tp in tipos_productos]        
+    data = [{'id': tp.id, 'nombre_tipo': tp.nombre_tipo, 'fecha_alta': tp.fecha_alta } for tp in tipos_productos]        
 
     response = {
         'data': data,
@@ -131,16 +123,6 @@ def get_list_tipo_producto(request):
         'recordsFiltered': total,
     }
     return JsonResponse(response) 
-
-#Metodo para la busqueda de tipo de producto
-def search_tipo_producto(request):
-    query = request.GET.get('q')
-    
-    paginator = Paginator(tipos_productos, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = { 'page_obj': page_obj}
-    return render(request, "inventario/productos/list_tipo_producto.html", context)
 
 #Metodo para la busqueda de tipo de producto
 def vence_si_no(request):
@@ -159,3 +141,46 @@ def vence_si_no(request):
     }
 
     return JsonResponse(response)
+
+
+    #Metodo para agregar producto
+@login_required()
+@permission_required('productos.add_producto')
+def add_producto(request):
+    form = ProductoForm
+    try:
+        depo = Deposito.objects.get(id=1)
+        if request.method == 'POST':
+            form = ProductoForm(request.POST or None)
+            if form.is_valid():                            
+                pro = form.save(commit=False)                
+                pro.stock_total = request.POST.get('stock')
+                pro.save()
+                messages.add_message(request, messages.SUCCESS, 'Producto agregado correctamente!')
+                return redirect('/producto/add')  
+    except:
+        messages.add_message(request, messages.SUCCESS, 'Se debe agregar primeramente un deposito en configuraciones iniciales!')
+        context = {'form' : form}
+        return render(request, 'invetario/producto/add_producto.html', context)
+    context = {'form' : form, 'deposito_inicial': depo.id}
+    return render(request, 'inventario/productos/add_producto.html', context)
+
+# Metodo para editar Productos
+@login_required()
+@permission_required('productos.change_producto')
+def edit_producto(request, id):
+    producto = Producto.objects.get(id=id)
+    form = ProductoForm(instance=producto)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if not form.has_changed():
+            messages.info(request, "No ha hecho ningun cambio")
+            return redirect('/producto/edit/' + str(id))
+        if form.is_valid():
+            producto = form.save(commit=False)
+            producto.stock_total = request.POST.get('stock')
+            producto.save()
+            messages.add_message(request, messages.SUCCESS, 'El producto se ha editado correctamente!')
+            return redirect('/producto/edit/' + str(id))
+    context = {'form': form, 'producto': producto}
+    return render(request, 'inventario/productos/edit_producto.html', context)    
