@@ -68,7 +68,9 @@ urlpatterns = [
     path('cliente/get_list_client/', list_client_ajax, name="list_client_ajax"),
     path('cliente/editCliente/<int:id>/', edit_cliente, name="edit_cliente"),
     path('cliente/bajaCliente/<int:id>/', inactivar_cliente, name="inactivar_cliente"),
-    path('tipoProducto/', include(('apps.inventario.productos.urls','tipoproducto'), namespace='tipoproducto')),
+
+    #Productos
+    path('producto/', include(('apps.inventario.productos.urls','producto'), namespace='producto')),
     path('deposito/', include(('apps.inventario.depositos.urls','deposito'), namespace='deposito')),
 
     #Servicios

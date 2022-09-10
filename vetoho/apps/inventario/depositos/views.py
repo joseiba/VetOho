@@ -1,4 +1,6 @@
+import math
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -16,6 +18,8 @@ date = datetime.now()
 # Create your views here.
 
 #Metodo para agregar deposito
+@login_required()
+@permission_required('depositos.view_deposito')
 def add_deposito(request):
     form = DepositoForm
     if request.method == 'POST':
@@ -28,6 +32,8 @@ def add_deposito(request):
     return render(request, 'inventario/depositos/add_deposito.html', context)
 
 # Metodo para editar deposito
+@login_required()
+@permission_required('depositos.change_deposito')
 def edit_deposito(request, id):
     deposito = Deposito.objects.get(id=id)
     form = DepositoForm(instance=deposito)
@@ -46,6 +52,8 @@ def edit_deposito(request, id):
     return render(request, 'inventario/depositos/add_deposito.html', context)
 
 #Metodo para listar todos los depositos
+@login_required()
+@permission_required('depositos.view_deposito')
 def list_deposito(request):
     return render(request, "inventario/depositos/list_deposito.html")
 
@@ -77,16 +85,3 @@ def get_list_deposito(request):
         'recordsFiltered': total,
     }
     return JsonResponse(response) 
-
-#Metodo para la busqueda de deposito
-def search_deposito(request):
-    query = request.GET.get('q')
-    if query:
-        depositos = Deposito.objects.filter(Q(descripcion__icontains=query)).order_by('-last_modified')
-    else:
-        depositos = Deposito.objects.all().order_by('-last_modified')
-    paginator = Paginator(depositos, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    context = { 'page_obj': page_obj}
-    return render(request, "inventario/depositos/list_deposito.html", context)
