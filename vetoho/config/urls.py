@@ -70,7 +70,7 @@ urlpatterns = [
     path('cliente/bajaCliente/<int:id>/', inactivar_cliente, name="inactivar_cliente"),
 
     #Productos
-    path('tipoProducto/', include(('apps.inventario.productos.urls','tipoproducto'), namespace='tipoproducto')),
+    path('producto/', include(('apps.inventario.productos.urls','producto'), namespace='producto')),
     path('deposito/', include(('apps.inventario.depositos.urls','deposito'), namespace='deposito')),
 
     #Servicios

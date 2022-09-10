@@ -55,7 +55,7 @@
                         {% if perms.productos.add_tipoproducto %}
                         <div class="float-right">
                             <button type="button" class="btn btn-block btn-primary"
-                                onclick="abrir_modal_creacion('/tipoProducto/add/')">Agregar nuevo registro</button>
+                                onclick="abrir_modal_creacion('/producto/tipoProducto/add/')">Agregar nuevo registro</button>
                         </div>
                         {% endif %}
                     </div>
@@ -124,7 +124,7 @@
                 searching: false,
                 pageLength: 10,
                 ajax: {
-                    url: "/tipoProducto/get_list_tipo_producto/",
+                    url: "/producto/tipoProducto/get_list_tipo_producto/",
                     type: 'GET',
                     datatype: 'json',
                     data: { 'busqueda': busqueda },
@@ -147,13 +147,13 @@
                         render: function (data) {
                             var buttons = ""
                             {% if perms.productos.change_tipoproducto %}
-                                buttons += '<button class="btn btn-warning" onclick="abrir_modal_edicion(\'/tipoProducto/edit/' + data + '/\');">\
+                                buttons += '<button class="btn btn-warning" onclick="abrir_modal_edicion(\'/producto/tipoProducto/edit/' + data + '/\');">\
                                                         Editar\
                                                     </button>';
                             {% endif %}
 
                             {% if perms.productos.change_tipoproducto %}
-                            buttons += '<button class="btn btn-danger ml-2" onclick="eliminar_registro(\'/tipoProducto/baja/' + data + '/\', \'/tipoProducto/list/\');">\
+                            buttons += '<button class="btn btn-danger ml-2" onclick="eliminar_registro(\'/producto/tipoProducto/baja/' + data + '/\', \'/producto/tipoProducto/list/\');">\
                                                     Baja\
                                                     </button>';
                             {% endif %}

@@ -7,7 +7,7 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-            <form action="{% url 'tipoproducto:edit_tipo_producto' tipo_producto.id %}" method="POST" role="form" id="form">
+            <form action="{% url 'producto:edit_tipo_producto' tipo_producto.id %}" method="POST" role="form" id="form">
             {% csrf_token %}
             <div class="modal-body">
                 <div class="row">

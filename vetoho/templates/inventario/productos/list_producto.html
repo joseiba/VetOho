@@ -119,7 +119,7 @@
         columns: [
           {
             name: 'Codigo',
-            data: 'id',
+            data: 'codigo',
           },
           {
             name: 'Nombre Producto',
@@ -137,9 +137,10 @@
             name: 'Acciones',
             data: 'id',
             render: function (data) {
+              console
               var buttons = "";
               {% if perms.productos.change_producto %}
-              buttons += '<button class="btn btn-warning btn-circle btn-sm" onclick="abrir_modal_edicion(\'/producto/edit/' + data.id + '/\')">\
+              buttons += '<button class="btn btn-warning btn-circle btn-sm" onclick="abrir_modal_edicion(\'/producto/edit/' + data + '/\')">\
                                             <a style="color: black"> Editar </a>\
                                         </button>';
               {% endif %}
@@ -208,10 +209,10 @@
     })
 
     {% if messages %}
-    {% for message in messages %}
-    var text = "{{ message }}";
-    add_edit_registro(text);
-    {% endfor %}
+      {% for message in messages %}
+        var text = "{{ message }}";
+        add_edit_registro(text);
+      {% endfor %}
     {% endif %}
   })
 </script>

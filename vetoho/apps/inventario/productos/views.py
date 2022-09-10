@@ -143,26 +143,23 @@ def vence_si_no(request):
     return JsonResponse(response)
 
 
-    #Metodo para agregar producto
+#Metodo Productos
 @login_required()
 @permission_required('productos.add_producto')
 def add_producto(request):
     form = ProductoForm
-    try:
-        depo = Deposito.objects.get(id=1)
-        if request.method == 'POST':
-            form = ProductoForm(request.POST or None)
-            if form.is_valid():                            
-                pro = form.save(commit=False)                
-                pro.stock_total = request.POST.get('stock')
-                pro.save()
-                messages.add_message(request, messages.SUCCESS, 'Producto agregado correctamente!')
-                return redirect('/producto/add')  
-    except:
-        messages.add_message(request, messages.SUCCESS, 'Se debe agregar primeramente un deposito en configuraciones iniciales!')
-        context = {'form' : form}
-        return render(request, 'invetario/producto/add_producto.html', context)
-    context = {'form' : form, 'deposito_inicial': depo.id}
+    print(request)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST or None)
+        print(form)
+        if form.is_valid():  
+            print(form)                          
+            pro = form.save(commit=False)                
+            #pro.stock_total = request.POST.get('stock')
+            pro.save()
+            messages.add_message(request, messages.SUCCESS, 'Producto agregado correctamente!')
+            return redirect('/producto/list/')
+    context = {'form' : form}
     return render(request, 'inventario/productos/add_producto.html', context)
 
 # Metodo para editar Productos
@@ -175,12 +172,52 @@ def edit_producto(request, id):
         form = ProductoForm(request.POST, instance=producto)
         if not form.has_changed():
             messages.info(request, "No ha hecho ningun cambio")
-            return redirect('/producto/edit/' + str(id))
+            return redirect('/producto/list/')
         if form.is_valid():
             producto = form.save(commit=False)
-            producto.stock_total = request.POST.get('stock')
+            #producto.stock_total = request.POST.get('stock')
             producto.save()
             messages.add_message(request, messages.SUCCESS, 'El producto se ha editado correctamente!')
-            return redirect('/producto/edit/' + str(id))
+            return redirect('/producto/list/')
     context = {'form': form, 'producto': producto}
-    return render(request, 'inventario/productos/edit_producto.html', context)    
+    return render(request, 'inventario/productos/add_producto.html', context)    
+
+@login_required()
+@permission_required('productos.view_producto')
+def list_productos_general(request):
+    return render(request, "inventario/productos/list_producto.html")
+
+
+@login_required()
+def list_producto_general_ajax(request):
+    query = request.GET.get('busqueda')
+    if query != "":
+        productos = Producto.objects.exclude(is_active="N").filter(Q(id__icontains=query) |Q(nombre_producto__icontains=query)).order_by('-last_modified')        
+        #productos = productos.exclude(servicio_o_producto="S")
+        #productos = productos.exclude(producto_vencido="S")
+    else:
+        productos = Producto.objects.exclude(is_active="N").order_by('-last_modified')
+        #productos = productos.exclude(servicio_o_producto="S")
+        #productos = productos.exclude(producto_vencido="S")
+
+
+    total = productos.count()
+
+    _start = request.GET.get('start')
+    _length = request.GET.get('length')
+    if _start and _length:
+        start = int(_start)
+        length = int(_length)
+        page = math.ceil(start / length) + 1
+        per_page = length
+
+        productos = productos[start:start + length]
+
+    data =[{'codigo': p.id, 'id': p.id, 'nombre': p.nombre_producto, 'descripcion': p.descripcion, 'stock_total': p.stock} for p in productos]        
+    print(data)
+    response = {
+        'data': data,
+        'recordsTotal': total,
+        'recordsFiltered': total,
+    }
+    return JsonResponse(response)
