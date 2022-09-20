@@ -1,3 +1,6 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/plugins/fontawesome-free/css/all.min.css' %}">
+
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -17,7 +20,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Tipo Producto<span class="required">*</span></label>
+                                <label>Tipo Producto<span class="required">*</span><i class="fa-solid fa-plus" 
+                                    onclick="abrir_modal_creacion('/producto/add/tipoProducto/')"></i></label>
                                 {{ form.tipo_producto}}
                             </div>
                         </div>
@@ -59,14 +63,14 @@
                                 {{form.lote}}
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Stock<span class="required">*</span></label>
                                 {{ form.stock}}
                             </div>
                         </div>
+                    </div>
+                    <div class="row">                       
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Stock minimo<span class="required">*</span></label>
@@ -83,13 +87,15 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">{%if deposito%}Editar {%else%}Agregar
+                    <button type="submit" class="btn btn-primary">{%if producto%}Editar {%else%}Agregar
                         {%endif%}</button>
                 </div>
             </form>
     </div>
 </div>
+<div class="modal fade" id="creacion" role="dialog">
 
+</div>
 <script>
     $(function () {
     //     $.datepicker.regional['es'] = {
@@ -119,7 +125,7 @@
         if (tipo !== "" && tipo != null) {
             $.ajax({
                 type: 'GET',
-                url: '/tipoProducto/vence_si_no/',
+                url: '/producto/tipoProducto/vence_si_no/',
                 data: { 'tipo': tipo },
                 success: function (response) {
                     if (response.mensaje == 'S') {
