@@ -28,6 +28,20 @@ def add_servicio(request):
     return render(request, 'configuracion/servicio/add_servicio_modal.html', context)
 
 @login_required()
+@permission_required('servicio.add_servicio')
+def add_servicio_from_empleado(request):
+    form = ServicioForm    
+    if request.method == 'POST':
+        form = ServicioForm(request.POST) 
+        if form.is_valid():           
+            ser = form.save(commit=False)
+            ser.save()        
+            messages.success(request, 'Se ha agregado correctamente!')
+            return redirect('/configuracion/listEmpleado/')
+    context = {'form' : form, 'from_add': 'S'}
+    return render(request, 'configuracion/servicio/add_servicio_modal.html', context)
+
+@login_required()
 @permission_required('servicio.change_servicio')
 def edit_servicio(request, id):
     servicios = Servicio.objects.get(id=id)
