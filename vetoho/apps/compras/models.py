@@ -30,4 +30,3 @@ class Proveedor(models.Model):
 
     def __str__(self):
         return  'Proveedor: %s - ruc: %s' % (self.nombre_proveedor, self.ruc_proveedor)
-

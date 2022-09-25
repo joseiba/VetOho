@@ -19,7 +19,7 @@ class TipoProducto(models.Model):
     last_modified = models.DateTimeField(auto_now=True, blank=True)
     is_active = models.CharField(max_length=2, default="S", blank=True, null=True)
 
-    class Mwta:
+    class Meta:
         verbose_name = "Tipo Producto"
         verbose_name_plural = "Tipo Productos"
         default_permissions =  ()

@@ -19,7 +19,7 @@ class ProveedorForm(forms.ModelForm):
 			'ruc_proveedor' : forms.TextInput(attrs={'class':'form-control', 'name': 'ruc_proveedor', 
                 'placeholder': 'RUC', 'required': 'required','type':'text','onkeyup':'replaceABC(this)', 'autocomplete': 'off'}),
 			'telefono' : forms.TextInput(attrs={'class':'form-control tel','placeholder': 'Telefono','type': 'tel', 
-                'name':'telefono', 'required':'required','autocomplete': 'off','onkeyup':'replaceABC(this)'}),
-            'email' : forms.TextInput(attrs={'class':'form-control optional', 'placeholder': 'Email','name':'email', 
+                'name':'telefono', 'required':'required','autocomplete': 'off','onkeyup':'replaceABC(this)','pattern':'[^a-zA-Z\x22]+','title':'Evitar usar letras'}),
+            'email' : forms.EmailInput(attrs={'class':'form-control optional', 'placeholder': 'Email','name':'email', 
                 'type':'email', 'id':'email', 'autocomplete': 'off'}),
 		}
