@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load static %}
 
-{% block title %} Lista Tipos de Producto {% endblock title %}
+{% block title %} Lista Dépositos {% endblock title %}
 
 {% block css %}
 {{ block.super }}
@@ -17,13 +17,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Lista de Tipos de Producto
+          <h1>Lista de Razas
           </h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-            <li class="breadcrumb-item active">Tipos de Producto</li>
+            <li class="breadcrumb-item active">Razas</li>
           </ol>
         </div>
       </div>
@@ -39,17 +39,17 @@
           <div class="card">            
             <div class="card-header">
                 <button class="btn btn-primary float-right"
-                    onclick="abrir_modal_creacion('/tipoProducto/add/');">
-                    Agregar Tipo de producto
+                    onclick="abrir_modal_creacion('/mascota/addRaza/');">
+                    Agregar Raza
                 </button>
 
                 <div class="float-left">
                     <div class="wrap">
                         <div class="input-group">
                             <input type="search" class="form-control searchTerm" id="searchTerm"
-                                placeholder="Buscar por nombre tipo"
+                                placeholder="Buscar por nombre raza"
                                 data-toggle="tooltip" data-placement="top"
-                                title="Buscar por nombre tipo">
+                                title="Buscar por nombre raza">
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-default searchButton" type="button" id="busqueda">
                                     <i class="fa fa-search"></i>
@@ -61,12 +61,11 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="list_tipo_producto" class="table table-striped table-hover">
+              <table id="list_raza" class="table table-striped table-hover">
                 <thead>
                 <tr>
-                  <th>Nombre tipo</th>
-                  <th>Fecha alta</th>
-                  <th>Fecha baja</th>
+                  <th>Nombre de la Raza</th>
+                  <th>Nombre de la Especie</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
@@ -102,12 +101,12 @@
         });
 
         var get_list = function (busqueda) {
-            $("#list_tipo_producto").DataTable({
+            $("#list_raza").DataTable({
                 destroy: true,  
                 searching: false,
                 pageLength: 10,
                 ajax: {
-                    url: "/tipoProducto/get_list_tipo_producto/",
+                    url: "/mascota/get_list_raza/",
                     type: 'GET',
                     datatype: 'json',
                     data: {'busqueda': busqueda},
@@ -116,18 +115,8 @@
                     }
                 },
                 columns: [
-                    {
-                        name: 'Nombre tipo',
-                        data: 'nombre_tipo',
-                    },
-                    {
-                        name: 'Fecha alta',
-                        data: 'fecha_alta',
-                    },
-                    {
-                        name: 'Fecha baja',
-                        data: 'fecha_baja',
-                    },                    
+                    {data: 'nombre_raza'},                   
+                    {data: 'nombre_especie'},                   
                     {
                         name: 'Acciones',
                         data: 'id',
@@ -135,11 +124,11 @@
 
                             var buttons = "";
 
-                            buttons +=  '<button class="btn btn-warning btn-circle btn-sm" onclick="abrir_modal_edicion(\'/tipoProducto/edit/' +row.id+ '/\')">\
+                            buttons +=  '<button class="btn btn-warning btn-circle btn-sm" onclick="abrir_modal_edicion(\'/mascota/editRaza/' +row.id+ '/\')">\
                                             <a style="color: black"> Editar </a>\
                                         </button>';
-
-                            buttons += ' <button class="btn btn-danger btn-circle btn-sm" onclick="eliminar_registro(\'/tipoProducto/baja/' +row.id+ '/\',\'/tipoProducto/list\')"><i class="fa fa-trash"></i></button>';
+                            
+                            //buttons += ' <button class="btn btn-danger btn-circle btn-sm" onclick="eliminar_registro(\'/deposito/baja/' +row.id+ '/\',\'/deposito/list\')">Dar de Baja</button>';
 
                             return buttons;
                         },
@@ -192,6 +181,13 @@
                 get_list(busqueda)
             }
         })
+
+        {% if messages %}
+          {% for message in messages %}
+              var text = "{{ message }}";
+              add_edit_registro(text);
+          {% endfor %}
+        {% endif %}
     })
 </script>
 {% endblock js_page %}

@@ -7,5 +7,4 @@ urlpatterns = [
     path('list/', list_deposito, name="list_deposito"),
     path('get_list_deposito/', get_list_deposito, name="get_list_deposito"),
     path('edit/<int:id>/', edit_deposito, name="edit_deposito"),
-    path('search/', search_deposito, name="search_deposito"),
 ]
