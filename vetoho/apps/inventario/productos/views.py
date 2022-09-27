@@ -86,6 +86,22 @@ def alta_tipo_producto(request, id):
             return redirect('/tipoProducto/list/')
     context = {'tipo_producto':tipo_producto}
     return render(request, 'inventario/tipoProducto/alta_tipo_producto.html', context)
+
+    #Metodo para agregar tipo producto
+@login_required()
+@permission_required('productos.add_tipoproducto')
+def add_tipo_producto_from_producto(request):
+    form = TipoProductoForm
+    if request.method == 'POST':
+        form = TipoProductoForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'Tipo de producto agregado correctamente!')
+            form = ProductoForm
+            context = {'form' : form}
+            return redirect('/producto/list/')
+    context = {'form' : form, 'from_add': 'S'}
+    return render(request, 'inventario/tipoProducto/add_tipo_producto.html', context)
     
 
 #Metodo para listar todos los tipos de productos

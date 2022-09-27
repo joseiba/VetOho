@@ -31,7 +31,7 @@ from apps.cliente.views import (add_ciudad, edit_ciudad, list_ciudades, get_list
 edit_cliente, list_client_ajax, list_clientes, inactivar_cliente)
 
 from apps.configuracion.servicio.views import (add_servicio, edit_servicio, bajar_servicio, list_servicio, search_servicio,
-list_servicio_ajax)
+list_servicio_ajax, add_servicio_from_empleado)
 
 from apps.configuracion.empleado.views import (add_empleado, bajar_empleado, edit_empleado, get_list_empleados_ajax, 
 list_empleado, search_empleado)
@@ -80,6 +80,8 @@ urlpatterns = [
     path('configuracion/searchServicio/', search_servicio, name="search_servicio"),
     path('configuracion/get_list_servicio_ajax/', list_servicio_ajax , name="list_servicio_ajax"),
     path('configuracion/bajaServicio/<int:id>/', bajar_servicio, name="delete_servicio"),
+    path('configuracion/addServicioFromEmpleado/', add_servicio_from_empleado, name="add_servicio_from_empleado"),
+
 
     #Empleados
     path('configuracion/listEmpleado/', list_empleado , name="list_empleado"),

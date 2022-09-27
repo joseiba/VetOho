@@ -1,3 +1,6 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/plugins/fontawesome-free/css/all.min.css' %}">
+
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -57,7 +60,12 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Tipo Producto<span class="required">*</span></label>
+                                <label>Tipo Producto<span class="required">*</span>
+                                    {% if perms.productos.add_tipoproducto %}
+                                    <i class="fa-solid fa-square-plus" 
+                                    onclick="abrir_modal_creacion('/producto/add/tipoProducto/')"></i>
+                                    {%endif%}
+                                </label>
                                 {{ form.tipo_producto}}
                             </div>
                         </div>
