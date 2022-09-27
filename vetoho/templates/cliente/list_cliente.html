@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load static %}
 
-{% block title %} Lista Ciudades {% endblock title %}
+{% block title %} Lista de Clientes {% endblock title %}
 
 {% block css %}
 {{ block.super }}
@@ -53,9 +53,9 @@
               </form>                  
               </div>
               <div class="float-right">
-                <button type="submit" class="btn btn-block btn-primary">
-                  <a style="color: white;" href="{% url 'add_cliente' %}">Agregar nuevo registro</a>
-              </button>
+                <button class="btn btn-primary float-right" onclick="abrir_modal_creacion('/cliente/addCliente/');">
+                  Agregar Cliente
+                </button>
               </div>
             </div>
             <!-- /.card-header -->
@@ -86,6 +86,10 @@
     </div>
     <!-- /.container-fluid -->
   </section>
+  
+<div class="modal fade" id="creacion" role="dialog"> </div>
+
+<div class="modal fade" id="edicion" role="dialog"> </div>
 
 <div class="modal fade" id="eliminacion" role="dialog">
 
@@ -159,11 +163,9 @@
 
                             var buttons = "";
 
-                            buttons +=  '<button class="btn btn-warning mr-1">\
-                                                         <a href="/cliente/editCliente/' + data + '/" style="color: black">\
-                                                             Editar\
-                                                         </a>\
-                                                   </button>';
+                            buttons +=  '<button class="btn btn-warning mr-1" onclick="abrir_modal_edicion(\'/cliente/editCliente/' + data + '/\')">\
+                                            <a style="color: black"> Editar </a>\
+                                        </button>';
                             buttons += '<button class="btn btn-danger"" onclick="abrir_modal_eliminacion(\'/cliente/bajaCliente/' + data + '/\');">\
                                                         Dar de baja\
                                         </button>';
@@ -237,6 +239,13 @@
                 get_list(busqueda)
             }
         }) 
+
+        {% if messages %}
+          {% for message in messages %}
+            var text = "{{ message }}";
+            add_edit_registro(text);
+          {% endfor %}
+        {% endif %}
     })
 </script>
 
