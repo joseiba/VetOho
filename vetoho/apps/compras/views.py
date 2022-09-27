@@ -9,11 +9,11 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from io import BytesIO
-from reportlab.pdfgen import canvas
+#from reportlab.pdfgen import canvas
 from django.views.generic import View
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-from reportlab.lib.units import cm
-from reportlab.lib import colors
+#from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+#from reportlab.lib.units import cm
+#from reportlab.lib import colors
 
 from apps.compras.models import Proveedor 
 from apps.compras.forms import ProveedorForm
