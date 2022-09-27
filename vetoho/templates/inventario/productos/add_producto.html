@@ -1,3 +1,6 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/plugins/fontawesome-free/css/all.min.css' %}">
+
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -15,25 +18,19 @@
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Tipo Producto<span class="required">*</span></label>
-                                {{ form.tipo_producto}}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Nombre Producto<span class="required">*</span></label>
                                 {{form.nombre_producto}}
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Descripción<span class="required">*</span></label>
                                 {{form.descripcion}}
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Fecha vencimiento</label>
                                 {{form.fecha_vencimiento}}
@@ -41,19 +38,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Precio Compra</label>
                                 {{ form.precio_compra}}
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Precio Venta<span class="required">*</span></label>
                                 {{form.precio_venta}}
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Lote</label>
                                 {{form.lote}}
@@ -61,19 +58,30 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Tipo Producto<span class="required">*</span>
+                                    {% if perms.productos.add_tipoproducto %}
+                                    <i class="fa-solid fa-square-plus" 
+                                    onclick="abrir_modal_creacion('/producto/add/tipoProducto/')"></i>
+                                    {%endif%}
+                                </label>
+                                {{ form.tipo_producto}}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Stock<span class="required">*</span></label>
                                 {{ form.stock}}
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Stock minimo<span class="required">*</span></label>
                                 {{form.stock_minimo}}
                             </div>
                         </div>
-                        <!-- <div class="col-md-6">
+                        <!-- <div class="col-md-4">
                         <div class="form-group">
                             <label>Lote</label>
                             {{form.lote}}

@@ -87,10 +87,10 @@ def add_cliente(request):
         if form.is_valid():           
             messages.success(request, 'Se ha agregado correctamente!')
             form.save()
-            return redirect('/cliente/addCliente')
-    cuidad = Ciudad.objects.all()   
-    context = {'form' : form, 'cuidad' : cuidad}
-    return render(request, 'cliente/add_cliente.html', context)
+            return redirect('/cliente/listCliente')
+    ciudades = Ciudad.objects.all()
+    context = {'form' : form, 'ciudades' : ciudades}
+    return render(request, 'cliente/add_modal_cliente.html', context)
 
 # Metodo para editar Clientes
 #@login_required()
@@ -102,15 +102,16 @@ def edit_cliente(request, id):
         form = ClienteForm(request.POST, instance=cliente)
         if not form.has_changed():
             messages.info(request, "No has hecho ningun cambio!")
-            return redirect('/cliente/editCliente/'+ str(id))
+            return redirect('/cliente/listCliente/')
         if form.is_valid():
             cliente = form.save(commit=False)
             cliente.save()          
             messages.success(request, 'Se ha editado correctamente!')
-            return redirect('/cliente/editCliente/'+ str(id))
-
-    context = {'form': form, 'id':id}
-    return render(request, 'cliente/edit_cliente.html', context)
+            return redirect('/cliente/listCliente/')
+    
+    ciudades = Ciudad.objects.all()
+    context = {'form': form, 'cliente':cliente, 'ciudades': ciudades}
+    return render(request, 'cliente/add_modal_cliente.html', context)
 
 #Metodo para eliminar cliente
 #@login_required()
