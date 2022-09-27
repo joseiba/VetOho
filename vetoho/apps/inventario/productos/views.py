@@ -28,7 +28,7 @@ def add_tipo_producto(request):
         if form.is_valid():
             form.save()
             messages.add_message(request, messages.SUCCESS, 'Tipo de producto agregado correctamente!')
-            return redirect('/tipoProducto/list')
+            return redirect('/producto/tipoProducto/list')
     context = {'form' : form}
     return render(request, 'inventario/tipoProducto/add_tipo_producto.html', context)
 
@@ -43,12 +43,12 @@ def edit_tipo_producto(request, id):
         form = TipoProductoForm(request.POST, instance=tipo_producto)
         if not form.has_changed():
             messages.info(request, "No ha hecho ningun cambio")
-            return redirect('/tipoProducto/list/')
+            return redirect('/producto/tipoProducto/list/')
         if form.is_valid():
             tipo_producto = form.save(commit=False)
             tipo_producto.save()
             messages.add_message(request, messages.SUCCESS, 'Tipo de producto editado correctamente!')
-            return redirect('/tipoProducto/list/')
+            return redirect('/producto/tipoProducto/list/')
 
     context = {'form': form, 'tipo_producto':tipo_producto}
     return render(request, 'inventario/tipoProducto/edit_tipo_producto.html', context)
@@ -80,10 +80,10 @@ def alta_tipo_producto(request, id):
             tipo_producto.is_active = "Y"
             tipo_producto.fecha_baja = '-'
             tipo_producto.save()
-            return redirect('/tipoProducto/list/')
+            return redirect('/producto/tipoProducto/list/')
         else:
             messages.success(request, 'El tipo de producto ya fue dado de alta!')
-            return redirect('/tipoProducto/list/')
+            return redirect('/producto/tipoProducto/list/')
     context = {'tipo_producto':tipo_producto}
     return render(request, 'inventario/tipoProducto/alta_tipo_producto.html', context)
 
