@@ -68,7 +68,7 @@ class Producto(models.Model):
     #id_deposito = models.ForeignKey(Deposito, on_delete=models.CASCADE, null=True)
 
     
-    class Mwta:
+    class Meta:
         verbose_name = "Producto"
         verbose_name_plural = "Productos"
         default_permissions =  ()
