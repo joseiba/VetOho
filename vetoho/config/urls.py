@@ -94,6 +94,15 @@ urlpatterns = [
 
     #Mascotas
     path('mascota/', include(('apps.mascotas.urls','mascota'), namespace='mascota')),
+    
+    #Ventas
+    path('ventas/', include(('apps.ventas.urls','ventas'), namespace='venta')),
+
+    #Configuraciones
+    path('configuracion/', include(('apps.configuracion.configuracion_inicial.urls','configuracion_inicial'), namespace='configuracion_inicial')),
+
+    #Utiles
+    path('utiles/', include(('apps.utiles.urls','configuracion_inicial'), namespace='utiles')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

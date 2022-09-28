@@ -99,3 +99,108 @@ function add_edit_registro(text) {
 		allowOutsideClick: false
 	});
 }
+
+function submit_with_ajax(url, title, content, parameters, callback) {
+    Swal.fire({
+        title: title,
+        text: content,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((confir) => {
+        if(confir){
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: parameters,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if(response.mensaje != "error"){
+                        Swal.fire({
+                            title: 'Notificación',
+                            text: 'Se ha Registrado Correctamente',
+                            icon: 'success'
+                        });
+                        callback();
+                    }
+                    else
+                    {
+                        Swal.fire({
+                            title: 'Notificación',
+                            text: 'ha ocurrido un error, intenlo de nuevo',
+                            icon: 'error'
+                        });
+                    }                                     
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    swal("Error", xhr + ' ' + ajaxOptions + ' ' + thrownError, "error");
+                }
+            });
+        }
+        else{
+            Swal.fire("Cancelado");
+        }
+        
+    });
+}
+
+function add_miles(value){
+    return value.toString().replace(/\D/g, "")
+                        .replace(/([0-9])([0-9]{3})$/, '$1.$2')
+                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+}
+
+function anular_factura (url, redirect_url) { 
+	Swal.fire({
+		"title":"¿Estás seguro que quiere anular la factura?",
+		"text":"Esta acción no se puede deshacer.",
+		"icon":"question",
+		"showCancelButton":true,
+		"cancelButtonText":"No, Cancelar",
+		"confirmButtonText":"Si, Eliminar",
+		"reverseButtons":true,
+		"confirmButtonColor":"#dc3545",
+		"showLoaderOnConfirm": true,
+		"preConfirm": function(login)  {
+			return $.get(url,function(result) {
+				return result;
+			})
+			.fail(function(error) {
+				Swal.fire({
+					title:'Error',
+					text:'Ha Ocurrido un error, intente mas tarde',
+					icon:'error',
+					confirmButtonColor: '#007bff',
+				});
+			})
+		}
+	})
+	.then(function(result) {
+		if(result.value) {
+			if (result.value.error) {
+				Swal.fire({
+					title:'Error',
+					text:result.value.message,
+					icon:'error',
+					confirmButtonColor: '#007bff',
+				});
+			}else{
+				Swal.fire({
+					title: 'Éxito',
+					text: result.value.message,
+					icon: 'success',
+					confirmButtonColor: '#007bff',
+					showCancelButton: false,
+					allowOutsideClick: false
+				}).then(function(result)  {
+					console.log(result);
+					window.location.href = redirect_url;
+				});
+
+			}
+		}
+	});
+}
