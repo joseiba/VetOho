@@ -101,11 +101,12 @@
 
         if (fecha_inicio != "" && fecha_fin != "" && nro_tim != "" && nro_ruc != "") {
             if (!compareDate(fecha_inicio, fecha_fin)) {
-                swal({
+                Swal.fire({
                     title: "Notificación",
                     text: "La fecha inicio y fin del timbrado ha caducado!",
                     icon: "warning",
                     button: "Ok",
+                    confirmButtonColor: '#007bff',
                 })
                 $('form').find('#button_registrar').addClass('d-none')
             } else {
@@ -113,11 +114,12 @@
             }
         }
         else {
-            swal({
+            Swal.fire({
                 title: "Notificación",
                 text: "Agregue los datos de la factura en configuraciones iniciales! ",
                 icon: "warning",
                 button: "Ok",
+                confirmButtonColor: '#007bff',
             })
             $("form").find("#button_registrar").addClass("d-none")
         }

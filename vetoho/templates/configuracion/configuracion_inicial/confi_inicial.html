@@ -234,6 +234,7 @@
                     text: "La fecha inicio y fin del timbrado ha caducado!",
                     icon: "warning",
                     button: "Ok",
+                    confirmButtonColor: '#007bff',
                 })
                 $.ajax({
                     url: "/utiles/poner_vencido_timbrado/",
@@ -269,6 +270,7 @@
                                     text: "El ruc ingresado ya existe!",
                                     icon: "warning",
                                     button: "Ok",
+                                    confirmButtonColor: '#007bff',
                                 })
                                 $('form').find('#button_registrar').addClass('d-none')
                             } else {
@@ -281,6 +283,7 @@
                                 text: "ha ocurrido un error, intenlo de nuevo",
                                 icon: "error",
                                 button: "Ok",
+                                confirmButtonColor: '#007bff',
                             })
                             $('form').find('#button_registrar').addClass('d-none')
                         }
@@ -305,6 +308,7 @@
                                 text: "El Timbrado introducido ya ha vencido!",
                                 icon: "warning",
                                 button: "Ok",
+                                confirmButtonColor: '#007bff',
                             })
                             $('form').find('#button_registrar').addClass('d-none')
                         }
@@ -318,14 +322,15 @@
         })
 
         {% if messages %}
-        {% for message in messages %}
-        Swal({
-            title: "Notificación",
-            text: "{{ message }}",
-            icon: "warning",
-            button: "Ok",
-        })
-        {% endfor %}
+            {% for message in messages %}
+                Swal.fire({
+                    title: "Notificación",
+                    text: "{{ message }}",
+                    icon: "warning",
+                    button: "Ok",
+                    confirmButtonColor: '#007bff',
+                })
+            {% endfor %}
         {% endif %}
 
     });

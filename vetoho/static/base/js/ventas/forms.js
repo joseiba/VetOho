@@ -188,6 +188,7 @@ $(function () {
                 text: "Debe cargar al menos un producto para el pedido!",
                 icon: "warning",
                 button: "Ok",
+                confirmButtonColor: '#007bff',
             })
             e.preventDefault();
         }else{

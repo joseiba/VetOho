@@ -10,6 +10,7 @@ import math
 
 from apps.configuracion.configuracion_inicial.models import ConfiEmpresa
 from apps.configuracion.configuracion_inicial.forms import ConfiEmpresaForm
+from apps.inventario.depositos.models import Deposito
 from apps.utiles.models import Timbrado
 
 # Create your views here.
