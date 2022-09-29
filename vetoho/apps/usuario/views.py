@@ -19,6 +19,7 @@ import json
 
 from apps.usuario.forms import FormLogin, UserForm, UserFormChange, GroupForm, GroupChangeForm, ContraseñaChangeForm
 from apps.usuario.models import User
+from apps.configuracion.configuracion_inicial.models import ConfiEmpresa
 
 # Create your views here.
 
@@ -49,11 +50,11 @@ class Login(FormView):
 
     def form_valid(self,form):
         login(self.request,form.get_user())
-        # confi = ConfiEmpresa.objects.filter()
-        # if confi.count() == 0:
-        #     confi_initial = ConfiEmpresa()
-        #     confi_initial.id = 1
-        #     confi_initial.save()
+        confi = ConfiEmpresa.objects.filter()
+        if confi.count() == 0:
+            confi_initial = ConfiEmpresa()
+            confi_initial.id = 1
+            confi_initial.save()
         return super(Login,self).form_valid(form)
 
 @login_required()

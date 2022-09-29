@@ -97,6 +97,23 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p> Ventas <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'ventas:list_factura_ventas' %}" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <p> Facturas Ventas</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-shopping-bag"></i>
@@ -309,6 +326,17 @@
                             <a href="{% url 'list_empleado' %}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Lista de Empleados</p>
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
+
+                    {% if perms.configuracion.view_confiempresa %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'configuracion_inicial:confi_inicial' %}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Configuración Inicial</p>
                             </a>
                         </li>
                     </ul>
