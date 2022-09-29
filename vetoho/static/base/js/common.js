@@ -122,7 +122,8 @@ function submit_with_ajax(url, title, content, parameters, callback) {
                         Swal.fire({
                             title: 'Notificación',
                             text: 'Se ha Registrado Correctamente',
-                            icon: 'success'
+                            icon: 'success',
+							confirmButtonColor: '#007bff',
                         });
                         callback();
                     }
@@ -131,7 +132,8 @@ function submit_with_ajax(url, title, content, parameters, callback) {
                         Swal.fire({
                             title: 'Notificación',
                             text: 'ha ocurrido un error, intenlo de nuevo',
-                            icon: 'error'
+                            icon: 'error',
+							confirmButtonColor: '#007bff',
                         });
                     }                                     
                 },

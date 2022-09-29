@@ -53,12 +53,12 @@
                             </form>
                         </div>
                         <div class="float-right">
-                            {% comment %} {% if perms.factura.view_facturacabeceraventa %} {% endcomment %}
+                            {% comment %} {% if perms.factura.view_facturacabeceraventa %}
                                 <button type="submit" class="btn btn-success">
                                     <a href="{% url 'ventas:list_facturas_ventas_anuladas' %}" style="color: white;">Ver facturas anuladas</a>
                                 </button>
 
-                            {% comment %} {% endif %}
+                            {% endif %}
                             {% if perms.factura.add_facturacabeceraventa and caja_abierta == "S" %} {% endcomment %}
                                 <button type="submit" class="btn btn-primary">
                                     <a href="{% url 'ventas:add_factura_venta' %}" style="color: white;">Agregar nueva factura</a>
@@ -176,13 +176,13 @@
                                                     </button> ';
                             {% endif %}
                             
-                            {% if perms.factura.view_facturacabeceraventa %}
+                            /*{% if perms.factura.view_facturacabeceraventa %}
                                 buttons += '<button class="btn btn-primary">\
                                                         <a target="_blank" style="color: white">\
                                                             PDF\
                                                         </a>\
                                                     </button>';
-                            {% endif %}
+                            {% endif %}*/
                                                     
                             return buttons;                                                                                                   
                         }

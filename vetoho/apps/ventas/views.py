@@ -129,7 +129,7 @@ def add_factura_venta(request):
     #     abierto = "S"
     # else:
     #     abierto = "N" 
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':
         try:
             confi = ConfiEmpresa.objects.get(id=1) 
             factura_dict = json.loads(request.POST['factura'])
@@ -183,7 +183,7 @@ def edit_factura_venta(request, id):
     confi = get_confi()
     data = {}
     mensaje = ""
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':
         try:        
             factura_dict = json.loads(request.POST['factura'])
             try:
@@ -302,7 +302,7 @@ def get_confi():
 def validate_producto_stock(request):
     data = []
     mensaje = ""
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':
         try:
             factura_dict = json.loads(request.POST['factura'])
             for i in factura_dict['products']:
