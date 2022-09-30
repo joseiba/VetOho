@@ -120,6 +120,15 @@ urlpatterns = [
     path('compra/addPedidoCompra/', add_pedido_compra, name="add_pedido_compra"),
     path('compra/editPedidoCompra/<int:id>/', edit_pedido_compra, name="edit_pedido_compra"),
 
+    
+    #Ventas
+    path('ventas/', include(('apps.ventas.urls','ventas'), namespace='venta')),
+
+    #Configuraciones
+    path('configuracion/', include(('apps.configuracion.configuracion_inicial.urls','configuracion_inicial'), namespace='configuracion_inicial')),
+
+    #Utiles
+    path('utiles/', include(('apps.utiles.urls','configuracion_inicial'), namespace='utiles')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

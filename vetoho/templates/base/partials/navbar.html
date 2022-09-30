@@ -97,31 +97,18 @@
                         </li>
                     </ul>
                 </li>
-               
-                </li>
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-shopping-bag"></i>
-                        <p> Compras <i class="right fas fa-angle-left"></i>
+                        <i class="nav-icon fas fa-shopping-cart"></i>
+                        <p> Ventas <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{% url 'list_proveedor' %}" class="nav-link">
-                                <i class="fas fa-dolly"></i>
-                                    <p>Proveedores</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'list_pedido_compra' %}" class="nav-link">
-                                <i class="fas fa-shopping-basket"></i>
-                                <p>Pedidos</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a  href="{% url 'list_factura_compra' %}" class="nav-link">
-                                <i class="fab fa-cc-amazon-pay"></i>
-                                <p>Factura Compras</p>
+                            <a href="{% url 'ventas:list_factura_ventas' %}" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <p> Facturas Ventas</p>
                             </a>
                         </li>
                     </ul>
@@ -338,6 +325,17 @@
                             <a href="{% url 'list_empleado' %}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Lista de Empleados</p>
+                            </a>
+                        </li>
+                    </ul>
+                    {% endif %}
+
+                    {% if perms.configuracion.view_confiempresa %}
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{% url 'configuracion_inicial:confi_inicial' %}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Configuración Inicial</p>
                             </a>
                         </li>
                     </ul>
