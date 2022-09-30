@@ -1,5 +1,5 @@
 from django import forms
-from  apps.compras.models import Proveedor
+from  apps.compras.models import *
 
 class ProveedorForm(forms.ModelForm):
     """[summary]
@@ -23,3 +23,52 @@ class ProveedorForm(forms.ModelForm):
             'email' : forms.EmailInput(attrs={'class':'form-control optional', 'placeholder': 'Email','name':'email', 
                 'type':'email', 'id':'email', 'autocomplete': 'off'}),
 		}
+
+class PedidoForm(forms.ModelForm):
+    """[summary]
+    Args:
+        forms ([PedidoForm]): [Formulario de pedidos]
+    """    
+    class Meta:
+        model = Pedido
+        exclude = ['is_active']
+        widgets = {		
+			'cantidad_pedido' : forms.TextInput(attrs={'class':'form-control', 'name':'cantidad_pedido', 'placeholder': 'Cantidad a pedir', 'required':'required','onkeyup':'replaceABC(this)'}),
+            'id_producto' : forms.Select(attrs={'class':'form-control', 'id': 'id_producto' ,'name':'id_producto', 'readonly': 'readonly'})
+		}
+
+class FacturaCompraForm(forms.ModelForm):
+    
+    class Meta:
+        model = FacturaCompra
+        exclude = ['is_active', 'estado']
+        widgets = {
+			'nro_factura': forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off','name':'nro_factura','placeholder': 'Escriba el nro de factura','required':'required','onkeyup':'replaceABC(this)'}),
+            'id_proveedor' : forms.Select(attrs={'class':'form-control', 'id': 'proveedor_select' ,'name':'id_proveedor'}),
+            'fecha_emision_factura': forms.TextInput(attrs={'class': 'form-control',
+                                            'id': 'datePick-emision-factura',
+                                            'placeholder': 'Selecciona la fecha de emisión',
+                                            'name':'fecha_emision_factura',
+                                            'autocomplete': 'off'}),
+            'fecha_emision': forms.TextInput(attrs={'class': 'form-control',
+                                            'id': 'datePick-emision',
+                                            'placeholder': 'Selecciona la fecha de inicio timbrado',
+                                            'name':'fecha_emision',
+                                            'autocomplete': 'off'}),
+            'fecha_vencimiento': forms.TextInput(attrs={'class': 'form-control',
+                                            'id': 'datePick-vencimiento',
+                                            'placeholder': 'Selecciona la fecha de fin timbrado',
+                                            'name':'fecha_vencimiento',
+                                            'autocomplete': 'off'}),
+            'nro_timbrado': forms.TextInput(attrs={'class': 'form-control', 'name': 'nro_timbrado','autocomplete': 'off','placeholder': 'Escriba el nro del timbrado','required':'required','onkeyup':'replaceABC(this)'}),
+		}
+
+
+class FacturaDetalleForm(forms.ModelForm):
+    class Meta:
+        model = FacturaDet
+        fields = ['id_pedido', 'cantidad']
+        widgets = {
+            'id_pedido': forms.Select(attrs={'class': 'form-control'}),
+            'cantidad': forms.NumberInput(attrs={'class': 'form-control'})
+        }

@@ -36,7 +36,9 @@ list_servicio_ajax, add_servicio_from_empleado)
 from apps.configuracion.empleado.views import (add_empleado, bajar_empleado, edit_empleado, get_list_empleados_ajax, 
 list_empleado, search_empleado)
 
-from apps.compras.views import (add_proveedor, edit_proveedor, list_proveedor_ajax, delete_proveedor, list_proveedor)
+from apps.compras.views import (add_proveedor, edit_proveedor, list_proveedor_ajax, delete_proveedor, list_proveedor,
+list_pedido, list_pedido_ajax, edit_pedido, list_factura_compra, list_facturas_ajax, add_factura_compra, 
+search_pediddos_factura, edit_factura_compra, list_pedido_compra, list_pedido_compra_ajax, add_pedido_compra, edit_pedido_compra, agregar_factura_compra)
 urlpatterns = [
     path('SuperAdminUserDev/', admin.site.urls),
     path('', home_user, name="index"),
@@ -101,6 +103,23 @@ urlpatterns = [
     path('compra/get_list_proveedor/', list_proveedor_ajax, name="list_proveedor_ajax"),
     path('compra/editProveedor/<int:id>/', edit_proveedor, name="edit_proveedor"),
     path('compra/deleteProveedor/<int:id>/', delete_proveedor, name="delete_proveedor"),
+
+    #Pedidos
+
+    path('compra/listPedido/', list_pedido, name="list_pedido"),
+    path('compra/get_list_pedido/', list_pedido_ajax, name="list_pedido_ajax"),
+    path('compra/editPedido/<int:id>/', edit_pedido, name="edit_pedido"),
+    path('compra/listFacturasCompras/', list_factura_compra, name="list_factura_compra"),
+    path('compra/addFacturaCompra/', agregar_factura_compra, name="add_factura_compra"),
+    path('compra/editFacturaCompra/<int:id>/', edit_factura_compra, name="edit_factura_compra"),
+    path('compra/get_list_proveedor/', list_proveedor_ajax, name="list_proveedor_ajax"),
+    path('compra/get_list_facturas/', list_facturas_ajax, name="list_facturas_ajax"),
+    path('compra/get_pedido_factura/', search_pediddos_factura, name="search_pediddos_factura"),
+    path('compra/listPedidosCompra/', list_pedido_compra, name="list_pedido_compra"),
+    path('compra/list_pedido_compra_ajax/', list_pedido_compra_ajax, name="list_pedido_compra_ajax"),
+    path('compra/addPedidoCompra/', add_pedido_compra, name="add_pedido_compra"),
+    path('compra/editPedidoCompra/<int:id>/', edit_pedido_compra, name="edit_pedido_compra"),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
