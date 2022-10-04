@@ -180,6 +180,7 @@
 
 {% block js_page %}
 {{ block.super }}
+<script src="{% static 'base/js/compras/form_add_factura.js' %}"></script>
 <!-- Datatables -->
 <script>
     var action = '{{ accion|safe }}';

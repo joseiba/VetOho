@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load static %}
 
-{% block title %} Agregar Pedido {% endblock title %}
+{% block title %} Editar Pedido {% endblock title %}
 
 {% block css %}
 {{ block.super }}
@@ -19,7 +19,7 @@
             <div class="col-md-12 col-sm-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Realizar Pedido</h2>
+                        <h2>Editar Pedido</h2>
                         
                         <div class="clearfix"></div>
                     </div>
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="tile-footer mt-3">
                                     <button type="" class="btn btn-primary" style="color: white"><i
-                                            class="fa fa-fw fa-lg fa-check-circle"></i>Registrar Pedido
+                                            class="fa fa-fw fa-lg fa-check-circle"></i>Editar Pedido
                                     </button>&nbsp;&nbsp;&nbsp;
                                     <a class="btn btn-secondary" href="{% url 'list_pedido_compra' %}">
                                         <i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
@@ -87,8 +87,9 @@
 <script>
     var action = '{{ accion|safe }}';
 
-    $(function () {   
-        
+    $(function () {       
+        var list_pedidos = {{ pedidos|safe }};
+
         $('form input').on("cut copy paste", function (e) {
             e.preventDefault();
         })
@@ -118,8 +119,10 @@
         });
 
         $('#search').select2({
-            language: "es",
-            ajax: {
+            placeholder: "Seleccione un producto",
+            allowClear: true,
+            data: list_pedidos,
+            /*ajax: {
                 type: 'POST',
                 url: '/compra/get_pedido_factura/',
                 delay: 250,
@@ -134,7 +137,7 @@
                         results: data
                     }
                 },
-            },
+            },*/
             language: {
                 inputTooShort: function () {
                     return '';
@@ -147,11 +150,11 @@
                 }
             }
         })
+
+        pedido.items.products = {{ det|safe }};
+        pedido.list();
     })
 
 </script>
-
-
-
 {% endblock js_page %}"
   

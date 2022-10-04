@@ -9,12 +9,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from io import BytesIO
-#from reportlab.pdfgen import canvas
+from reportlab.pdfgen import canvas
 from django.views.generic import View
-#from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-#from reportlab.lib.units import cm
-#from reportlab.lib import colors
-
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib.units import cm
+from reportlab.lib import colors
+from apps.configuracion.configuracion_inicial.models import ConfiEmpresa
 from apps.compras.models import Proveedor, Pedido, FacturaCompra, FacturaDet, Pago, PedidoCabecera, PedidoDetalle
 from apps.compras.forms import *
 
@@ -606,3 +606,69 @@ def search_pediddos_factura(request):
         data['error'] = str(e)
 
     return JsonResponse(data, safe=False)
+
+def reporte_compra_pdf(request, id):
+    pedido_cabecera = PedidoCabecera.objects.get(id=id)
+    confi = ConfiEmpresa.objects.get(id=1)
+    #Indicamos el tipo de contenido a devolver, en este caso un pdf
+    response = HttpResponse(content_type='application/pdf')
+    #La clase io.BytesIO permite tratar un array de bytes como un fichero binario, se utiliza como almacenamiento temporal
+    buffer = BytesIO()
+    #Canvas nos permite hacer el reporte con coordenadas X y Y
+    pdf = canvas.Canvas(buffer)
+    #Llamo al método cabecera donde están definidos los datos que aparecen en la cabecera del reporte.
+    #self.cabecera(pdf)
+    #Con show page hacemos un corte de página para pasar a la siguiente
+    #Establecemos el tamaño de letra en 16 y el tipo de letra Helvetica
+    pdf.setFont("Helvetica", 18)
+    #Dibujamos una cadena en la ubicación X,Y especificada
+    pdf.drawString(210, 790, u"Orden de Compra")
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(30, 760, u"Nombre: " + confi.nombre_empresa)
+    pdf.drawString(30, 740, u"Direccion: " + confi.direccion)
+    pdf.drawString(30, 720, u"Cuidad: " + confi.cuidad)
+    pdf.drawString(300, 760, u"Fecha Pedido: " + pedido_cabecera.fecha_alta)
+    pdf.drawString(300, 740, u"Nº Pedido: " + str(pedido_cabecera.id))
+    y = 700
+    tabla_report(pdf, y, id)
+
+    pdf.showPage()
+    pdf.save()
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    return response
+
+def tabla_report(pdf, y, id):
+    #Creamos una tupla de encabezados para neustra tabla
+    encabezados = ('Codigo', 'Producto', 'Descripción', 'Cantidad', 'Precio \n Unitario', 'Total')
+
+    pedido_detalle = PedidoDetalle.objects.filter(id_pedido_cabecera=id).order_by('last_modified')
+
+    count_detalle = 2
+    #Creamos una lista de tuplas que van a contener a las personas
+    detalles = [(pedi.id_producto.id, pedi.id_producto.nombre_producto, 
+                pedi.id_producto.descripcion, pedi.cantidad, '', '') for pedi in pedido_detalle]
+
+    detalles_extras = [('', '', '', '', '', '') for i in range(count_detalle)]
+
+    detalle_orden =  Table([encabezados] + detalles + detalles_extras, colWidths=[2.5 * cm, 3 * cm, 7* cm, 2 * cm, 3 * cm, 3 * cm])
+        #Aplicamos estilos a las celdas de la tabla
+    detalle_orden.setStyle(TableStyle(
+        [
+            #La primera fila(encabezados) va a estar centrada
+            ('ALIGN',(0,0),(3,0),'CENTER'),
+            #Los bordes de todas las celdas serán de color negro y con un grosor de 1
+            ('GRID', (0, 0), (-1, -1), 1, colors.black), 
+            #El tamaño de las letras de cada una de las celdas será de 10
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ]
+    ))
+
+    position = int(((pedido_detalle.count() + count_detalle) * 50 ) / (2))
+    pdf.setFont("Helvetica", 12)
+    pdf.drawString(480, ((680 - position)) , u"Total: ",)
+    #Establecemos el tamaño de la hoja que ocupará la tabla 
+    detalle_orden.wrapOn(pdf, 800, 600)
+    #Definimos la coordenada donde se dibujará la tabla
+    detalle_orden.drawOn(pdf, 10, 700 - position)
