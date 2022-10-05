@@ -97,6 +97,14 @@
                         </li>
                     </ul>
                 </li>
+                {% if perms.reserva.view_reserva %}
+                <li class="nav-item">
+                    <a href="{% url 'list_reserva' %}" class="nav-link">
+                    <i class="nav-icon far fa-id-card"></i>
+                        <p>Agendamientos</p>
+                    </a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-shopping-bag"></i>

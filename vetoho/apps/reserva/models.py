@@ -16,7 +16,7 @@ class Reserva(models.Model):
     estados =((FINALIZADO, 'Finalizado'),
                 (CANCELADO, 'Cancelado'),
                 (PENDIENTE, 'Pendiente'))
-    descripcion = models.CharField(max_length=200, help_text = "Ingrese la descripción del la reserva", blank=True, null=True, default="-")
+    descripcion = models.CharField(max_length=200, help_text = "Ingrese la descripción del la reserva", blank=True, null=True)
     fecha_reserva = models.DateField()
     hora_reserva = models.CharField(max_length=200)
     disponible_emp = models.CharField(max_length=2, default="S", blank=True, null=True)

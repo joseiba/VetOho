@@ -36,6 +36,7 @@ list_servicio_ajax, add_servicio_from_empleado)
 from apps.configuracion.empleado.views import (add_empleado, bajar_empleado, edit_empleado, get_list_empleados_ajax, 
 list_empleado, search_empleado)
 
+from apps.reserva.views import (list_reserva, add_reserva, get_min_service)
 
 urlpatterns = [
     path('SuperAdminUserDev/', admin.site.urls),
@@ -94,6 +95,13 @@ urlpatterns = [
 
     #Mascotas
     path('mascota/', include(('apps.mascotas.urls','mascota'), namespace='mascota')),
+
+    #Reservas 
+    path('reserva/list/', list_reserva , name="list_reserva"),
+    path('reserva/addReserva/',  add_reserva, name="add_reserva"),
+    path('reserva/getTimeServices', get_min_service, name="get_min_service"),
+
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
