@@ -100,8 +100,15 @@ urlpatterns = [
     path('reserva/list/', list_reserva , name="list_reserva"),
     path('reserva/addReserva/',  add_reserva, name="add_reserva"),
     path('reserva/getTimeServices', get_min_service, name="get_min_service"),
+    
+    #Ventas
+    path('ventas/', include(('apps.ventas.urls','ventas'), namespace='venta')),
 
+    #Configuraciones
+    path('configuracion/', include(('apps.configuracion.configuracion_inicial.urls','configuracion_inicial'), namespace='configuracion_inicial')),
 
+    #Utiles
+    path('utiles/', include(('apps.utiles.urls','configuracion_inicial'), namespace='utiles')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

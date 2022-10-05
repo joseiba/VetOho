@@ -88,11 +88,11 @@ class Producto(models.Model):
 
     def obtener_dict(self):
         dict = {}
-        #dict['codigo_producto'] = self.id
+        dict['codigo_producto'] = self.id
         dict['nombre'] = self.nombre_producto
         dict['description'] = self.descripcion
         dict['precio'] = self.precio_venta
         dict['precio_compra'] = self.precio_compra
-        #dict['stock_sistema'] = self.stock_total
+        dict['stock_sistema'] = self.stock
         #dict['tipo'] = self.servicio_o_producto
         return dict        
