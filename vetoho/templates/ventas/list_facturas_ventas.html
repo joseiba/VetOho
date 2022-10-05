@@ -23,7 +23,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-                    <li class="breadcrumb-item active">Ventas</li>
+                    <li class="breadcrumb-item active">Facturas Ventas</li>
                 </ol>
             </div>
         </div>
@@ -53,17 +53,17 @@
                             </form>
                         </div>
                         <div class="float-right">
-                            {% comment %} {% if perms.factura.view_facturacabeceraventa %}
+                            {% if perms.factura.view_facturacabeceraventa %}
                                 <button type="submit" class="btn btn-success">
                                     <a href="{% url 'ventas:list_facturas_ventas_anuladas' %}" style="color: white;">Ver facturas anuladas</a>
                                 </button>
 
                             {% endif %}
-                            {% if perms.factura.add_facturacabeceraventa and caja_abierta == "S" %} {% endcomment %}
+                            {% if perms.factura.add_facturacabeceraventa  %}
                                 <button type="submit" class="btn btn-primary">
                                     <a href="{% url 'ventas:add_factura_venta' %}" style="color: white;">Agregar nueva factura</a>
                                 </button>
-                            {% comment %} {% endif %} {% endcomment %}
+                            {% endif %}
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -176,13 +176,13 @@
                                                     </button> ';
                             {% endif %}
                             
-                            /*{% if perms.factura.view_facturacabeceraventa %}
+                            {% if perms.factura.view_facturacabeceraventa %}
                                 buttons += '<button class="btn btn-primary">\
-                                                        <a target="_blank" style="color: white">\
+                                                        <a target="_blank" href="/ventas/reporteFactura/' + data + '/" style="color: white">\
                                                             PDF\
                                                         </a>\
                                                     </button>';
-                            {% endif %}*/
+                            {% endif %}
                                                     
                             return buttons;                                                                                                   
                         }

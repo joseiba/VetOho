@@ -13,6 +13,6 @@ urlpatterns = [
     path('verDetalleFacturaAnulada/<int:id>/', ver_factura_anulada_venta, name="ver_factura_anulada_venta"),
     path('validate_producto_stock/', validate_producto_stock , name="validate_producto_stock"),
     path('listFacturasVentasAnuladas/', list_facturas_ventas_anuladas, name="list_facturas_ventas_anuladas"),
-    #path('reporteFactura/<int:id>/', reporte_factura_venta_pdf, name="reporte_factura_venta_pdf"),
+    path('reporteFactura/<int:id>/', reporte_factura_venta_pdf, name="reporte_factura_venta_pdf"),
 
 ]

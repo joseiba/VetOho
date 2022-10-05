@@ -1,26 +1,16 @@
 {% extends "base/base.html" %}
 {% load static %}
 
-{% block title %} Ver Factura Venta{% endblock title %}
-{% block stylesheets %}
+{% block title %} Ver Factura Venta {% endblock title %}
+
+{% block css %}
 {{ block.super }}
-<link href="{% static 'project_static/other/js/select2/select2.css' %}" rel="stylesheet"/>
-<link rel="stylesheet" href="{% static 'project_static/other/js/bootstrap-touchspin-master/dist/jquery.bootstrap-touchspin.css' %}">
-<link rel="stylesheet" href="{% static 'project_static/other/js/jquery-ui-themes-1.12.1/jquery-ui-themes-1.12.1/jquery-ui.min.css' %}">
-<link href="{% static 'project_static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css' %} " rel="stylesheet">
-<link href="{% static 'project_static/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css' %} " rel="stylesheet">
-<link href="{% static 'project_static/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css' %}" rel="stylesheet">
-<link href="{% static 'project_static/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css' %} " rel="stylesheet">
-<link href="{% static 'project_static/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css' %} " rel="stylesheet">
+
 <style>
-    .dataTables_info {
-        width: 0 !important;
-    }
-    #tblFacturaVenta_filter{
-        display: none;
-    }
+
 </style>
-{% endblock stylesheets %}
+{% endblock css %}
+
 {% block content %}
 <div class="right_col" role="main">
     <div class="">
@@ -174,7 +164,7 @@
                                     </div>
                                 </div>
                                 <div class="tile-footer">                                
-                                    <a class="btn btn-secondary" href="{% url 'list_factura_ventas' %}">
+                                    <a class="btn btn-secondary" href="{% url 'ventas:list_factura_ventas' %}">
                                         <i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
                                 </div>
                             </div>
@@ -187,32 +177,9 @@
 </div>
 {% endblock content %}
 
-{% block javascripts %}
+{% block js_page %}
 {{ block.super }}
-<!-- validator -->
-<script src="{% static 'project_static/other/js/jquery-ui-1.12.1/jquery-ui-1.12.1/jquery-ui.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
-<script src="{% static 'project_static/vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/jszip/dist/jszip.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/pdfmake/build/pdfmake.min.js' %}"></script>
-<script src="{% static 'project_static/vendors/pdfmake/build/vfs_fonts.js' %}"></script>
-<script src="{% static 'project_static/other/js/select2/select2.js' %}"></script>
-<script src="{% static 'project_static/other/js/sweetalert.min.js' %}"></script>
-<script src="{% static 'project_static/other/js/bootstrap-touchspin-master/dist/jquery.bootstrap-touchspin.js' %}"></script>
-<script src="{% static 'project_static/other/js/ventas/forms.js' %}"></script>
-<script src="{% static 'project_static/other/js/functions/functions.js' %}"></script>
-<script src="{% static 'project_static/vendors/validator/multifield.js' %}"></script>
-<script src="{% static 'project_static/vendors/validator/validator.js' %}"></script>
+
 
 <script>
     var action = '{{ accion|safe }}';
@@ -237,28 +204,6 @@
     $.datepicker.setDefaults($.datepicker.regional['es']);
 
     $(function () {
-        // initialize a validator instance from the "FormValidator" constructor.
-        // A "<form>" element is optionally passed as an argument, but is not a must
-        var validator = new FormValidator({
-            "events": ['blur', 'input', 'change']
-        }, document.forms[0]);
-        // on form "submit" event
-        document.forms[0].onsubmit = function (e) {
-            var submit = true,
-                validatorResult = validator.checkAll(this);
-            return !!validatorResult.valid;
-        };
-        // on form "reset" event
-        document.forms[0].onreset = function (e) {
-            validator.reset();
-        };
-        // stuff related ONLY for this demo page:
-        $('.toggleValidationTooltips').change(function () {
-            validator.settings.alerts = !this.checked;
-            if (this.checked)
-                $('form .alert').remove();
-        }).prop('checked', false);
-
         $('form input').on("cut copy paste", function (e) {
             e.preventDefault();
         });
@@ -339,7 +284,7 @@
         $('#search').select2({
             ajax: {
                 type: 'POST',
-                url: '/factura/get_producto_servicio_factura/',
+                url: '/ventas/get_producto_servicio_factura/',
                 delay: 250,
                 data: function (params) {
                     return {
@@ -385,4 +330,4 @@
     }
 
 </script>
-{% endblock javascripts %}
+{% endblock js_page %}

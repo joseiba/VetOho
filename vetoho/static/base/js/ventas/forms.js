@@ -158,7 +158,7 @@ $(function () {
 
     $('.btnRemoveAll').on('click', function () {
         if (factura.items.products.length === 0) return false;
-        alert_delete('Notificación', '¿Estás seguro de eliminar todos los detalles de la factura', function () {
+        alert_delete('Notificación', '¿Estás seguro de eliminar todos los detalles de la factura?', function () {
             factura.items.products = [];
             factura.list();
         });
@@ -284,3 +284,31 @@ function add_miles(value){
                         .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
 }
 
+function alert_delete(title, content, callback) {
+    Swal.fire({
+        title: title,
+        text: content,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        showCancelButton: true,
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: '#007bff',
+        reverseButtons:true,
+    })
+    .then((willDelete) => {
+        if (willDelete.isConfirmed) {
+            Swal.fire({
+                text: "Se ha eliminado correctamente",
+                icon: "success",
+                confirmButtonColor: '#007bff',
+            });
+            callback();
+        } else {
+            Swal.fire({
+                title: "Cancelado",
+                confirmButtonColor: '#3085d6',
+            });
+        }
+    });
+}
