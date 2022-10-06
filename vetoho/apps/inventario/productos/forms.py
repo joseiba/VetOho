@@ -43,6 +43,7 @@ class ProductoForm(forms.ModelForm):
                 #'placeholder': 'Fecha de Baja'}),
             #'fecha_movimiento' : forms.TextInput(attrs={'class':'form-control','type':'text', 'autocomplete': 'off' ,
                 #'name': 'fecha_movimiento', 'placeholder': 'Fecha de Movimiento'}),
+            'iva' : forms.Select(attrs={'class':'form-control', 'id': 'iva','required':'required' ,'name':'iva'}),
             'fecha_compra' : forms.TextInput(attrs={'class':'form-control','type':'text', 'name': 'fecha_compra', 'autocomplete': 'off' ,
                 'placeholder': 'Fecha de Compra', 'readonly': 'readonly'}),
 			'precio_compra': forms.TextInput(attrs={'class':'form-control','name': 'precio_compra', 'autocomplete': 'off' ,'placeholder': 'Precio de compra', 'onkeyup':'aceptarNumeros(this)', 'value':'0', 'disabled': 'disabled'}),

@@ -45,7 +45,10 @@ class Producto(models.Model):
     """
     Clase que define la estructura de un producto
     """
-
+    opciones = (
+        ('1', '5%'),
+        ('2', '10%'),
+    )
     nombre_producto = models.CharField(max_length = 500, help_text = "Ingrese nombre del producto")
     descripcion = models.CharField(max_length = 500, help_text = "Ingrese descripcion del producto")
     fecha_vencimiento = models.CharField(max_length = 200,null = True, blank = True)
@@ -58,6 +61,7 @@ class Producto(models.Model):
     stock_minimo = models.IntegerField(help_text = 'Ingrese stock minimo')
     lote = models.CharField(max_length = 200, null = True, blank = True)
     stock = models.IntegerField(help_text = 'Ingrese stock minimo')
+    iva = models.CharField(max_length=5, choices=opciones, help_text='Debe seleccionar el iva')
     #stock_total = models.IntegerField(null=True, blank=True)
     #stock_movido = models.IntegerField(blank = True, null=True, default=0)
     #servicio_o_producto = models.CharField(max_length=2, default="P", blank=True, null=True)
