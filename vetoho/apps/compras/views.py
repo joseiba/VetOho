@@ -396,15 +396,15 @@ def agregar_factura_compra(request):
                 factura_id = FacturaCompra.objects.get(id=factura.id)
                 for i in factura_dict['products']:
                     detalle = FacturaDet()
-                    historico = HistoricoProductoPrecio()
+                    #historico = HistoricoProductoPrecio()
                     detalle.id_factura = factura_id    
                     producto_id = Producto.objects.get(id=i['codigo_producto'])
-                    historico.id_producto = producto_id
-                    historico.precio_compra = i['precio_compra']
-                    historico.fecha_alta = factura_dict['fecha_emision']
+                    #historico.id_producto = producto_id
+                    #historico.precio_compra = i['precio_compra']
+                    #historico.fecha_alta = factura_dict['fecha_emision']
                     producto_id.precio_compra = i['precio_compra']
                     producto_id.save()
-                    historico.save() 
+                    #historico.save() 
                     detalle.precio_compra = i['precio_compra']
                     detalle.id_producto = producto_id
                     detalle.cantidad = int(i['cantidad'])
@@ -413,10 +413,12 @@ def agregar_factura_compra(request):
                 response = {'mensaje':mensaje }
                 return JsonResponse(response)
             except Exception as e:
+                print("B try"+str(e))
                 mensaje = 'error'
                 response = {'mensaje':mensaje }
                 return JsonResponse(response)
         except Exception as e:
+            print("A try"+str(e))
             mensaje = 'error'
             response = {'mensaje':mensaje }
         return JsonResponse(response)
@@ -448,6 +450,7 @@ def add_factura_compra():
                             detalle.descripcion = i.descripcion
                             detalle.save()
             except Exception as e:
+                print("PenUltimo try"+str(e))
                 try:        
                     factura = FacturaCompra()
                     factura.id_pedido_cabecera = pediCabecera
@@ -463,6 +466,7 @@ def add_factura_compra():
                         detalle.descripcion = i.descripcion
                         detalle.save()
                 except Exception as e:
+                    print("Ultimo try"+str(e))
                     pass
 
 @login_required()
@@ -496,15 +500,15 @@ def edit_factura_compra(request, id):
                 detailFact.delete()
                 for i in factura_dict['products']:
                     detalle = FacturaDet()
-                    historico = HistoricoProductoPrecio()
+                    #historico = HistoricoProductoPrecio()
                     detalle.id_factura = factura
                     producto_id = Producto.objects.get(id=i['codigo_producto'])
-                    historico.id_producto = producto_id
-                    historico.precio_compra = i['precio_compra']
-                    historico.fecha_alta = factura_dict['fecha_emision']
+                    #historico.id_producto = producto_id
+                    #historico.precio_compra = i['precio_compra']
+                    #historico.fecha_alta = factura_dict['fecha_emision']
                     producto_id.precio_compra = i['precio_compra']
                     producto_id.save()
-                    historico.save()
+                    #historico.save()
                     detalle.precio_compra = i['precio_compra']
                     detalle.id_producto = producto_id
                     detalle.cantidad = int(i['cantidad'])

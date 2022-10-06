@@ -143,6 +143,25 @@ var factura = {
     }
 }
 
+function all_delete(title, content, callback) {
+    Swal.fire({
+        title: title,
+        text: content,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            Swal.fire("Se ha eliminado correctamente", {
+                icon: "success",
+            });
+            callback();
+            } else {
+                Swal.fire("Cancelado");
+            }
+    });
+}
 $(function () {
     $('#search').on('select2:select', function (e) {
         var data = e.params.data;
@@ -155,7 +174,7 @@ $(function () {
 
     $('.btnRemoveAll').on('click', function () {
         if (factura.items.products.length === 0) return false;
-        alert_delete('Notificación', '¿Estás seguro de eliminar todos los detalles de la factura', function () {
+        all_delete('Notificación', '¿Estás seguro de eliminar todos los detalles de la factura', function () {
             factura.items.products = [];
             factura.list();
         });

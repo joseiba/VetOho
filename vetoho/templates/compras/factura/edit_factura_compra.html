@@ -159,11 +159,11 @@
                                 </div>
                                 <div class="tile-footer">
                                     
-                                    {% if caja_abierta == "S"  %}
+                                    
                                         <button type="submit" class="btn btn-primary" id="button_factura" style="color: white"><i
-                                            class="fa fa-fw fa-lg fa-check-circle"></i>Agregar Factura
+                                            class="fa fa-fw fa-lg fa-check-circle"></i>Editar Factura
                                         </button>
-                                    {% endif %}                                        
+                                                                   
                                     &nbsp;&nbsp;&nbsp;
                                     <a class="btn btn-secondary" href="{% url 'list_factura_compra' %}">
                                         <i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
@@ -184,6 +184,8 @@
 <!-- Datatables -->
 <script>
     var action = '{{ accion|safe }}';
+
+    var precio_compra_action = '{{ factuCompra.factura_cargada_pedido }}'
     
     $.datepicker.regional['es'] = {
         closeText: 'Cerrar',
@@ -207,11 +209,26 @@
     $(function () {
                 // initialize a validator instance from the "FormValidator" constructor.
         // A "<form>" element is optionally passed as an argument, but is not a must
-      
+       /* var validator = new FormValidator({
+            "events": ['blur', 'input', 'change']
+        }, document.forms[0]);
         // on form "submit" event
-  
+        document.forms[0].onsubmit = function (e) {
+            var submit = true,
+                validatorResult = validator.checkAll(this);
+            return !!validatorResult.valid;
+        };
+        // on form "reset" event
+        document.forms[0].onreset = function (e) {
+            validator.reset();
+        };*/
         // stuff related ONLY for this demo page:
-       
+        $('.toggleValidationTooltips').change(function () {
+            validator.settings.alerts = !this.checked;
+            if (this.checked)
+                $('form .alert').remove();
+        }).prop('checked', false);
+        
         $('form input').on("cut copy paste", function (e) {
             e.preventDefault();
         });
@@ -309,9 +326,9 @@
             var fecha_vencimiento = $("input[name='fecha_vencimiento']").val()
             if (fecha_emision != "" && fecha_vencimiento != "") {
                 if(!compareDate(fecha_emision, fecha_vencimiento)){
-                    Swal.fire({
+                    swal({
                         title: "Notificación",
-                        text: "El nº de timbrado ha caducado!",
+                        text: "La fecha inicio y fin del timbrado ha caducado!",
                         icon: "warning",
                         button: "Ok",
                     })
@@ -351,10 +368,11 @@
             }
             return false
         }
+        factura.items.products = {{ det|safe }};
+        factura.list();
     })
 
 </script>
 
 
 {% endblock js_page %}"
-  

@@ -1,6 +1,9 @@
 var tblPedido;
 
 // Estructura para el detalle de pedidos
+
+
+
 var pedido = {
     items: {    
         products: []
@@ -95,6 +98,25 @@ var pedido = {
     }
 }
 
+function all_delete(title, content, callback) {
+    Swal.fire({
+        title: title,
+        text: content,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            Swal.fire("Se ha eliminado correctamente", {
+                icon: "success",
+            });
+            callback();
+            } else {
+                Swal.fire("Cancelado");
+            }
+    });
+}
 
 $(function () {
     $('#search').on('select2:select', function (e) {
@@ -110,7 +132,7 @@ $(function () {
 
     $('.btnRemoveAll').on('click', function () {
         if (pedido.items.products.length === 0) return false;
-        alert_delete('Notificación', '¿Estás seguro de eliminar todos los detalles del pedido', function () {
+        all_delete('Notificación', '¿Estás seguro de eliminar todos los detalles del pedido', function () {
             pedido.items.products = [];
             pedido.list();
         });
@@ -130,7 +152,7 @@ $(function () {
         e.preventDefault();       
         var parameters = new FormData();
         if(pedido.items.products.length == 0){
-            swal({
+            Swal.fire({
                 title: "Notificación",
                 text: "Debe cargar al menos un producto para el pedido!",
                 icon: "warning",
