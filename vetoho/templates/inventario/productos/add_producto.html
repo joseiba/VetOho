@@ -88,6 +88,14 @@
                         </div>
                     </div> -->
                     </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Iva<span class="required">*</span></label>
+                                {{ form.iva}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -127,7 +135,7 @@
         if (tipo !== "" && tipo != null) {
             $.ajax({
                 type: 'GET',
-                url: '/tipoProducto/vence_si_no/',
+                url: '/producto/tipoProducto/vence_si_no/',
                 data: { 'tipo': tipo },
                 success: function (response) {
                     if (response.mensaje == 'S') {
