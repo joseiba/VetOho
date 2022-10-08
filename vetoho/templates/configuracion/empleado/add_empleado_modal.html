@@ -6,11 +6,8 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        {% if from_add != 'S' %}
-        <form action="{% url 'add_servicio' %}" method="post">
-    {%else%}
-        <form action="{% url 'add_servicio_from_empleado' %}" method="post">
-    {%endif%}            {% csrf_token %}
+        <form action="{% url 'add_empleado' %}" method="post">
+             {% csrf_token %}
             <div class="row p-2">
                 <div class="col-md-4">
                     <div class="form-group">
