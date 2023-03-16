@@ -22,7 +22,7 @@
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
         <img src="{% static 'base/img/AdminLTELogo.png' %}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">NOMBRE WEB</span>
+        <span class="brand-text font-weight-light">VETOHA</span>
     </a>
 
     <!-- Sidebar -->
@@ -98,7 +98,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-shopping-cart"></i>
                         <p> Ventas <i class="right fas fa-angle-left"></i>
@@ -112,9 +112,9 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> {% endcomment %}
 
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-shopping-bag"></i>
                         <p> Inventario <i class="right fas fa-angle-left"></i>
@@ -148,8 +148,8 @@
                         </li>
                         {% endif %}
                     </ul>
-                </li>
-                        <!-- <li class="nav-item">
+                </li> {% endcomment %}
+                <!-- <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="fab fa-cc-amazon-pay"></i>
                                 <p>Deudas a Pagar</p>
@@ -332,14 +332,14 @@
                     {% endif %}
 
                     {% if perms.configuracion.view_confiempresa %}
-                    <ul class="nav nav-treeview">
+                    {% comment %} <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{% url 'configuracion_inicial:confi_inicial' %}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Configuración Inicial</p>
                             </a>
                         </li>
-                    </ul>
+                    </ul> {% endcomment %}
                     {% endif %}
                     <!--<ul class="nav nav-treeview">
                         <li class="nav-item">
