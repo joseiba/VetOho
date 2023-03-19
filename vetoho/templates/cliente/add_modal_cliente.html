@@ -17,19 +17,19 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Nombre<span class="required">*</span></label>
+                            <label>Nombre<span class="required"></span></label>
                             {{ form.nombre_cliente}}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Apellido<span class="required">*</span></label>
+                            <label>Apellido<span class="required"></span></label>
                             {{form.apellido_cliente}}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Cédula<span class="required">*</span></label>
+                            <label>Cédula<span class="required"></span></label>
                             {{form.cedula}}
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Teléfono<span class="required">*</span></label>
+                            <label>Teléfono<span class="required"></span></label>
                             {{form.telefono}}
                         </div>
                     </div>
@@ -57,13 +57,13 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Ciudad<span class="required">*</span></label>
+                            <label>Ciudad<span class="required"></span></label>
                             {{ form.id_ciudad}}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label>Dirección<span class="required">*</span></label>
+                            <label>Dirección<span class="required"></span></label>
                             {{form.direccion}}
                         </div>
                     </div>
@@ -89,5 +89,51 @@
         $('#id_ciudad').on('change', function () {
             $(this).valid();
         }); 
+
+
+        $("#form").validate({
+            rules: {
+                nombre_cliente: {required: true},
+                apellido_cliente: {required: true},
+                cedula: {required: true},
+                telefono: {required: true},
+                ruc: {required: false},
+                email: {required: false},
+                id_ciudad: {required: true},
+                direccion: {required: true},
+
+            },
+            messages: {
+                nombre_cliente : "* El campo es requerido",
+                apellido_cliente : "* El campo es requerido",
+                cedula : "* El campo es requerido",
+                telefono : "* El campo es requerido",
+                id_ciudad : "* Debe seleccionar una ciudad",
+                email : "* Ingrese un email válido, ej: abc@gmail.com",
+                direccion : "* El campo es requerido",
+            },
+            errorElement: 'span',
+            highlight: function(element){
+                if (element.name == 'nombre_cliente' || element.name == 'apellido_cliente' || element.name == 'cedula' || element.name == 'telefono' || element.name == 'id_ciudad' || element.name == 'direccion') {
+                    $(element).closest('.form-control').addClass('is-invalid');
+                    $(element).closest('.form-control').removeClass('is-valid');
+                }
+            },
+            unhighlight: function(element){
+                if (element.name == 'nombre_cliente' || element.name == 'apellido_cliente' || element.name == 'cedula' || element.name == 'telefono' || element.name == 'id_ciudad' || element.name == 'direccion') {
+                    $(element).closest('.form-control').addClass('is-valid');
+                    $(element).closest('.form-control').removeClass('is-invalid');
+                }
+            },
+            errorPlacement: function (error, element) {
+                console.log(element);
+                if(element.hasClass("select2-hidden-accessible")) {
+                    $(element).closest('.form-control').addClass('select2-error');
+                    error.insertAfter(element.next('span'));
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
     })
 </script>
