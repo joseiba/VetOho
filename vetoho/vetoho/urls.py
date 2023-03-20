@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from cgitb import handler
 from django.conf.urls.static import static
-from config import settings
+from vetoho import settings
 
 #urls error page
 from apps.handler.views import handler_404, handler_500
