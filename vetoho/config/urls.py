@@ -1,4 +1,4 @@
-"""vetoho URL Configuration
+"""config URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from cgitb import handler
 from django.conf.urls.static import static
-from vetoho import settings
+from config import settings
 
 #urls error page
 from apps.handler.views import handler_404, handler_500
