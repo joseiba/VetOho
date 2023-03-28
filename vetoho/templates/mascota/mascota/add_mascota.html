@@ -92,6 +92,8 @@
       <div class="x_content">
         <div class="">
             <form enctype="multipart/form-data" action="{% url 'mascota:add_mascota' %}" method="POST">
+
+
                 {% csrf_token %}
                     <section class="content">
       <div class="container-fluid">
@@ -105,14 +107,14 @@
                   <img class="card-img-top rd-card-img profile-pic"
                      src="{% static 'base/img/test.jfif' %}" alt="">
                 </div>                
-                  <div class="text_align_center">
+                  <div class="text_align_center" style="display: grid">
                     <div class="btn btn-outline-primary">
                       <span for="imageInput">Agregar Foto</span>
                       <input type="file" name="imagen" accept="image/*" id="imageInput">
                     </div>
-                  <button type="button" class="btn btn-outline-danger"
+                  <label class="btn btn-outline-danger mt-3"
                       id="delete-photo">Eliminar
-                      Foto</button>      
+                      Foto</label>      
                   </div>                          
                 </div>
               <!-- /.card-body -->

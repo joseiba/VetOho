@@ -210,3 +210,23 @@ def add_mascota(request):
             return redirect('/mascota/add')
     context = {'form' : form}
     return render(request, 'mascota/mascota/add_mascota.html', context)
+
+
+@login_required()
+@permission_required('mascota.view_mascota')
+def edit_mascota(request, id):
+    mascota = Mascota.objects.get(id=id)
+    form = MascotaForm(instance=mascota)
+    if request.method == 'POST':
+        form = MascotaForm(request.POST, request.FILES, instance=mascota)
+        if not form.has_changed():
+            messages.info(request, "No has hecho ningun cambio!")
+            return redirect('/mascota/edit/' + str(id))
+        if form.is_valid():
+            mascota = form.save(commit=False)
+            mascota.save()
+            messages.success(request, 'Se ha editado correctamente!')
+            return redirect('/mascota/edit/' + str(id))
+
+    context = {'form': form, 'mascota': mascota}
+    return render(request, 'mascota/mascota/edit_mascota.html', context)
