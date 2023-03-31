@@ -87,20 +87,20 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#      'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'VETOHOBD',
-#         'USER': 'postgres',
-#         'PASSWORD': 'postgres',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-
 DATABASES = {
-     'default': dj_database_url.parse('postgres://vetohaprd_user:OsgRxpuhGuXNMVDLbjysAz4izxyHHob3@dpg-cgbovhg2qv267u9rb890-a.ohio-postgres.render.com/vetohaprd')
+     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'VETOHOBD',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
 }
+
+# DATABASES = {
+#      'default': dj_database_url.parse('postgres://vetohaprd_user:OsgRxpuhGuXNMVDLbjysAz4izxyHHob3@dpg-cgbovhg2qv267u9rb890-a.ohio-postgres.render.com/vetohaprd')
+# }
 
 
 # Password validation
