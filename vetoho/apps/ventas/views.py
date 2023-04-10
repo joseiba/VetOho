@@ -221,7 +221,7 @@ def edit_factura_venta(request, id):
             mensaje = 'error'
             response = {'mensaje':mensaje }
         return JsonResponse(response)
-    context = {'form': form, 'det': json.dumps(get_detalle_factura(id)), 'accion': 'E', 'confi': confi}
+    context = {'form': form, 'det': json.dumps(get_detalle_factura(id)), 'accion': 'E', 'confi': confi, 'venta':factVenta}
     return render(request, 'ventas/edit_factura_venta.html', context)
 
 
