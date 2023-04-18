@@ -62,7 +62,7 @@ class Producto(models.Model):
     lote = models.CharField(max_length = 200, null = True, blank = True)
     stock = models.IntegerField(help_text = 'Ingrese stock minimo')
     iva = models.CharField(max_length=5, choices=opciones, help_text='Debe seleccionar el iva')
-    #stock_total = models.IntegerField(null=True, blank=True)
+    stock_total = models.IntegerField(null=True, blank=True)
     #stock_movido = models.IntegerField(blank = True, null=True, default=0)
     #servicio_o_producto = models.CharField(max_length=2, default="P", blank=True, null=True)
     #producto_vencido = models.CharField(max_length=2, default="N", blank=True, null=True)
