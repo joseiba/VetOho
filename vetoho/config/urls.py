@@ -106,6 +106,9 @@ urlpatterns = [
     
     #Vacunas
     path('configuracion/', include(('apps.configuracion.tipo_vacuna.urls','tipo_vacuna'), namespace='tipo_vacuna')),
+    
+    #Vacunas
+    path('reserva/', include(('apps.agendamientos.urls','reserva'), namespace='reserva')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

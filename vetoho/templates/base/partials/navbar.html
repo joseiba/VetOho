@@ -70,38 +70,62 @@
                         </li>
                     </ul>
                 </li> -->
-                <li class="nav-item">
-                    <a href="{% url 'list_cliente' %}" class="nav-link">
-                    <i class="nav-icon far fa-id-card"></i>
-                        <p>Clientes</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-light fa-paw"></i>
-                        <p> Mascotas <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'mascota:list_especie' %}" class="nav-link">
-                                
-                                <p>Lista de Especies</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'mascota:list_raza' %}" class="nav-link">
-                                
-                                <p>Lista de Razas</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'mascota:list_mascotas' %}" class="nav-link">                                
-                                <p>Lista de Mascotas</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                {% if perms.cliente.view_cliente %}
+
+                    <li class="nav-item">
+                        <a href="{% url 'list_cliente' %}" class="nav-link">
+                        <i class="nav-icon far fa-id-card"></i>
+                            <p>Clientes</p>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if perms.reserva.view_reserva %}
+                    <li class="nav-item">
+                        <a href="{% url 'reserva:list_reserva' %}" class="nav-link">
+                        <i class="nav-icon fas fa-calendar-alt"></i>
+                            <p>Agendamientos</p>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if perms.mascota.view_especie or perms.mascota.view_raza or perms.mascota.view_mascota %}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-light fa-paw"></i>
+                            <p> Mascotas <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            {% if perms.mascota.view_especie %}
+
+                                <li class="nav-item">
+                                    <a href="{% url 'mascota:list_especie' %}" class="nav-link">
+                                        
+                                        <p>Lista de Especies</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% if perms.mascota.view_raza %} 
+                                <li class="nav-item">
+                                    <a href="{% url 'mascota:list_raza' %}" class="nav-link">
+                                        
+                                        <p>Lista de Razas</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% if perms.mascota.view_mascota %}
+
+                                <li class="nav-item">
+                                    <a href="{% url 'mascota:list_mascotas' %}" class="nav-link">                                
+                                        <p>Lista de Mascotas</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                {% endif %}
 
                 {% comment %} <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -265,123 +289,135 @@
                         </li>
                     </ul>
                 </li>-->
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p> Usuarios <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'list_usuarios' %}" class="nav-link">
-                                <i class="fas fa-users"></i>
-                                <p>Usuarios</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'add_rol' %}" class="nav-link">
-                                <i class="fas fa-clipboard"></i>
-                                <p>Roles</p>
-                            </a>
-                        </li>
-                    </ul>
-                    {% if perms.usuario.change_user %}
-                        <ul class="nav nav-treeview">
+                {% if perms.usuario.view_user %}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p> Usuarios <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        {% if perms.usuario.view_user %}
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{% url 'list_usuarios' %}" class="nav-link">
+                                        <i class="fas fa-users"></i>
+                                        <p>Usuarios</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+
+                        {% if perms.usuario.add_user  %}
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{% url 'add_rol' %}" class="nav-link">
+                                        <i class="fas fa-clipboard"></i>
+                                        <p>Roles</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+
+                        {% if perms.usuario.change_user %}
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{% url 'change_password' user.id %}" class="nav-link">
+                                        <i class="fas fa-pen"></i>
+                                        <p>Cambiar Contraseña</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </li> 
+                {% endif %}    
+                {% if perms.configuracion.add_confiempresa or perms.configuracion.view_confiempresa %}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-box"></i>
+                            <p> Configuraciones <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        {% if perms.configuracion.view_confiempresa %}
+
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{% url 'list_ciudades' %}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Lista de Ciudades</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+
+                        {% if perms.configuracion.view_confiempresa %}
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{% url 'list_servicio' %}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Lista de Servicios</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+
+                        {% if perms.configuracion.view_confiempresa %}
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{% url 'list_empleado' %}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Lista de Empleados</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+
+                        {% if perms.configuracion.view_confiempresa %}
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{% url 'tipo_vacuna:list_vacunas' %}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Lista de Vacunas</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+
+                        {% if perms.configuracion.view_confiempresa %}
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{% url 'configuracion_inicial:confi_inicial' %}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Configuración Inicial</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                        <!--<ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{% url 'change_password' user.id %}" class="nav-link">
-                                    <i class="fas fa-pen"></i>
-                                    <p>Cambiar Contraseña</p>
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>IVA's</p>
+                                </a>
+                            </li>
+                        </ul>-->
+                        <!-- <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Timbrado</p>
                                 </a>
                             </li>
                         </ul>
-                    {% endif %}
-                </li> 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-box"></i>
-                        <p> Configuraciones <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'list_ciudades' %}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Lista de Ciudades</p>
-                            </a>
-                        </li>
-                    </ul>
-                    
-                    {% if perms.configuracion.view_servicio %}
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'list_servicio' %}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Lista de Servicios</p>
-                            </a>
-                        </li>
-                    </ul>
-                    {% endif %}
-
-                    {% if perms.empleado.view_empleado %}
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'list_empleado' %}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Lista de Empleados</p>
-                            </a>
-                        </li>
-                    </ul>
-                    {% endif %}
-
-                    {% if perms.tipo_vacuna.view_tipovacuna %}
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'tipo_vacuna:list_vacunas' %}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Lista de Vacunas</p>
-                            </a>
-                        </li>
-                    </ul>
-                    {% endif %}
-
-                    {% if perms.configuracion.view_confiempresa %}
-                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{% url 'configuracion_inicial:confi_inicial' %}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Configuración Inicial</p>
-                            </a>
-                        </li>
-                    </ul>
-                    {% endif %}
-                    <!--<ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>IVA's</p>
-                            </a>
-                        </li>
-                    </ul>-->
-                    <!-- <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Timbrado</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Egreso Máximo</p>
-                            </a>
-                        </li>
-                    </ul> -->
-                </li>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Egreso Máximo</p>
+                                </a>
+                            </li>
+                        </ul> -->
+                    </li>
+                {% endif %}    
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
