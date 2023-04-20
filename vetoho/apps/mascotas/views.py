@@ -237,6 +237,23 @@ def edit_mascota(request, id):
     context = {'form': form, 'mascota': mascota}
     return render(request, 'mascota/mascota/edit_mascota.html', context)
 
+@login_required()
+def search_mascota(request):
+    query = request.GET.get('q')
+    if query:
+        mascota = Mascota.objects.filter(
+            Q(nombre_mascota__icontains=query) | 
+            Q(id_cliente__nombre_cliente__icontains=query) | 
+            Q(id_cliente__apellido_cliente__icontains=query))
+    else:
+        mascota = Mascota.objects.all().order_by('-last_modified')
+    paginator = Paginator(mascota, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = { 'page_obj': page_obj}
+    return render(request, "mascota/mascota/list_mascota.html", context)
+
+
 #Funciones de Ficha Medicas
 @login_required()
 @permission_required('mascota.view_mascota')
