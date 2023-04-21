@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'apps.utiles',
     'apps.mascotas',
     'apps.ventas',
+    'apps.configuracion.tipo_vacuna',
+    "apps.agendamientos"
 ]
 
 MIDDLEWARE = [

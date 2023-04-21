@@ -237,3 +237,22 @@ def list_producto_general_ajax(request):
         'recordsFiltered': total,
     }
     return JsonResponse(response)
+
+
+@csrf_exempt
+def get_producto_antiparasitario(request):
+    data = {}
+    try:
+        term = request.POST['term']
+        if (request.POST['action'] == 'search_products'):
+            data = []
+            prods = Producto.objects.exclude(is_active='N').filter(nombre_producto__icontains=term)[0:10]
+            for p in prods:
+                item = p.obtener_dict()
+                item['id'] = p.id
+                producto_desc = '%s' % (p.nombre_producto)
+                item['text'] = producto_desc
+                data.append(item)    
+    except Exception as e:
+        data['error'] = str(e)
+    return JsonResponse(data, safe=False)
