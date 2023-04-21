@@ -68,6 +68,10 @@
 <!-- Datatables -->
 <script>
     $(document).on('click', '#close_button, #close_x', function () {
+      sessionStorage.removeItem("id_cliente")
+      sessionStorage.removeItem("servicio")
+      sessionStorage.removeItem("id_mascota")
+      sessionStorage.removeItem("id_empleado")
         window.location.reload()
     });
 

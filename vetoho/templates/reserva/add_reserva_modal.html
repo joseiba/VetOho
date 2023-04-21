@@ -82,7 +82,18 @@
         $(document).on('click', '#confirmDeleteButtonModal', function () {
             var id = $(this).data("id-reserva")
             var url = '/reserva/bajaReserva/' + id;
+            sessionStorage.removeItem("id_cliente")
+            sessionStorage.removeItem("servicio")
+            sessionStorage.removeItem("id_mascota")
+            sessionStorage.removeItem("id_empleado")
             window.location = url;
+        })
+
+        $(document).on("click", "#close_x", function(){
+            sessionStorage.removeItem("id_cliente")
+            sessionStorage.removeItem("servicio")
+            sessionStorage.removeItem("id_mascota")
+            sessionStorage.removeItem("id_empleado")
         })
 
         $('form input').on("cut copy paste", function (e) {
