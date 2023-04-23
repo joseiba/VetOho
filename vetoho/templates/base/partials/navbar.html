@@ -143,7 +143,7 @@
                     </ul>
                 </li> {% endcomment %}
 
-                {% comment %} <li class="nav-item">
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-shopping-bag"></i>
                         <p> Inventario <i class="right fas fa-angle-left"></i>
@@ -160,12 +160,12 @@
                         {% endif %}
 
                         {% if perms.depositos.view_deposito %}
-                        <!-- <li class="nav-item">
+                            <li class="nav-item">
                             <a href="{% url 'deposito:list_deposito' %}" class="nav-link">
                                 <i class="fas fa-shopping-basket"></i>
                                 <p>Depósitos</p>
                             </a>
-                        </li> -->
+                        </li> 
                         {% endif %}
 
                         {% if perms.productos.view_producto %}
@@ -177,7 +177,7 @@
                         </li>
                         {% endif %}
                     </ul>
-                </li> {% endcomment %}
+                </li> 
                 <!-- <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="fab fa-cc-amazon-pay"></i>
