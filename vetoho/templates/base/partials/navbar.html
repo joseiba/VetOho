@@ -176,6 +176,15 @@
                             </a>
                         </li>
                         {% endif %}
+
+                        {% if perms.producto.view_inventario %}
+                        <li class="nav-item">
+                            <a href="{% url 'producto:list_ajustar_inventario' %}" class="nav-link">
+                                <i class="fas fa-shopping-basket"></i>
+                                <p>Ajustar Inventario</p>
+                            </a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </li> 
                 <!-- <li class="nav-item">

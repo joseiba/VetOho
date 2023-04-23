@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load static %}
 
-{% block title %} Historial Ajuste Inventario {% endblock title %}
+{% block title %} Ajuste Inventario {% endblock title %}
 
 {% block css %}
 {{ block.super }}
@@ -17,13 +17,13 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Historial Ajuste Inventario
+        <h1>Ajuste Inventario
         </h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
-          <li class="breadcrumb-item active">Historial Ajuste Inventario</li>
+          <li class="breadcrumb-item active">Ajuste Inventario</li>
         </ol>
       </div>
     </div>
@@ -38,19 +38,26 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
+            {% if perms.producto.view_inventario %}
+            <button type="submit" class="btn btn-success float-right">
+                <a style="color: white;" href="{% url 'producto:list_ajustar_historial_inventario' %}">Ver historial Ajustes</a>
+            </button>
+            {% endif %}
 
+            
             {% if perms.producto.add_inventario %}
             <button type="submit" class="btn btn-primary float-right">
                 <a style="color: white;" href="{% url 'producto:add_ajuste_inventario' %}">Agregar Nuevo Ajuste</a>
             </button>
             {% endif %}
 
+
             <div class="float-left">
               <div class="wrap">
                 <div class="input-group">
                   <input type="search" class="form-control searchTerm" id="searchTerm"
                     placeholder="Buscar" data-toggle="tooltip" data-placement="top"
-                    title="Busca por nombre de producto, codigo y tipo de producto">
+                    title="Buscar por nombre de producto, codigo y tipo de producto">
                   <div class="input-group-append">
                     <button type="button" class="btn btn-default searchButton" type="button" id="busqueda">
                       <i class="fa fa-search"></i>
@@ -70,8 +77,6 @@
                     <th>Descripción</th>
                     <th>Stock En Sistema</th>
                     <th>Stock En Fisico</th>
-                    <th>Diferencia</th>
-                    <th>Fecha Ajuste</th>
                 </tr>
               </thead>
               <tbody>
@@ -103,11 +108,12 @@
 
     var get_list = function (busqueda) {
         $("#list_producto").DataTable({
-            destroy: true,          
+            destroy: true,           
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todo"]],
             searching: false,
             pageLength: 10,
             ajax: {
-                url: "/producto/list_ajuste_inventario_historial_ajax/",
+                url: "/producto/list_ajuste_inventario_ajax/",
                 type: 'GET',
                 datatype: 'json',
                 data: { 'busqueda': busqueda },
@@ -136,20 +142,13 @@
                 {
                     name: 'Stock En Fisico',
                     data: 'stock_fisico',
-                    
-                },
-                {
-                    name: 'Diferencia',
-                    data: 'diferencia',
-                    
-                },
-                {
-                    name: 'Fecha Ajuste',
-                    data: 'fecha_ajuste',
+                    render: function(data){
+                        return "";
+                    }
                 },
             ],
             columnDefs: [{
-                targets: [], // column index (start from 0)
+                targets: [4], // column index (start from 0)
                 orderable: false, // set orderable false for selected columns
             }],
             serverSide: false,
@@ -196,7 +195,6 @@
             get_list(busqueda)
         }
     })
-
     {% if messages %}
       {% for message in messages %}
         var text = "{{ message }}";

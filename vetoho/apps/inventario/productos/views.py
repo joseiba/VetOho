@@ -498,7 +498,7 @@ def list_ajuste_inventario_ajax(request):
 @permission_required('producto.add_inventario')
 def add_ajuste_inventario(request):
     mensaje = ""
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST' and is_ajax(request=request):
         try:
             ajustes_dict = json.loads(request.POST['ajuste'])
             try:
@@ -623,3 +623,7 @@ def get_historico_producto(request, id):
         'recordsFiltered': total,
     }
     return JsonResponse(response)
+
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
