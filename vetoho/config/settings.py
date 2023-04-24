@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'apps.mascotas',
     'apps.ventas',
     'apps.configuracion.tipo_vacuna',
-    "apps.agendamientos"
+    "apps.agendamientos",
+    "apps.compras"
 ]
 
 MIDDLEWARE = [

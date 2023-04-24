@@ -187,117 +187,27 @@
                         {% endif %}
                     </ul>
                 </li> 
-                <!-- <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fab fa-cc-amazon-pay"></i>
-                                <p>Deudas a Pagar</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-shopping-cart"></i>
-                        <p> Ventas <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-shopping-cart"></i>
-                                <p>Ventas</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-money-bill-wave"></i>
-                                <p>Deudas a Cobrar</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p> Mercaderias <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Telas</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Telas en Oferta</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Categorias</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Diseños</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                {% if perms.compras.view_proveedor %}
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-cash-register"></i>
-                        <p> Caja <i class="right fas fa-angle-left"></i>
+                        <i class="nav-icon fas fa-shopping-bag"></i>
+                        <p> Compras <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-cash-register"></i>
-                                <p>Apertura Caja</p>
-                            </a>
-                        </li>
+                        {% if perms.compras.view_proveedor  %}
+                            <li class="nav-item">
+                                <a href="{% url 'compra:list_proveedor' %}" class="nav-link">
+                                    <i class="fas fa-store-alt"></i>
+                                    <p>Lista de Proveedores</p>
+                                </a>
+                            </li>
+                        {% endif %}                                                             
                     </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-landmark"></i>
-                                <p>Registrar Banco</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-hand-holding-usd"></i>
-                                <p>Registrar Movimiento</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-clipboard-list"></i>
-                        <p> Inventario <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-clipboard-list"></i>
-                                <p>Realizar Inventario</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>-->
+                </li> 
+                {% endif %}
+
                 {% if perms.usuario.view_user %}
                     <li class="nav-item">
                         <a href="#" class="nav-link">
