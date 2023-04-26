@@ -157,7 +157,7 @@ def add_factura_venta(request):
                     detalle.descripcion = i['description']
                     detalle.subtotal = "Gs. " + "{:,}".format(int(i['subtotal'])).replace(",",".")
                     detalle.save()
-                    producto.stock -= int(i['cantidad'])
+                    producto.stock_total -= int(i['cantidad'])
                     producto.save()
                 response = {'mensaje':mensaje }
                 return JsonResponse(response)
