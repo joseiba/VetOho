@@ -150,7 +150,7 @@
                       render: function (data) {     
                           var buttons = ""                       
                           {% if perms.compras.change_proveedor %}
-                              buttons += '<button class="btn btn-warning" onclick="abrir_modal_edicion(\'/compra/editProveedor/' + data + '/\');">\
+                              buttons += '<button class="btn btn-warning mr-1" onclick="abrir_modal_edicion(\'/compra/editProveedor/' + data + '/\');">\
                                                       Editar\
                                                   </button>';
                           {% endif %}
