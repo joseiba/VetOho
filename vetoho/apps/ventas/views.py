@@ -152,7 +152,7 @@ def add_factura_venta(request):
                     detalle.id_factura_venta_id = factura.id
                     producto = Producto.objects.get(id=i['codigo_producto'])
                     detalle.id_producto_id = producto.id
-                    #detalle.tipo = i['tipo']
+                    detalle.tipo = i['tipo']
                     detalle.cantidad = int(i['cantidad'])
                     detalle.descripcion = i['description']
                     detalle.subtotal = "Gs. " + "{:,}".format(int(i['subtotal'])).replace(",",".")

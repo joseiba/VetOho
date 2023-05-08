@@ -37,7 +37,7 @@ class ProductoForm(forms.ModelForm):
 			 'codigo_producto' : forms.TextInput(attrs={'class':'form-control', 'name': 'codigo_producto',
                 'autocomplete': 'off' ,'placeholder': 'Codigo Producto', 'onkeyup':'aceptarNumerosYLetras(this)'}),
             'nombre_producto': forms.TextInput(attrs={'class':'form-control', 'name': 'nombre_producto', 
-                'autocomplete': 'off' ,'placeholder': 'Nombre del producto', 'required': 'required', 'onkeyup':'aceptarLetras(this)'}),
+                'autocomplete': 'off' ,'placeholder': 'Nombre del producto', 'required': 'required', 'onkeyup':'aceptarNumerosYLetras(this)'}),
             'descripcion' : forms.TextInput(attrs={'class':'form-control', 'name': 'descripcion', 
                 'autocomplete': 'off' ,'placeholder': 'Descripcion', 'required': 'required', 'onkeyup':'aceptarNumerosYLetras(this)'}),
             'fecha_vencimiento' : forms.TextInput(attrs={'class':'form-control fecha_vencimiento','type':'text', 
