@@ -175,12 +175,34 @@ class FacturaDet(models.Model):
     detalle_cargado_mes = models.CharField(max_length=2, default="N", blank=True, null=True)
     descripcion = models.CharField(max_length=800, blank=True)
     id_producto = models.ForeignKey(Producto, on_delete=models.PROTECT, null=True)
+from django.db import models
+
+from datetime import datetime
+
+
+# Create your models here.
+date = datetime.now()
+class Proveedor(models.Model):
+    """[summary]
+
+    Args:
+        models ([Proveedor]): [Contiene la informacion de los proveedores]
+    """    
+    nombre_proveedor = models.CharField(max_length=500, help_text="Ingrese nombre del proveedor")
+    direccion = models.CharField(max_length=500, help_text="Ingrese la direccion")
+    ruc_proveedor = models.CharField(max_length=500, default="-", help_text="Ingrese el ruc del proveedor")
+    telefono = models.CharField(max_length = 500, help_text="Ingrese el telefono del proveedor")
+    email = models.EmailField(max_length = 500, help_text = "Ingrese email del proveedor", null=True, blank=True, default="-")
+    last_modified = models.DateTimeField(auto_now=True, blank=True)
+    is_active = models.CharField(max_length=2, default="S", blank=True, null=True)
 
     class Meta:
-        ordering = ['id']
+        verbose_name = "Proveedor"
+        verbose_name_plural = "Proveedores"
         default_permissions =  ()
         permissions = (
-            ('add_facturadet', 'Agregar Factura Compra'),
-            ('change_facturadet', 'Editar Factura Compra'),
-            ('delete_facturadet', 'Eliminar Factura Compra'),
-            ('view_facturadet', 'Listar Factura Compra'))
+            ('add_proveedor', 'Agregar Proveedor'),
+            ('change_proveedor', 'Editar Proveedor'),
+            ('delete_proveedor', 'Eliminar Proveedor'),
+            ('view_proveedor', 'Listar Proveedores'))
+

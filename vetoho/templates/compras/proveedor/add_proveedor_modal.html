@@ -1,71 +1,72 @@
+{% load static %}
+
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header no_borders">
-            <h5 class="modal-title" id="exampleModalLabel" >Agregar Proveedor</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <h5 class="modal-title" id="exampleModalLabel" style="color: black;">Agregar Proveedor</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"  style="color: black;">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <form action="{% url 'add_proveedor' %}" method="post">
+        <form action="{% url 'compra:add_proveedor' %}" method="post">
             {% csrf_token %}
             <div class="form-group mt-3 mr-3 ml-3">
                 <label class="label-align">Nombre Proveedor<span
                         class="required">*</span></label>
                 <div class="">
-                    {{ form.nombre_proveedor }}
+                        {{form.nombre_proveedor}}
                 </div>
-            </div>
+            </div>   
             <div class="form-group mt-3 mr-3 ml-3">
-                <label class="label-align">Dirección<span
-                        class="required">*</span></label>
-                <div class="">
-                    {{ form.direccion }}
+                <label class="label-align">Dirección
+                    <span class="required">*</span>
+                </label>
+                <div class="">                 
+                    {{ form.direccion}}
                 </div>
-            </div>
+            </div> 
+
             <div class="form-group mt-3 mr-3 ml-3">
                 <label class="label-align">Nro. RUC<span
                         class="required">*</span></label>
-                <div class="">
-                    {{ form.ruc_proveedor }}
+                <div class="">                   
+                        {{form.ruc_proveedor}}
                 </div>
-            </div> <div class="form-group mt-3 mr-3 ml-3">
-                <label class="label-align">Teléfono<span
+            </div>
+            <div class="form-group mt-3 mr-3 ml-3 mb-3">
+                <label class="label-align">Telefono<span
                         class="required">*</span></label>
-                <div class="">
-                    {{ form.telefono }}
+                <div class="">                
+                        {{form.telefono}}
                 </div>
-            </div>
+            </div> 
+            
             <div class="form-group mt-3 mr-3 ml-3">
-                <label class="label-align">Email </label>
-                <div class="">
-                    {{ form.email }}
+                <label class="label-align">Email</label>
+                <div class="">                   
+                        {{form.email}}
+                </div>
+                <div id="alert_email">
+
                 </div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Agregar</button>
+                <button type="submit" class="btn btn-primary" id="btn_confirmar">Agregar</button>
             </div>
         </form>
     </div>
 </div>
+
+<!-- validator -->
+
 
 <script>
     $(function(){
         $('form input').on("cut copy paste",function(e) {
             e.preventDefault();
         });
-
-        $("input[name='precio_servicio']").on({
-            "focus": function (event) {
-                $(event.target).select();
-            },
-            "keyup": function (event) {
-                $(event.target).val(function (index, value) {
-                    return value.replace(/\D/g, "")
-                        .replace(/([0-9])([0-9]{3})$/, '$1.$2')
-                        .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
-                });
-            }
-        });
-    });
+   
+    })
 </script>
