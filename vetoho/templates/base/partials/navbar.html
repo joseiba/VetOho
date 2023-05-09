@@ -202,7 +202,26 @@
                                     <p>Lista de Proveedores</p>
                                 </a>
                             </li>
-                        {% endif %}                                                             
+                        {% endif %}
+                        
+                        {% if perms.compras.view_pedidocabecera %}
+                        <li class="nav-item">
+                            <a href="{% url 'compra:list_pedido_compra' %}" class="nav-link">
+                                <i class="fas fa-store-alt"></i>
+                                <p>Lista de Pedidos</p>
+                            </a>
+                        </li>
+                    {% endif %}     
+
+                    {% if perms.compras.view_facturacompra %}
+                    <li class="nav-item">
+                        <a href="{% url 'compra:list_factura_compra' %}" class="nav-link">
+                            <i class="fas fa-store-alt"></i>
+                            <p>Lista de Facturas Compra</p>
+                        </a>
+                    </li>
+                {% endif %}     
+                                             
                     </ul>
                 </li> 
                 {% endif %}

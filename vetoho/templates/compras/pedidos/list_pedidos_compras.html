@@ -56,14 +56,14 @@
               {% if perms.compras.add_proveedor %}  
               <div class="float-right">
                 <button type="submit" class="btn btn-primary float-right">
-                    <a style="color: white;" href="{%url 'add_pedido_compra' %}">Agregar nuevo pedido</a>
+                    <a style="color: white;" href="{%url 'compra:add_pedido_compra' %}">Agregar nuevo pedido</a>
                 </button>
               </div>
               {% endif %}
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="list_pedidos" class="table table-bordered table-hover" style="width: 50%; margin: auto;">
+              <table id="list_pedidos" class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th >Nº Pedido</th>
@@ -107,7 +107,7 @@
  
     $(function () {
 
-        var caja_abierta = '{{ caja_abierta|safe }}';
+        //var caja_abierta = '{{ caja_abierta|safe }}';
 
         $('#searchTerm').on("cut copy paste", function (e) {
             e.preventDefault();
@@ -142,7 +142,7 @@
                         name: 'Acciones',
                         data: 'id',
                         render: function (data) {
-                            {% if perms.compras.change_pedidocabecera and caja_abierta == "S" %}
+                            {% if perms.compras.change_pedidocabecera %}//and caja_abierta == "S" %}
                             return '<button class="btn btn-warning">\
                                         <a href="/compra/editPedidoCompra/' + data + '/" style="color: black">\
                                             Editar\

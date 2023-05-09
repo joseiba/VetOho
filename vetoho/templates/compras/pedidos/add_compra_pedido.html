@@ -46,7 +46,7 @@
                                                         style="height: 20px; align-content: center">
                                                         <label>Eliminar todo</label>
                                                     </button>
-                                                    <table  class="table table-bordered table-hover" style="width: 50%; margin: auto;"  id="tblPedido">
+                                                    <table  class="table table-bordered table-hover"  id="tblPedido">
                                                         <thead>
                                                             <tr>
                                                                 <td class="text-center">Cod</td>
@@ -62,13 +62,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tile-footer mt-3">
-                                    <button type="" class="btn btn-primary" style="color: white"><i
-                                            class="fa fa-fw fa-lg fa-check-circle"></i>Registrar Pedido
-                                    </button>&nbsp;&nbsp;&nbsp;
-                                    <a class="btn btn-secondary" href="{% url 'list_pedido_compra' %}">
-                                        <i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
-                                </div>
+                              
+                            </div>
+                            <div class="tile-footer mt-3">
+                                <button type="" class="btn btn-primary" style="color: white"><i
+                                        class="fa fa-fw fa-lg fa-check-circle"></i>Registrar Pedido
+                                </button>&nbsp;&nbsp;&nbsp;
+                                <a class="btn btn-secondary" href="{% url 'compra:list_pedido_compra' %}">
+                                    <i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
                             </div>
                         </form>
                     </div>
