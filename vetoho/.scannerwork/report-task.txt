@@ -2,5 +2,5 @@ projectKey=sonar-scanner
 serverUrl=http://localhost:9000
 serverVersion=10.0.0.68432
 dashboardUrl=http://localhost:9000/dashboard?id=sonar-scanner
-ceTaskId=AYf-FJVw37-ZLSowsgxZ
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYf-FJVw37-ZLSowsgxZ
+ceTaskId=AYgC-g2i7RVmFyR1ggc_
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYgC-g2i7RVmFyR1ggc_

@@ -12,8 +12,8 @@
 {% endblock css %}
 
 {% block content %}
-<div class="right_col" role="main">
-    <div class="">
+<div class="right_col" role="main" >
+    <div class="" style="margin: 1rem">
         <div class="page-title">
             <div class="title_left">
                 <h3>Agregar Factura Compra</h3>
@@ -165,7 +165,7 @@
                                         </button>
                                                                    
                                     &nbsp;&nbsp;&nbsp;
-                                    <a class="btn btn-secondary" href="{% url 'list_factura_compra' %}">
+                                    <a class="btn btn-secondary" href="{% url 'compra:list_factura_compra' %}">
                                         <i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
                                 </div>
                             </div>
@@ -207,28 +207,6 @@
     $.datepicker.setDefaults($.datepicker.regional['es']);
 
     $(function () {
-                // initialize a validator instance from the "FormValidator" constructor.
-        // A "<form>" element is optionally passed as an argument, but is not a must
-       /* var validator = new FormValidator({
-            "events": ['blur', 'input', 'change']
-        }, document.forms[0]);
-        // on form "submit" event
-        document.forms[0].onsubmit = function (e) {
-            var submit = true,
-                validatorResult = validator.checkAll(this);
-            return !!validatorResult.valid;
-        };
-        // on form "reset" event
-        document.forms[0].onreset = function (e) {
-            validator.reset();
-        };*/
-        // stuff related ONLY for this demo page:
-        $('.toggleValidationTooltips').change(function () {
-            validator.settings.alerts = !this.checked;
-            if (this.checked)
-                $('form .alert').remove();
-        }).prop('checked', false);
-        
         $('form input').on("cut copy paste", function (e) {
             e.preventDefault();
         });

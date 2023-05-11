@@ -27,5 +27,5 @@ urlpatterns = [
     path('addPedidoCompra/', add_pedido_compra, name="add_pedido_compra"),
     path('editPedidoCompra/<int:id>/',
          edit_pedido_compra, name="edit_pedido_compra"),
-    # path('reporteCompra/<int:id>/', reporte_compra_pdf, name="reporte_compra_pdf"),
+    path('reporteCompra/<int:id>/', reporte_compra_pdf, name="reporte_compra_pdf"),
 ]

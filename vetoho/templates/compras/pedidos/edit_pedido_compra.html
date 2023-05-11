@@ -17,7 +17,7 @@
         <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-12 col-sm-12">
-                <div class="x_panel">
+                <div class="x_panel" style="margin: 1rem">
                     <div class="x_title">
                         <h2>Editar Pedido</h2>
                         
@@ -46,7 +46,7 @@
                                                         style="height: 20px; align-content: center">
                                                         <label>Eliminar todo</label>
                                                     </button>
-                                                    <table  class="table table-bordered table-hover" style="width: 50%; margin: auto;"  id="tblPedido">
+                                                    <table  class="table table-bordered table-hover" id="tblPedido">
                                                         <thead>
                                                             <tr>
                                                                 <td class="text-center">Cod</td>
@@ -59,16 +59,16 @@
                                                     </table>
                                                 </div>
                                             </div>
+                                            <div class="tile-footer" style="margin: 1rem">
+                                                <button type="" class="btn btn-primary" style="color: white"><i
+                                                        class="fa fa-fw fa-lg fa-check-circle"></i>Editar Pedido
+                                                </button>&nbsp;&nbsp;&nbsp;
+                                                <a class="btn btn-secondary" href="{% url 'compra:list_pedido_compra' %}">
+                                                    <i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="tile-footer mt-3">
-                                    <button type="" class="btn btn-primary" style="color: white"><i
-                                            class="fa fa-fw fa-lg fa-check-circle"></i>Editar Pedido
-                                    </button>&nbsp;&nbsp;&nbsp;
-                                    <a class="btn btn-secondary" href="{% url 'list_pedido_compra' %}">
-                                        <i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
-                                </div>
+                                </div>                              
                             </div>
                         </form>
                     </div>
