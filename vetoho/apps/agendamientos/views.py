@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.views.decorators.http import require_POST, require_GET, require_http_methods, require_safe
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
@@ -20,11 +20,11 @@ hora_salida_lun_vie = "18:00"
 hora_salida_sab = "15:00"
 today = date.today()
 #Reservas
+@require_safe
 @login_required()
 @permission_required('reserva.add_reserva')
 def add_reserva(request):
     form = ReservaForm
-    servicios = Servicio.objects.exclude(is_active="N").order_by('-last_modified')
     if request.method == 'POST':
         form = ReservaForm(request.POST) 
         if form.is_valid():           
@@ -39,12 +39,13 @@ def add_reserva(request):
                 masc.fecha_reservada = request.POST.get('fecha_reserva')
                 masc.hora_reserva = request.POST.get('hora_reserva')
                 masc.save()
-            except Exception as e:
+            except Exception:
                 pass
             return redirect('/reserva/listReserva/')
     context = {'form' : form}
     return render(request, 'reserva/add_reserva_modal.html', context)
 
+@require_safe
 @login_required()
 @permission_required('reserva.change_reserva')
 def edit_reserva(request, id):
@@ -74,6 +75,7 @@ def edit_reserva(request, id):
     context = {'form' : form, 'reserva': reserva}
     return render(request, 'reserva/edit_reserva_modal.html', context)
 
+@require_safe
 @login_required()
 @permission_required('reserva.view_reserva')
 def list_reserva(request):
@@ -103,6 +105,7 @@ def list_reserva(request):
     return render(request, "reserva/list_reserva.html", context)
 
 #Metodo para eliminar servicio
+@require_safe
 @login_required()
 @permission_required('reserva.delete_reserva')
 def delete_reserva(request, id):
@@ -112,6 +115,7 @@ def delete_reserva(request, id):
     return redirect('/reserva/listReserva/')
 
 @login_required()
+@require_safe
 def search_reserva(request):
     query = request.GET.get('q')
     if query:
@@ -124,7 +128,7 @@ def search_reserva(request):
     context = { 'page_obj': page_obj}
     return render(request, "reserva/list_reserva.html", context)
         
-
+@require_safe
 def validar_fecha_hora(request):
     fecha = request.GET.get('fecha')
     hora = request.GET.get('hora')
@@ -456,7 +460,7 @@ def validar_fecha_hora(request):
     response = { 'mensaje': messageReponse}
     return JsonResponse(response)
 
-
+@require_safe
 def get_mascota_cliente(request):
     cliente = request.GET.get('id_cliente')
 
@@ -471,6 +475,7 @@ def get_mascota_cliente(request):
     response = { 'mascota': listJsonMascotas, 'mensaje': ""}       
     return JsonResponse(response)
 
+@require_safe
 def get_min_service(request):
     servicio = request.GET.get('servicio')
     emp = Empleado.objects.filter(id_servicio=servicio)
@@ -488,6 +493,7 @@ def get_min_service(request):
     response = { 'tiempo': minService.min_serv, 'mensaje': "", 'empleado': listJsonEmpleado}       
     return JsonResponse(response)
 
+@require_GET
 def get_mascota_selected(request):
     id_reserva = request.GET.get('id_reserva')
     cliente = request.GET.get('id_cliente')

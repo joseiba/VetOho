@@ -103,9 +103,9 @@ def search_especie(request):
     context = { 'page_obj': page_obj}
     return render(request, "mascota/especie/list_especie.html", context)
 
-    """
-    Functions of Razas
-    """
+"""
+Functions of Razas
+"""
 @login_required()
 @permission_required('mascota.add_raza')
 def add_raza(request):

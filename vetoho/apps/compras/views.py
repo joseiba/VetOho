@@ -6,7 +6,6 @@ from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from io import BytesIO
 from reportlab.pdfgen import canvas
@@ -16,7 +15,7 @@ from reportlab.lib.units import cm
 from reportlab.lib import colors
 from apps.configuracion.configuracion_inicial.models import ConfiEmpresa
 from apps.compras.models import Proveedor, Pedido, FacturaCompra, FacturaDet, Pago, PedidoCabecera, PedidoDetalle
-from apps.compras.forms import *
+from apps.compras.forms import ProveedorForm, PedidoForm, FacturaCompraForm
 
 from apps.inventario.productos.models import Producto
 
@@ -590,7 +589,6 @@ def try_exception(id):
         return '-'
 
 @login_required()
-@csrf_exempt
 def search_pediddos_factura(request):
     data = {}
     try:

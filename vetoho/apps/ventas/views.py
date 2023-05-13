@@ -6,7 +6,6 @@ from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 #from io import BytesIO
 #from reportlab.pdfgen import canvas
@@ -269,8 +268,6 @@ def get_detalle_factura(id):
     return data
 
 
-
-@csrf_exempt
 def get_producto_servicio_factura(request):
     data = {}
     try:

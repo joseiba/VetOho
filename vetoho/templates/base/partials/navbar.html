@@ -152,7 +152,7 @@
                         {% if perms.productos.view_tipoproducto %}
                             <li class="nav-item">
                                 <a href="{% url 'producto:list_tipo_producto' %}" class="nav-link">
-                                    <i class="fas fa-store-alt"></i>
+                                    <i class="fas fa-shopping-bag"></i>
                                     <p>Tipos de Productos</p>
                                 </a>
                             </li>
@@ -161,7 +161,7 @@
                         {% if perms.depositos.view_deposito %}
                             <li class="nav-item">
                             <a href="{% url 'deposito:list_deposito' %}" class="nav-link">
-                                <i class="fas fa-shopping-basket"></i>
+                                <i class="fas fa-shopping-bag"></i>
                                 <p>Depósitos</p>
                             </a>
                         </li> 
@@ -170,7 +170,7 @@
                         {% if perms.productos.view_producto %}
                         <li class="nav-item">
                             <a href="{% url 'producto:list_productos_general' %}" class="nav-link">
-                                <i class="fas fa-shopping-basket"></i>
+                                <i class="fas fa-shopping-bag"></i>
                                 <p>Productos</p>
                             </a>
                         </li>
@@ -179,7 +179,7 @@
                         {% if perms.producto.view_inventario %}
                         <li class="nav-item">
                             <a href="{% url 'producto:list_ajustar_inventario' %}" class="nav-link">
-                                <i class="fas fa-shopping-basket"></i>
+                                <i class="fas fa-shopping-bag"></i>
                                 <p>Ajustar Inventario</p>
                             </a>
                         </li>
@@ -190,7 +190,7 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-shopping-bag"></i>
+                        <i class="nav-icon fas fa-store-alt"></i>
                         <p> Compras <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -328,31 +328,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        {% endif %}
-                        <!--<ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>IVA's</p>
-                                </a>
-                            </li>
-                        </ul>-->
-                        <!-- <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Timbrado</p>
-                                </a>
-                            </li>
-                        </ul>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Egreso Máximo</p>
-                                </a>
-                            </li>
-                        </ul> -->
+                        {% endif %}                      
                     </li>
                 {% endif %}    
             </ul>
