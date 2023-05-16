@@ -88,7 +88,7 @@
                         </a>
                     </li>
                 {% endif %}
-                {% if perms.mascota.view_especie or perms.mascota.view_raza or perms.mascota.view_mascota %}
+                {% if perms.mascotas.view_especie or perms.mascotas.view_raza or perms.mascotas.view_mascota %}
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-light fa-paw"></i>
@@ -188,7 +188,7 @@
                 </li> 
                 {% if perms.compras.view_proveedor %}
 
-                <li class="nav-item">
+                    <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-store-alt"></i>
                         <p> Compras <i class="right fas fa-angle-left"></i>
@@ -225,6 +225,53 @@
                     </ul>
                 </li> 
                 {% endif %}
+
+                {% if perms.reportes.view_reporte %}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-light fa-clipboard"></i>
+                        <p> Reportes <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{% url 'reporte:reporte_producto' %}" class="nav-link">                                    
+                                    <p>Productos total vendidos</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{% url 'reporte:reporte_stock_minimo' %}" class="nav-link">                                    
+                                    <p>Stock minimo</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{% url 'reporte:reporte_stock_a_vencer' %}" class="nav-link">                                    
+                                    <p>Productos a vencer</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{% url 'reporte:reporte_servicio_vendido' %}" class="nav-link">                                    
+                                    <p>Servicios mas vendidos</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{% url 'reporte:list_proximas_vacunas' %}" class="nav-link">                                    
+                                    <p>Próximas Vacunaciones</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{% url 'reporte:reporte_vacunas_aplicadas' %}" class="nav-link">                                    
+                                    <p>Vacunas Aplicadas</p>
+                                </a>
+                            </li>
+                    </ul>
+                </li>
+            {% endif %}
 
                 {% if perms.usuario.view_user %}
                     <li class="nav-item">

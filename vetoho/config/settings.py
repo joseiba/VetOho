@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'apps.ventas',
     'apps.configuracion.tipo_vacuna',
     "apps.agendamientos",
-    "apps.compras"
+    "apps.compras",
+    "apps.reportes"
 ]
 
 MIDDLEWARE = [

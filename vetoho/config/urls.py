@@ -114,6 +114,9 @@ urlpatterns = [
     
     #Compras
     path('compra/', include(('apps.compras.urls','compra'), namespace='compra')),
+
+    #Reporte
+    path('reporte/', include(('apps.reportes.urls','reporte'), namespace='reporte')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

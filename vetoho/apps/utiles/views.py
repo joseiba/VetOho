@@ -14,6 +14,7 @@ from apps.mascotas.models import HistoricoFichaMedica
 from apps.agendamientos.models import Reserva
 from apps.mascotas.models import Mascota
 from apps.usuario.models import User
+from apps.utiles.models import VacunasAplicadas, ServicioVendido, ProductoVendido
 
 
 hoy = date.today()
@@ -196,25 +197,25 @@ def total_vacunas_proximas():
     except Exception as e:
         return 0
 
-# def cargar_vacunas_aplicadas():
-#     vacunas_aplicadas = HistoricoFichaMedica.objects.all()
-#     try:
-#         for va in vacunas_aplicadas:
-#             if va.historico_cargado_reporte == 'N':
-#                 va.historico_cargado_reporte = 'S'
-#                 va.save()
-#                 try:
-#                     produc = VacunasAplicadas.objects.get(id_producto=va.vacuna.id_producto.id)
-#                     produc.cantidad_aplicadas += 1
-#                     produc.save()
-#                 except Exception as e:
-#                     produc = VacunasAplicadas()
-#                     pro_id = Producto.objects.get(id=va.vacuna.id_producto.id)
-#                     produc.id_producto = pro_id
-#                     produc.cantidad_aplicadas = 1
-#                     produc.save()
-#     except Exception as e:
-#         pass
+def cargar_vacunas_aplicadas():
+    vacunas_aplicadas = HistoricoFichaMedica.objects.all()
+    try:
+        for va in vacunas_aplicadas:
+            if va.historico_cargado_reporte == 'N':
+                va.historico_cargado_reporte = 'S'
+                va.save()
+                try:
+                    produc = VacunasAplicadas.objects.get(id_producto=va.vacuna.id_producto.id)
+                    produc.cantidad_aplicadas += 1
+                    produc.save()
+                except Exception as e:
+                    produc = VacunasAplicadas()
+                    pro_id = Producto.objects.get(id=va.vacuna.id_producto.id)
+                    produc.id_producto = pro_id
+                    produc.cantidad_aplicadas = 1
+                    produc.save()
+    except Exception as e:
+        pass
 
 
 def rest_dates(fecha_vencimiento):
@@ -292,3 +293,53 @@ def get_vacunas_today(request):
             'recordsFiltered': 0,
         }
         return JsonResponse(response)
+    
+
+def cargar_servicios_vendidos():
+    facturaVenta = CabeceraVenta.objects.exclude(factura_anulada='S')
+    try:
+        if facturaVenta is not None:
+            for fv in facturaVenta:
+                facturaDetalle = DetalleVenta.objects.filter(id_factura_venta=fv.id)
+                for factDet in facturaDetalle:
+                    if factDet.tipo != 'P':
+                        if factDet.detalle_cargado_servicio == 'N':
+                            factDet.detalle_cargado_servicio = "S"
+                            factDet.save()
+                            try:
+                                produc = ServicioVendido.objects.get(id_producto=factDet.id_producto.id)
+                                produc.cantidad_vendida_total += factDet.cantidad
+                                produc.save()
+                            except Exception as e:
+                                produc = ServicioVendido()
+                                pro_id = Producto.objects.get(id=factDet.id_producto.id)
+                                produc.id_producto = pro_id
+                                produc.cantidad_vendida_total = factDet.cantidad
+                                produc.save()
+    except Exception as e:
+        pass
+
+
+def cargar_productos_vendidos():
+    facturaVenta = CabeceraVenta.objects.exclude(factura_anulada='S')
+    try:
+        if facturaVenta is not None:
+            for fv in facturaVenta:
+                facturaDetalle = DetalleVenta.objects.filter(id_factura_venta=fv.id)
+                for factDet in facturaDetalle:
+                    if factDet.tipo != 'S':
+                        if factDet.detalle_cargado_reporte == 'N':
+                            factDet.detalle_cargado_reporte = "S"
+                            factDet.save()
+                            try:
+                                produc = ProductoVendido.objects.get(id_producto=factDet.id_producto.id)
+                                produc.cantidad_vendida_total += factDet.cantidad
+                                produc.save()
+                            except Exception as e:
+                                produc = ProductoVendido()
+                                pro_id = Producto.objects.get(id=factDet.id_producto.id)
+                                produc.id_producto = pro_id
+                                produc.cantidad_vendida_total = factDet.cantidad
+                                produc.save()
+    except Exception as e:
+        pass

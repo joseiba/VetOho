@@ -189,7 +189,7 @@
                           </a>
                         </div>
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-4">
-                          <a href="#">
+                          <a href="{% url 'reporte:reporte_stock_minimo' %}">
                             <div class="card card-pets card_align_center" style="background-color: #655935eb;">
                               <div class="ml-2">
                   
@@ -214,7 +214,7 @@
                 
                         </div>
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-4">
-                          <a href="#">
+                          <a href="{% url 'reporte:reporte_stock_a_vencer' %}">
                             <div class="card card-pets card_align_center" style="background-color: #385323db;">
                               <div class="ml-2">
                   
@@ -237,7 +237,7 @@
                           </a>
                         </div>
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-4">
-                          <a href="#">
+                          <a href="{% url 'reporte:reporte_vacunas_aplicadas' %}">
                             <div class="card card-pets card_align_center" style="background-color: #656d61eb;">
                               <div class="ml-2">
                   
@@ -285,7 +285,7 @@
                           </a>
                         </div>
                         <div class="col-12 col-md-6 col-lg-6 col-xl-4 mb-4">
-                          <a href="#">
+                          <a href="{% url 'reporte:list_proximas_vacunas' %}">
                             <div class="card card-pets card_align_center" style="background-color: #4b4667eb;">
                               <div class="ml-2">
                   
@@ -324,15 +324,13 @@
                         </select>
                         <div class="mt-4 mb-4">
                           <div style="width: auto; height: 1px; background-color: black;"></div>
-                          <table aria-labelledby="agenda" class="table table-bordered mb-4" id="tblAgenda" style="width: 100%;">
+                          <table aria-labelledby="agenda" class="table table-bordered mb-4" id="tblAgenda">
                             <thead>
                               <tr>
                                 <td>Cliente</td>
                                 <td>Mascota</td>
                                 <td>Evento</td>
                               </tr>
-
-                              <th></th>
                             </thead>
                           </table>
                         </div>
@@ -349,6 +347,99 @@
 </div>
 {% endblock content %}
 
-{% block javascripts %}
+{% block js_page %}
 {{ block.super}}
-{% endblock javascripts %}
+
+<script>
+  $(function () {
+    $("#select_event").select2({
+      language: "es",
+      language: {
+        inputTooShort: function () {
+          return '';
+        },
+        searching: function () {
+          return 'Buscando...'
+        },
+        noResults: function () {
+          return 'No se ha encontrado ningún resultado'
+        }
+      }
+    })
+
+    var get_list = function (url) {
+      $("#tblAgenda").DataTable({
+        destroy: true,      
+        searching: false,
+        responsive: true,
+        pageLength: 5,
+        ajax: {
+          url: url,
+          type: 'GET',
+          datatype: 'json',
+          error: function (data) {
+            $.fn.DataTable.ext.errorMode = 'none'
+
+          }
+        },
+        columns: [
+          {
+            name: 'Cliente',
+            data: 'cliente',
+          },
+          {
+            name: 'Mascota',
+            data: 'mascota',
+          },
+          {
+            name: 'Evento',
+            data: 'evento',
+          },
+        ],
+        columnDefs: [{
+          targets: [0], // column index (start from 0)
+          orderable: false, // set orderable false for selected columns
+        }],
+        serverSide: false,
+        language: {
+          decimal: "",
+          emptyTable: "Sin resultados encontrados",
+          info: "",
+          infoEmpty: "",
+          infoFiltered: "(Filtrado de _MAX_ total entradas)",
+          infoPostFix: "",
+          thousands: ",",
+          lengthMenu: "",
+          loadingRecords: "Cargando...",
+          processing: "Procesando...",
+          search: "Buscar:",
+          zeroRecords: "Sin resultados encontrados",
+          paginate: {
+            first: "Primero",
+            last: "Ultimo",
+            next: "Siguiente",
+            previous: "Anterior",
+          },
+        },
+
+      })
+    }
+
+    $("#select_event").change(function () {
+      var event = $(this).val()
+      if (event === "1") {
+        var url = "/utiles/get_reserva_today/";
+        get_list(url)
+      }
+      else {
+        var url = "/utiles/get_vacunas_today/";
+        get_list(url)
+      }
+    });
+    
+    var url = "/utiles/get_reserva_today/";
+    get_list(url)
+  })
+</script>
+
+{% endblock js_page %}
