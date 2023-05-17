@@ -4,14 +4,14 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import time
 
-from apps.usuario.tests import LoginFormTest
-from config.settings import URL_BASE_TEST_FUNTIONAL
+#from config.settings import URL_BASE_TEST_FUNTIONAL
 
 class ProveedoresFormTest(LiveServerTestCase):
     
+
     def testAddProveedoresForm(self):
         driver = webdriver.Chrome()
-        driver.get(URL_BASE_TEST_FUNTIONAL + 'accounts/login/')
+        driver.get("http://127.0.0.1:8000/" + 'accounts/login/')
 
         user_name = driver.find_element('name', 'username')
         user_password = driver.find_element('name','password')
@@ -25,7 +25,7 @@ class ProveedoresFormTest(LiveServerTestCase):
 
         submit.send_keys(Keys.RETURN)
         time.sleep(2)
-        driver.get(URL_BASE_TEST_FUNTIONAL + 'compra/listProveedor/')
+        driver.get('http://127.0.0.1:8000/' + 'compra/listProveedor/')
         time.sleep(2)
 
         add = driver.find_element(By.CSS_SELECTOR,"button[class='btn btn-primary float-right']")
@@ -66,7 +66,7 @@ class ProveedoresFormTest(LiveServerTestCase):
 
     def testEditProveedoresForm(self):
         driver = webdriver.Chrome()
-        driver.get(URL_BASE_TEST_FUNTIONAL + 'accounts/login/')
+        driver.get('http://127.0.0.1:8000/' + 'accounts/login/')
 
         user_name = driver.find_element('name', 'username')
         user_password = driver.find_element('name','password')
@@ -81,7 +81,7 @@ class ProveedoresFormTest(LiveServerTestCase):
 
         submit.send_keys(Keys.RETURN)
         time.sleep(2)
-        driver.get(URL_BASE_TEST_FUNTIONAL + 'compra/listProveedor/')
+        driver.get('http://127.0.0.1:8000/' + 'compra/listProveedor/')
         time.sleep(2)
 
         edit = driver.find_element(By.CSS_SELECTOR,"button[class='btn btn-warning mr-1']")
@@ -108,7 +108,7 @@ class ProveedoresFormTest(LiveServerTestCase):
 
     def testDeleteForm(self):
         driver = webdriver.Chrome()
-        driver.get(URL_BASE_TEST_FUNTIONAL + 'accounts/login/')
+        driver.get('http://127.0.0.1:8000/' + 'accounts/login/')
 
         user_name = driver.find_element('name', 'username')
         user_password = driver.find_element('name','password')
@@ -123,7 +123,7 @@ class ProveedoresFormTest(LiveServerTestCase):
 
         submit.send_keys(Keys.RETURN)
         time.sleep(2)
-        driver.get(URL_BASE_TEST_FUNTIONAL + 'compra/listProveedor/')
+        driver.get('http://127.0.0.1:8000/' + 'compra/listProveedor/')
         time.sleep(2)
 
         edit = driver.find_element(By.CSS_SELECTOR,"button[class='btn btn-danger']")
@@ -134,4 +134,4 @@ class ProveedoresFormTest(LiveServerTestCase):
         submit.click()
         time.sleep(3)
 
-        driver.quit
+        driver.quitfrom 

@@ -6,7 +6,6 @@ from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 #from io import BytesIO
 #from reportlab.pdfgen import canvas
@@ -53,10 +52,7 @@ def list_facturas__ventas_ajax(request):
     _length = request.GET.get('length')
     if _start and _length:
         start = int(_start)
-        length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
-
+        length = int(_length)      
         factVenta = factVenta[start:start + length]
     
     data= [{'id': fv.id,'nro_factura': fv.nro_factura, 'nro_timbrado': fv.nro_timbrado, 'fecha_emision': fv.fecha_emision, 
@@ -158,6 +154,7 @@ def add_factura_venta(request):
                     detalle.subtotal = "Gs. " + "{:,}".format(int(i['subtotal'])).replace(",",".")
                     detalle.save()
                     producto.stock_total -= int(i['cantidad'])
+                    producto.stock -= int(i['cantidad'])
                     producto.save()
                 response = {'mensaje':mensaje }
                 return JsonResponse(response)
@@ -268,9 +265,7 @@ def get_detalle_factura(id):
         pass
     return data
 
-
-
-@csrf_exempt
+@login_required()
 def get_producto_servicio_factura(request):
     data = {}
     try:
