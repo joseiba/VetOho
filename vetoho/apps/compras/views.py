@@ -31,10 +31,7 @@ def add_proveedor(request):
         form = ProveedorForm(request.POST) 
         if form.is_valid():           
             form.save()
-            messages.success(request, 'Se ha agregado correctamente!')
-            #ruc = Ruc()
-            #ruc.nro_ruc = request.POST.get('ruc_proveedor')
-            #ruc.save()
+            messages.success(request, 'Se ha agregado correctamente!')           
             return redirect('/compra/listProveedor')
     context = {'form' : form}
     return render(request, 'compras/proveedor/add_proveedor_modal.html', context)
@@ -52,10 +49,7 @@ def edit_proveedor(request, id):
         if form.is_valid():
             proveedor = form.save(commit=False)
             proveedor.save()
-            messages.success(request, 'Se ha editado correctamente!')
-            #ruc = Ruc()
-            #ruc.nro_ruc = request.POST.get('ruc_proveedor')
-            #ruc.save()
+            messages.success(request, 'Se ha editado correctamente!')         
             return redirect('/compra/listProveedor')
     context = {'form' : form, 'proveedor': proveedor}
     return render(request, 'compras/proveedor/edit_proveedor_modal.html', context)
@@ -565,9 +559,7 @@ def list_facturas_ajax(request):
     _length = request.GET.get('length')
     if _start and _length:
         start = int(_start)
-        length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
+        length = int(_length)      
 
         factCompra = factCompra[start:start + length]
     
@@ -596,7 +588,7 @@ def search_pediddos_factura(request):
         if (request.method == 'POST') and (request.POST['action'] == 'search_products'):
             data = []
             prods = Producto.objects.exclude(is_active='N').all()
-            #prods = prods.exclude(servicio_o_producto="S").filter(nombre_producto__icontains=term)[0:10]
+            prods = prods.exclude(servicio_o_producto="S").filter(nombre_producto__icontains=term)[0:10]
             for p in prods:
                 item = p.obtener_dict()
                 item['id'] = p.id

@@ -11,11 +11,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-import dj_database_url
 import os
-from dotenv import load_dotenv   #for python-dotenv method
+# from dotenv import load_dotenv   #for python-dotenv method
 
-load_dotenv() 
+# load_dotenv() 
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -58,7 +57,7 @@ INSTALLED_APPS = [
     'apps.configuracion.tipo_vacuna',
     "apps.agendamientos",
     "apps.compras",
-    "apps.reportes"
+    "apps.reportes",
 ]
 
 MIDDLEWARE = [
@@ -100,7 +99,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'VETOHOBD',
         'USER': 'postgres',
-        'PASSWORD': os.environ.get('password'),
+        #'PASSWORD': os.environ.get('password'),
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
     }

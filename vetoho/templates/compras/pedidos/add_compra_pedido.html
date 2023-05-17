@@ -88,6 +88,7 @@
 <!-- Datatables -->
 <script>
     var action = '{{ accion|safe }}';
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     $(function () {   
         
@@ -125,6 +126,8 @@
                 type: 'POST',
                 url: '/compra/get_pedido_factura/',
                 delay: 250,
+                headers: {'X-CSRFToken': csrftoken},
+                mode: 'same-origin', // Do not send CSRF token to another domain.,
                 data: function (params) {
                     return {
                         term: params.term,

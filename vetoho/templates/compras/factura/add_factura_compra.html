@@ -41,7 +41,9 @@
                                                 <div class="form-group">
                                                     <label> <strong> Buscar Producto:</strong> </label>
                                                         <span class="input-group-append">
-                                                            <select class="form-control" id="search"></select>
+                                                            <select class="form-control" id="search">
+                                                                <option>Buscar productos</option>
+                                                            </select>
                                                         </span>                                                    
                                                 </div>
                                                 <div class="table-responsive">
@@ -187,7 +189,8 @@
 <!-- Datatables -->
 <script>
     var action = '{{ accion|safe }}';
-    
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
     $.datepicker.regional['es'] = {
         closeText: 'Cerrar',
         prevText: '< Ant',
@@ -282,6 +285,8 @@
                 type: 'POST',
                 url: '/compra/get_pedido_factura/',
                 delay: 250,
+                headers: {'X-CSRFToken': csrftoken},
+                mode: 'same-origin', // Do not send CSRF token to another domain.,
                 data: function (params) {
                     return {
                         term: params.term,
