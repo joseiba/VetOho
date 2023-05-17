@@ -11,7 +11,7 @@ class ProveedoresFormTest(LiveServerTestCase):
 
     def testAddProveedoresForm(self):
         driver = webdriver.Chrome()
-        driver.get(URL_BASE_TEST_FUNTIONAL + 'accounts/login/')
+        driver.get("http://127.0.0.1:8000/" + 'accounts/login/')
 
         user_name = driver.find_element('name', 'username')
         user_password = driver.find_element('name','password')
