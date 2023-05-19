@@ -159,9 +159,7 @@ def list_usuarios_baja_ajax(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
-
+     
         usuario = usuario[start:start + length]
 
     data = [{'id': usu.id,'nombre': usu.first_name, 'apellido': usu.last_name, 
@@ -185,7 +183,7 @@ def add_usuario(request):
             form.save()
             print("Se ha agregado correctamente!")
             messages.success(request, "Se ha agregado correctamente!")
-            return redirect('/usuario/add/')
+            return redirect('/usuario/listUsuarios/')
     context = {'form': form}
     return render(request, 'usuario/add_usuario.html', context)
 

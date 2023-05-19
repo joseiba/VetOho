@@ -76,8 +76,6 @@ def list_especie_ajax(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
 
         especie = especie[start:start + length]
 
@@ -163,8 +161,6 @@ def get_list_raza_ajax(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
 
         raza = raza[start:start + length]
 
@@ -213,7 +209,7 @@ def add_mascota(request):
         if form.is_valid():           
             form.save()
             messages.success(request, 'Se ha agregado correctamente!')
-            return redirect('/mascota/add')
+            return redirect('/mascota/list')
     context = {'form' : form}
     return render(request, 'mascota/mascota/add_mascota.html', context)
 

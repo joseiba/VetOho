@@ -162,7 +162,7 @@ $(function () {
             parameters.append('pedido', JSON.stringify(pedido.items));
             var csrf = $('input[name="csrfmiddlewaretoken"]').val();
             parameters.append('csrfmiddlewaretoken', csrf);
-            submit_with_ajax(window.location.pathname, 'Noticicación', '¿Desea registrar este pedido?', parameters, function () {
+            submit_with_ajax(window.location.pathname, 'Notificación', '¿Desea registrar este pedido?', parameters, function () {
                 location.href = "/compra/listPedidosCompra/"
             });
         }        

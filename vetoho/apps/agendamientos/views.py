@@ -20,7 +20,7 @@ hora_salida_lun_vie = "18:00"
 hora_salida_sab = "15:00"
 today = date.today()
 #Reservas
-@require_http_methods(["POST"])
+@require_http_methods(["POST","GET"])
 @login_required()
 @permission_required('reserva.add_reserva')
 def add_reserva(request):
@@ -45,7 +45,7 @@ def add_reserva(request):
     context = {'form' : form}
     return render(request, 'reserva/add_reserva_modal.html', context)
 
-@require_http_methods(["POST"])
+@require_http_methods(["POST","GET"])
 @login_required()
 @permission_required('reserva.change_reserva')
 def edit_reserva(request, id):
@@ -75,7 +75,7 @@ def edit_reserva(request, id):
     context = {'form' : form, 'reserva': reserva}
     return render(request, 'reserva/edit_reserva_modal.html', context)
 
-@require_http_methods(["POST"])
+@require_http_methods(["GET"])
 @login_required()
 @permission_required('reserva.view_reserva')
 def list_reserva(request):
@@ -115,7 +115,7 @@ def delete_reserva(request, id):
     return redirect('/reserva/listReserva/')
 
 @login_required()
-@require_safe
+@require_http_methods(["GET"])
 def search_reserva(request):
     query = request.GET.get('q')
     if query:
@@ -475,7 +475,7 @@ def get_mascota_cliente(request):
     response = { 'mascota': listJsonMascotas, 'mensaje': ""}       
     return JsonResponse(response)
 
-@require_http_methods(["POST"])
+@require_http_methods(["GET"])
 def get_min_service(request):
     servicio = request.GET.get('servicio')
     emp = Empleado.objects.filter(id_servicio=servicio)
@@ -493,7 +493,7 @@ def get_min_service(request):
     response = { 'tiempo': minService.min_serv, 'mensaje': "", 'empleado': listJsonEmpleado}       
     return JsonResponse(response)
 
-@require_GET
+@require_http_methods(["GET"])
 def get_mascota_selected(request):
     id_reserva = request.GET.get('id_reserva')
     cliente = request.GET.get('id_cliente')

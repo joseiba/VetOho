@@ -36,9 +36,6 @@ list_servicio_ajax, add_servicio_from_empleado)
 from apps.configuracion.empleado.views import (add_empleado, bajar_empleado, edit_empleado, get_list_empleados_ajax, 
 list_empleado, search_empleado)
 
-from apps.compras.views import (add_proveedor, edit_proveedor, list_proveedor_ajax, delete_proveedor, list_proveedor,
-list_pedido, list_pedido_ajax, edit_pedido, list_factura_compra, list_facturas_ajax, add_factura_compra,
-search_pediddos_factura, edit_factura_compra, list_pedido_compra, list_pedido_compra_ajax, add_pedido_compra, edit_pedido_compra, agregar_factura_compra)#, reporte_compra_pdf)
 urlpatterns = [
     path('SuperAdminUserDev/', admin.site.urls),
     path('', home_user, name="index"),

@@ -86,8 +86,6 @@ def list_facturas_anuladas_ventas_ajax(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
 
         factVenta = factVenta[start:start + length]
     
@@ -116,8 +114,8 @@ def try_exception_cliente(id):
 @permission_required('venta.add_cabeceraventa')
 def add_factura_venta(request):
     form = CabeceraVentaForm()
+    form_detalle = DetalleVentaForm()
     confi = get_confi()
-    data = {}
     mensaje = ""
     confi_initial = ConfiEmpresa.objects.get(id=1)
     # caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
@@ -125,6 +123,7 @@ def add_factura_venta(request):
     #     abierto = "S"
     # else:
     #     abierto = "N" 
+    productos = Producto.objects.exclude(is_active="N").all()
     if request.method == 'POST':
         try:
             confi = ConfiEmpresa.objects.get(id=1) 
@@ -169,7 +168,8 @@ def add_factura_venta(request):
             response = {'mensaje':mensaje }
         return JsonResponse(response)
     nro_factura_initial = reset_nro_timbrado(confi_initial.nro_timbrado)
-    context = {'form': form,  'calc_iva': 5, 'accion': 'A', 'confi': confi, 'nro_factura': str(nro_factura_initial)}
+    context = {'form': form,  'calc_iva': 5, 'accion': 'A', 'confi': confi, 
+               'nro_factura': str(nro_factura_initial), 'productos': productos}
     return render(request, 'ventas/add_factura_ventas.html', context)
 
 @login_required()
