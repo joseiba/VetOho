@@ -524,8 +524,6 @@ def create_historico_ficha_medica(id, proxima_vacunacion, antiparasitario_aplica
         vacunaGet.save()
         consultaGet.save()
         antiparasitarioGet.save()
-
     except Exception as e:
         pass
-
     return historico

@@ -105,7 +105,7 @@ def list_reserva(request):
     return render(request, "reserva/list_reserva.html", context)
 
 #Metodo para eliminar servicio
-@require_http_methods(["POST"])
+@require_http_methods(["GET"])
 @login_required()
 @permission_required('reserva.delete_reserva')
 def delete_reserva(request, id):
@@ -513,5 +513,3 @@ def get_mascota_selected(request):
         return JsonResponse(response)
     response = { 'mascota': listJsonMascotas, 'mensaje': ""}       
     return JsonResponse(response)
-
-
