@@ -2,6 +2,7 @@ import json
 import math
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
+from django.views.decorators.http import require_POST, require_GET, require_http_methods, require_safe
 from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -9,12 +10,11 @@ from django.http import JsonResponse
 from datetime import datetime
 from io import BytesIO
 from reportlab.pdfgen import canvas
-from django.views.generic import View
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.platypus import  Table, TableStyle
 from reportlab.lib.units import cm
 from reportlab.lib import colors
 from apps.configuracion.configuracion_inicial.models import ConfiEmpresa
-from apps.compras.models import Proveedor, Pedido, FacturaCompra, FacturaDet, Pago, PedidoCabecera, PedidoDetalle
+from apps.compras.models import Proveedor, Pedido, FacturaCompra, FacturaDet, PedidoCabecera, PedidoDetalle
 from apps.compras.forms import ProveedorForm, PedidoForm, FacturaCompraForm
 
 from apps.inventario.productos.models import Producto
@@ -23,6 +23,7 @@ from apps.inventario.productos.models import Producto
 date = datetime.now()
 today = date.strftime("%d/%m/%Y")
 # Create your views here.
+@require_http_methods(["POST","GET"])
 @login_required()
 @permission_required('compras.add_proveedor')
 def add_proveedor(request):
@@ -36,6 +37,7 @@ def add_proveedor(request):
     context = {'form' : form}
     return render(request, 'compras/proveedor/add_proveedor_modal.html', context)
 
+@require_http_methods(["POST","GET"])
 @login_required()
 @permission_required('compras.change_proveedor')
 def edit_proveedor(request, id):
@@ -54,11 +56,13 @@ def edit_proveedor(request, id):
     context = {'form' : form, 'proveedor': proveedor}
     return render(request, 'compras/proveedor/edit_proveedor_modal.html', context)
 
+@require_http_methods(["GET"])
 @login_required()
 @permission_required('compras.view_proveedor')
 def list_proveedor(request):
     return render(request, "compras/proveedor/list_proveedor.html")
 
+@require_http_methods(["GET"])
 @login_required()
 def list_proveedor_ajax(request):
     query = request.GET.get('busqueda')
@@ -74,9 +78,6 @@ def list_proveedor_ajax(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
-
         proveedor = proveedor[start:start + length]
 
     data = [{'id': pro.id, 'nombre': pro.nombre_proveedor, 'direccion': pro.direccion, 
@@ -90,16 +91,19 @@ def list_proveedor_ajax(request):
     return JsonResponse(response)
 
 #Metodo para eliminar servicio
+@require_http_methods(["GET","POST"])
 @login_required()
 @permission_required('compras.delete_proveedor')
 def delete_proveedor(request, id):
-    proveedor = Proveedor.objects.get(id=id)
-    
-    proveedor.is_active = "N"
-    print(proveedor.is_active)
-    proveedor.save()
-    return redirect('/compra/listProveedor')
-    
+    proveedor = Proveedor.objects.get(id=id)    
+    if request.method == 'POST':          
+        proveedor.is_active = "N"
+        print(proveedor.is_active)
+        proveedor.save()
+        return redirect('/compra/listProveedor')
+    context = {"proveedor": proveedor}
+    return render(request, 'compras/proveedor/baja_proveedor_modal.html', context)
+
 
 def add_pedido():
     producto = Producto.objects.exclude(is_active='N').all()
@@ -120,12 +124,13 @@ def add_pedido():
                 pedido.cantidad_pedido = '-'
                 pedido.save()            
 
+@require_http_methods(["GET"])
 @login_required()
 def list_pedido(request):
     add_pedido()
-    pedi = Pedido.objects.exclude(pedido_cargado="S").all()
     return render(request, "compras/pedidos/list_pedidos.html")
 
+@require_http_methods(["GET"])
 @login_required()
 def list_pedido_ajax(request):
     query = request.GET.get('busqueda')
@@ -141,9 +146,6 @@ def list_pedido_ajax(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
-
         pedido = pedido[start:start + length]
 
     data = [{'id': pe.id, 'nombre': pe.id_producto.nombre_producto, 'precio': pe.id_producto.precio_compra, 
@@ -156,6 +158,7 @@ def list_pedido_ajax(request):
     }
     return JsonResponse(response)
 
+@require_http_methods(["GET"])
 @login_required()
 def edit_pedido(request, id):
     pedido = Pedido.objects.get(id=id)
@@ -179,7 +182,6 @@ def edit_pedido(request, id):
 @permission_required('compras.add_facturacompra')
 def add_factura_compra(request):
     form = FacturaCompraForm()
-    data = {}
     mensaje = ""
     if request.method == 'POST' and is_ajax(request=request):
         try:        
@@ -221,6 +223,7 @@ def add_factura_compra(request):
     return render(request, 'compras/factura/add_factura_compra.html', context)
 
 #Refactor de pedidos
+@require_http_methods(["GET"])
 @login_required()
 @permission_required('compras.view_pedidocabecera')
 def list_pedido_compra(request):
@@ -233,6 +236,7 @@ def list_pedido_compra(request):
     context = {'caja_abierta' : "S"}
     return render(request, 'compras/pedidos/list_pedidos_compras.html', context)
 
+@require_http_methods(["GET"])
 def list_pedido_compra_ajax(request):
     query = request.GET.get('busqueda')
     if query != "":
@@ -247,8 +251,6 @@ def list_pedido_compra_ajax(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
 
         pedidoCabecera = pedidoCabecera[start:start + length]
 
@@ -261,11 +263,11 @@ def list_pedido_compra_ajax(request):
     }
     return JsonResponse(response)
 
+@require_http_methods(["GET","POST"])
 @login_required()
 @permission_required('compras.add_pedidocabecera')
 def add_pedido_compra(request):
     pedidos = Pedido.objects.exclude(pedido_cargado='S').all()
-    data = {}
     mensaje = ""
     if request.method == 'POST' and is_ajax(request=request):    
         try:        
@@ -295,6 +297,7 @@ def add_pedido_compra(request):
     context = {'accion': 'A', 'pedidos': json.dumps(get_pedido_list()), 'pedidos_list': pedidos}
     return render(request, 'compras/pedidos/add_compra_pedido.html', context)
 
+@require_http_methods(["GET","POST"])
 @login_required()
 @permission_required('compras.change_pedidocabecera')
 def edit_pedido_compra(request, id):
@@ -358,11 +361,11 @@ def get_detalle_pedido_compra(id):
 
 
 #Facturas compras
+@require_http_methods(["GET","POST"])
 @login_required()
 @permission_required('compras.add_facturacompra')
 def agregar_factura_compra(request):
     form = FacturaCompraForm()
-    data = {}
     mensaje = ""
     #caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
     #if caja_abierta.count() > 0:
@@ -389,15 +392,10 @@ def agregar_factura_compra(request):
                 factura_id = FacturaCompra.objects.get(id=factura.id)
                 for i in factura_dict['products']:
                     detalle = FacturaDet()
-                    #historico = HistoricoProductoPrecio()
                     detalle.id_factura = factura_id    
                     producto_id = Producto.objects.get(id=i['codigo_producto'])
-                    #historico.id_producto = producto_id
-                    #historico.precio_compra = i['precio_compra']
-                    #historico.fecha_alta = factura_dict['fecha_emision']
                     producto_id.precio_compra = i['precio_compra']
                     producto_id.save()
-                    #historico.save() 
                     detalle.precio_compra = i['precio_compra']
                     detalle.id_producto = producto_id
                     detalle.cantidad = int(i['cantidad'])
@@ -462,12 +460,12 @@ def add_factura_compra():
                     print("Ultimo try"+str(e))
                     pass
 
+@require_http_methods(["GET","POST"])
 @login_required()
 @permission_required('compras.change_facturacompra')
 def edit_factura_compra(request, id):
     factCompra = FacturaCompra.objects.get(id=id)
     form = FacturaCompraForm(instance=factCompra)
-    data = {}
     mensaje = ""
     if request.method == 'POST' and is_ajax(request=request):
         try:        
@@ -493,15 +491,10 @@ def edit_factura_compra(request, id):
                 detailFact.delete()
                 for i in factura_dict['products']:
                     detalle = FacturaDet()
-                    #historico = HistoricoProductoPrecio()
                     detalle.id_factura = factura
                     producto_id = Producto.objects.get(id=i['codigo_producto'])
-                    #historico.id_producto = producto_id
-                    #historico.precio_compra = i['precio_compra']
-                    #historico.fecha_alta = factura_dict['fecha_emision']
                     producto_id.precio_compra = i['precio_compra']
                     producto_id.save()
-                    #historico.save()
                     detalle.precio_compra = i['precio_compra']
                     detalle.id_producto = producto_id
                     detalle.cantidad = int(i['cantidad'])
@@ -534,6 +527,7 @@ def get_detalle_factura(id):
         pass
     return data
 
+@require_http_methods(["GET"])
 @login_required()
 @permission_required('compras.view_facturacompra')
 def list_factura_compra(request):
@@ -546,6 +540,7 @@ def list_factura_compra(request):
     context = {'caja_abierta' : "S"}
     return render(request, 'compras/factura/list_facturas.html', context)
 
+@require_http_methods(["GET"])
 def list_facturas_ajax(request):
     query = request.GET.get('busqueda')
     if query != "":
@@ -580,6 +575,7 @@ def try_exception(id):
     except Exception as e:
         return '-'
 
+@require_http_methods(["GET", "POST"])
 @login_required()
 def search_pediddos_factura(request):
     data = {}
@@ -604,6 +600,7 @@ def search_pediddos_factura(request):
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
+@require_http_methods(["GET"])
 def reporte_compra_pdf(request, id):
     pedido_cabecera = PedidoCabecera.objects.get(id=id)
     confi = ConfiEmpresa.objects.get(id=1)

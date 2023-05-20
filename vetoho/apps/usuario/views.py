@@ -214,7 +214,6 @@ def edit_usuario(request, id):
 @permission_required('usuario.delete_user')
 def baja_usuario(request, id):
     user = User.objects.get(id=id)
-    confirm = True
     if request.method == 'POST':
         if request.user == user:
             messages.error(request, "¡No puedes eliminar este usuario! intentelo mas tarde.")
