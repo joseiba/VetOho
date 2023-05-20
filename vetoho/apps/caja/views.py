@@ -16,7 +16,7 @@ from apps.caja.models import Caja
 from apps.configuracion.configuracion_inicial.models import ConfiEmpresa
 #from apps.compras.models import FacturaCompra
 from apps.ventas.models import CabeceraVenta
-from vetoho.apps.compras.models import PedidoDetalle
+from apps.compras.models import PedidoDetalle
 
 # Create your views here.
 date = datetime.now()
