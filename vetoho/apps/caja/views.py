@@ -1,17 +1,14 @@
-import json
 import math
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.db.models import Q
-from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
 from io import BytesIO
 from reportlab.pdfgen import canvas
 from django.views.generic import View
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.platypus import Table, TableStyle
 from reportlab.lib.units import cm
 from reportlab.lib import colors
 
@@ -19,6 +16,7 @@ from apps.caja.models import Caja
 from apps.configuracion.configuracion_inicial.models import ConfiEmpresa
 #from apps.compras.models import FacturaCompra
 from apps.ventas.models import CabeceraVenta
+from vetoho.apps.compras.models import PedidoDetalle
 
 # Create your views here.
 date = datetime.now()
