@@ -112,6 +112,9 @@ urlpatterns = [
     
     #Compras
     path('compra/', include(('apps.compras.urls','compra'), namespace='compra')),
+
+    #Caja
+    path('caja/', include(('apps.caja.urls','caja'), namespace='caja')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
