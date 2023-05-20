@@ -145,16 +145,7 @@ def cerrar_caja(request, id):
 
 
 def sum_factura_compra():
-    try:
-        factura = None#FacturaCompra.objects.exclude(factura_caja="S").filter(fecha_alta=today)
-        sum_total = 0
-        for fac in factura:
-            sum_total += fac.total
-            fac.factura_caja = "S"
-            fac.save()
-        return sum_total
-    except Exception as e:
-        return 0
+    return 0
 
 
 def sum_efectivo_factura_venta():
