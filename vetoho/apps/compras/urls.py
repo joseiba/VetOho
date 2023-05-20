@@ -1,5 +1,8 @@
 from django.urls import path
-from .views import *
+from .views import (add_pedido_compra,add_proveedor,
+                    agregar_factura_compra, list_factura_compra,list_facturas_ajax,list_pedido,list_pedido_ajax
+                    ,list_pedido_compra,list_pedido_compra_ajax,list_proveedor,list_proveedor_ajax,edit_factura_compra,edit_pedido,
+                    edit_pedido_compra,edit_proveedor,delete_proveedor, search_pediddos_factura,reporte_compra_pdf)
 
 urlpatterns = [
     # Urls compras
