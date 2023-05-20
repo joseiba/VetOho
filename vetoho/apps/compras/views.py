@@ -1,5 +1,4 @@
 import json
-import math
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required, permission_required
 from django.views.decorators.http import require_POST, require_GET, require_http_methods, require_safe
@@ -18,6 +17,7 @@ from apps.compras.models import Proveedor, Pedido, FacturaCompra, FacturaDet, Pe
 from apps.compras.forms import ProveedorForm, PedidoForm, FacturaCompraForm
 
 from apps.inventario.productos.models import Producto
+from apps.caja.models import Caja
 
 
 date = datetime.now()
@@ -228,12 +228,12 @@ def add_factura_compra(request):
 @permission_required('compras.view_pedidocabecera')
 def list_pedido_compra(request):
     add_pedido()
-  #  caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
-   # if caja_abierta.count() > 0:
-    #    abierto = "S"
-    #else:
-     #   abierto = "N"
-    context = {'caja_abierta' : "S"}
+    caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
+    if caja_abierta.count() > 0:
+        abierto = "S"
+    else:
+        abierto = "N"
+    context = {'caja_abierta' : abierto}
     return render(request, 'compras/pedidos/list_pedidos_compras.html', context)
 
 @require_http_methods(["GET"])
@@ -367,11 +367,11 @@ def get_detalle_pedido_compra(id):
 def agregar_factura_compra(request):
     form = FacturaCompraForm()
     mensaje = ""
-    #caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
-    #if caja_abierta.count() > 0:
-    #    abierto = "S"
-    #else:
-      #  abierto = "N"
+    caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
+    if caja_abierta.count() > 0:
+        abierto = "S"
+    else:
+        abierto = "N"
     if request.method == 'POST' and is_ajax(request=request):
         try:        
             factura_dict = json.loads(request.POST['factura'])
@@ -413,7 +413,7 @@ def agregar_factura_compra(request):
             mensaje = 'error'
             response = {'mensaje':mensaje }
         return JsonResponse(response)
-    context = {'form': form, 'calc_iva': 5, 'accion': 'A', 'caja_abierta' : "S"}
+    context = {'form': form, 'calc_iva': 5, 'accion': 'A', 'caja_abierta' : abierto}
     return render(request, 'compras/factura/add_factura_compra.html', context)
 
 
@@ -532,12 +532,12 @@ def get_detalle_factura(id):
 @permission_required('compras.view_facturacompra')
 def list_factura_compra(request):
     add_factura_compra()
-    #caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
-    #if caja_abierta.count() > 0:
-     #   abierto = "S"
-    #else:
-        #abierto = "N"
-    context = {'caja_abierta' : "S"}
+    caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
+    if caja_abierta.count() > 0:
+       abierto = "S"
+    else:
+        abierto = "N"
+    context = {'caja_abierta' : abierto}
     return render(request, 'compras/factura/list_facturas.html', context)
 
 @require_http_methods(["GET"])

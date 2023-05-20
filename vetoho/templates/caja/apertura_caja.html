@@ -241,15 +241,11 @@
         })
 
         {% if messages %}
-            {% for message in messages %}
-                swal({
-                        title: "Notificación",
-                        text:  "{{ message }}",
-                        icon: "warning",
-                        button: "Ok",
-                    })
-            {% endfor %}
-        {% endif %}
+        {% for message in messages %}
+          var text = "{{ message }}";
+          add_edit_registro(text);
+        {% endfor %}
+      {% endif %}
 
     });
 

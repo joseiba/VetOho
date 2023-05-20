@@ -42,9 +42,6 @@ def list_caja_ajax(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
-
         caja = caja[start:start + length]
 
     data = [{'id': ca.id, 'fecha_alta': ca.fecha_hora_alta, 'fecha_cierre': ca.fecha_cierre, 'saldo_inicial': ca.saldo_inicial, 
@@ -77,8 +74,6 @@ def get_list_caja_historico(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
 
         caja = caja[start:start + length]
 
@@ -113,7 +108,6 @@ def add_caja(request):
             apertura.save()
             messages.success(request, 'Apertura de caja correctamente!')
             return redirect('/caja/listCajas/')
-
 
 def cerrar_caja(request, id):
     try:

@@ -53,7 +53,7 @@
                   </div>
               </form>                  
               </div>
-              {% if perms.compras.add_proveedor %}  
+              {% if perms.compras.add_facturacompra and caja_abierta == 'S' %}  
               <div class="float-right">
                 <button type="submit" class="btn btn-primary float-right">
                     <a href="{% url 'compra:add_factura_compra' %}" style="color: white;">Agregar nueva factura</a>
@@ -109,7 +109,7 @@
             e.preventDefault();
         });
 
-        //var caja_abierta = '{{ caja_abierta|safe }}';
+        var caja_abierta = '{{ caja_abierta|safe }}';
 
         var get_list = function (busqueda) {
             $("#list_factura").DataTable({
@@ -153,7 +153,7 @@
                         name: 'Acción',
                         data: 'id',
                         render: function (data) {
-                            {% if perms.compras.change_facturacompra %}//and caja_abierta == "S" %}
+                            {% if perms.compras.change_facturacompra and caja_abierta == "S" %}
                             return '<button class="btn btn-warning">\
                                                         <a href="/compra/editFacturaCompra/' + data + '/" style="color: black">\
                                                             Editar\
