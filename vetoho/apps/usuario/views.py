@@ -118,8 +118,6 @@ def list_usuarios_ajax(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
 
         usuario = usuario[start:start + length]
 
@@ -176,7 +174,6 @@ def list_usuarios_baja_ajax(request):
 @permission_required('usuario.add_user')
 def add_usuario(request):
     form = UserForm()
-    group = Group.objects.all()
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
