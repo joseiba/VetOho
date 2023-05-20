@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "apps.agendamientos",
     "apps.compras",
     "apps.reportes",
+    "apps.caja"
 ]
 
 MIDDLEWARE = [

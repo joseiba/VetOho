@@ -117,6 +117,8 @@ urlpatterns = [
 
     #Reporte
     path('reporte/', include(('apps.reportes.urls','reporte'), namespace='reporte')),
+    #Caja
+    path('caja/', include(('apps.caja.urls','caja'), namespace='caja')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
