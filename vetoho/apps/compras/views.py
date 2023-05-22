@@ -401,6 +401,9 @@ def agregar_factura_compra(request):
                     detalle.cantidad = int(i['cantidad'])
                     detalle.descripcion = i['description']
                     detalle.save()
+                    producto_id.stock_total -= int(i['cantidad'])
+                    producto_id.stock -= int(i['cantidad'])
+                    producto_id.save()
                 response = {'mensaje':mensaje }
                 return JsonResponse(response)
             except Exception as e:
@@ -439,7 +442,7 @@ def add_factura_compra():
                             detalle.id_producto = producto_id
                             detalle.cantidad = i.cantidad
                             detalle.descripcion = i.descripcion
-                            detalle.save()
+                            detalle.save()                           
             except Exception as e:
                 print("PenUltimo try"+str(e))
                 try:        
@@ -455,7 +458,7 @@ def add_factura_compra():
                         detalle.id_producto = producto_id
                         detalle.cantidad = i.cantidad
                         detalle.descripcion = i.descripcion
-                        detalle.save()
+                        detalle.save()                        
                 except Exception as e:
                     print("Ultimo try"+str(e))
                     pass
