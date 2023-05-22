@@ -401,8 +401,8 @@ def agregar_factura_compra(request):
                     detalle.cantidad = int(i['cantidad'])
                     detalle.descripcion = i['description']
                     detalle.save()
-                    producto_id.stock_total -= int(i['cantidad'])
-                    producto_id.stock -= int(i['cantidad'])
+                    producto_id.stock_total += int(i['cantidad'])
+                    producto_id.stock += int(i['cantidad'])
                     producto_id.save()
                 response = {'mensaje':mensaje }
                 return JsonResponse(response)
@@ -503,6 +503,9 @@ def edit_factura_compra(request, id):
                     detalle.cantidad = int(i['cantidad'])
                     detalle.descripcion = i['description']
                     detalle.save()
+                    producto_id.stock_total += int(i['cantidad'])
+                    producto_id.stock += int(i['cantidad'])
+                    producto_id.save()
                 response = {'mensaje':mensaje }
                 return JsonResponse(response)
             except Exception as e:
