@@ -5,8 +5,8 @@ from selenium.webdriver.common.by import By
 import time
 
 url = 'http://127.0.0.1:8000/'
-class ReporteTest(LiveServerTestCase):
-    def testViewReport(self):
+class CajaTest(LiveServerTestCase):
+    def testCaja(self):
         driver = webdriver.Chrome()
         driver.get(url + 'accounts/login/')
 
@@ -23,10 +23,23 @@ class ReporteTest(LiveServerTestCase):
         submit.send_keys(Keys.RETURN)
         time.sleep(2)
 
-        driver.get(url + 'reporte/listServiciosVendidos/')
+        driver.get(url + 'caja/listCajas/')
+        time.sleep(2)
+
+        add = driver.find_element(By.CSS_SELECTOR,"#add_caja")
+        add.click()
         time.sleep(4)
 
-        driver.get(url + 'reporte/listReporteProductoVendidos/')
+        find = driver.find_element(By.XPATH, "/html/body/div[2]/div/div[6]/button[1]")
+        find.click()
         time.sleep(4)
 
+        find = driver.find_element(By.XPATH, "//*[@id='list_cajas']/tbody/tr/td[8]/button")
+        find.click()
+        time.sleep(3)
+
+        find = driver.find_element(By.XPATH, "/html/body/div[2]/div/div[6]/button[1]")
+        find.click()
+        time.sleep(3)
+        
         driver.quit

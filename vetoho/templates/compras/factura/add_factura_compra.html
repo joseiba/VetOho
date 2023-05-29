@@ -161,14 +161,11 @@
                                 </div>
                                 <div class="tile-footer">
                                     
-                                    {% comment %} {% if caja_abierta == "S"  %}
+                                    {% if caja_abierta == "S"  %}
                                         <button type="submit" class="btn btn-primary" id="button_factura" style="color: white"><i
                                             class="fa fa-fw fa-lg fa-check-circle"></i>Agregar Factura
                                         </button>
-                                    {% endif %} {% endcomment %}
-                                    <button type="submit" class="btn btn-primary" id="button_factura" style="color: white"><i
-                                        class="fa fa-fw fa-lg fa-check-circle"></i>Agregar Factura
-                                    </button>                                        
+                                    {% endif %}                                      
                                     &nbsp;&nbsp;&nbsp;
                                     <a class="btn btn-secondary" href="{% url 'compra:list_factura_compra' %}">
                                         <i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
@@ -267,7 +264,6 @@
 
         $('#proveedor_select').select2({
             placeholder: 'Seleccione un Proveedor',
-            language: "es",
             language: {
                 inputTooShort: function () {
                     return '';

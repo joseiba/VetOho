@@ -10,7 +10,11 @@
                         <span class="input-group-append">
                             <select class="form-control" id="search">
                                 <option>Buscar productos</option>
+                                <option>Buscar productos</option>
+                                <option>Buscar productos</option>
+
                             </select>
+                            {% comment %} {{form_detalle.id_producto}} {% endcomment %}
                         </span>
                     </div>
                     <div class="table-responsive">
@@ -148,11 +152,11 @@
     <a class="btn btn-secondary" href="{% url 'ventas:list_factura_ventas' %}">
         <i class="fa fa-fw fa-lg fa-times-circle"></i>Volver</a>
     &nbsp;&nbsp;&nbsp;
-    {% comment %} {% if caja_abierta == "S" %} {% endcomment %}
+    {% if caja_abierta == "S" %}
     <button type="submit" class="btn btn-primary" id="button_registrar"
         style="color: white"><i class="fa fa-fw fa-lg fa-check-circle"></i>Registrar
         Factura
     </button>
-    {% comment %} {% endif %}                                         {% endcomment %}
+    {% endif %}
     
 </div>

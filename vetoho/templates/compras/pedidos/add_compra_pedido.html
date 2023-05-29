@@ -60,7 +60,7 @@
                                                 </div>
                                             </div>
                                             <div class="tile-footer"  style="margin: 1rem">
-                                                <button type="" class="btn btn-primary" style="color: white"><i
+                                                <button type="" id="add_pedido_compra" class="btn btn-primary" style="color: white"><i
                                                         class="fa fa-fw fa-lg fa-check-circle"></i>Registrar Pedido
                                                 </button>&nbsp;&nbsp;&nbsp;
                                                 <a class="btn btn-secondary" href="{% url 'compra:list_pedido_compra' %}">
@@ -121,7 +121,7 @@
         });
 
         $('#search').select2({
-            language: "es",
+            placeholder: 'Buscar un Producto',
             ajax: {
                 type: 'POST',
                 url: '/compra/get_pedido_factura/',

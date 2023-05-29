@@ -21,7 +21,7 @@ from apps.configuracion.configuracion_inicial.models import ConfiEmpresa
 from apps.inventario.productos.models import Producto
 from apps.cliente.models import Cliente
 from apps.utiles.views import reset_nro_timbrado
-#from apps.caja.models import Caja
+from apps.caja.models import Caja
 
 date = datetime.now()
 today = date.strftime("%d/%m/%Y")
@@ -30,13 +30,13 @@ today = date.strftime("%d/%m/%Y")
 @login_required()
 @permission_required('venta.view_cabeceraventa')
 def list_factura_ventas(request):
-    #caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
-    #if caja_abierta.count() > 0:
-    #    abierto = "S"
-    #else:
-    #    abierto = "N"
-    #context = {'caja_abierta' : abierto}
-    return render(request, 'ventas/list_facturas_ventas.html')
+    caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
+    if caja_abierta.count() > 0:
+        abierto = "S"
+    else:
+        abierto = "N"
+    context = {'caja_abierta' : abierto}
+    return render(request, 'ventas/list_facturas_ventas.html', context)
 
 def list_facturas__ventas_ajax(request):
     query = request.GET.get('busqueda')
@@ -86,8 +86,6 @@ def list_facturas_anuladas_ventas_ajax(request):
     if _start and _length:
         start = int(_start)
         length = int(_length)
-        page = math.ceil(start / length) + 1
-        per_page = length
 
         factVenta = factVenta[start:start + length]
     
@@ -116,15 +114,16 @@ def try_exception_cliente(id):
 @permission_required('venta.add_cabeceraventa')
 def add_factura_venta(request):
     form = CabeceraVentaForm()
+    form_detalle = DetalleVentaForm()
     confi = get_confi()
-    data = {}
     mensaje = ""
     confi_initial = ConfiEmpresa.objects.get(id=1)
-    # caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
-    # if caja_abierta.count() > 0:
-    #     abierto = "S"
-    # else:
-    #     abierto = "N" 
+    caja_abierta = Caja.objects.exclude(apertura_cierre="C").filter(fecha_alta=today)
+    if caja_abierta.count() > 0:
+        abierto = "S"
+    else:
+        abierto = "N" 
+    productos = Producto.objects.exclude(is_active="N").all()
     if request.method == 'POST':
         try:
             confi = ConfiEmpresa.objects.get(id=1) 
@@ -169,7 +168,8 @@ def add_factura_venta(request):
             response = {'mensaje':mensaje }
         return JsonResponse(response)
     nro_factura_initial = reset_nro_timbrado(confi_initial.nro_timbrado)
-    context = {'form': form,  'calc_iva': 5, 'accion': 'A', 'confi': confi, 'nro_factura': str(nro_factura_initial)}
+    context = {'form': form,  'calc_iva': 5, 'accion': 'A', 'confi': confi, 
+               'nro_factura': str(nro_factura_initial), 'productos': productos, 'caja_abierta': abierto}
     return render(request, 'ventas/add_factura_ventas.html', context)
 
 @login_required()
