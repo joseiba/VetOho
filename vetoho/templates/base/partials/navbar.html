@@ -47,29 +47,7 @@
                     <i class="nav-icon fas fa-chart-line"></i>
                         <p>Dashboard</p>
                     </a>
-                </li>
-                <!-- <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-map-marked"></i>
-                        <p> Ubicaciones <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Departamentos</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Ciudades</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li> -->
+                </li>               
                 {% if perms.cliente.view_cliente %}
 
                     <li class="nav-item">
@@ -272,6 +250,15 @@
                     </ul>
                 </li>
             {% endif %}
+
+                {% if perms.caja.view_caja %}
+                <li class="nav-item">
+                    <a href="{% url 'caja:list_cajas' %}" class="nav-link">
+                    <i class="nav-icon far fa-credit-card"></i>
+                        <p>Caja</p>
+                    </a>
+                </li>
+                {% endif %}
 
                 {% if perms.usuario.view_user %}
                     <li class="nav-item">

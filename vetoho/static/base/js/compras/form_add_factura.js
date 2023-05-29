@@ -220,7 +220,7 @@ $(function () {
         parameters.append('factura', JSON.stringify(factura.items));
         var csrf = $('input[name="csrfmiddlewaretoken"]').val();
         parameters.append('csrfmiddlewaretoken', csrf);
-        submit_with_ajax(window.location.pathname, 'Noticicación', '¿Desea registrar esta factura?', parameters, function () {
+        submit_with_ajax(window.location.pathname, 'Notificación', '¿Desea registrar esta factura?', parameters, function () {
             location.href = "/compra/listFacturasCompras/"
         });
     });

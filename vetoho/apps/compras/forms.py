@@ -1,6 +1,7 @@
 from django import forms
-from  apps.compras.models import *
+from  apps.compras.models import Proveedor, Pedido, FacturaCompra, FacturaDet
 
+replace_abc='replaceABC(this)'
 class ProveedorForm(forms.ModelForm):
     """[summary]
     Args:
@@ -11,15 +12,17 @@ class ProveedorForm(forms.ModelForm):
         exclude = ['is_active']
         widgets = {
 			'nombre_proveedor' : forms.TextInput(attrs={'class':'form-control','name': 'nombre_proveedor', 
-                'autocomplete': 'off', 'placeholder': 'Nombre del Proveedor', 'required': 'required','onkeyup':'replaceCaratect(this)'}),		
+                'autocomplete': 'off', 'placeholder': 'Nombre del Proveedor', 'required': 'required',
+                'onkeyup':'replaceCaratect(this)'}),		
 			'direccion' : forms.TextInput(attrs={'class':'form-control','name': 'direccion', 'placeholder': 'Dirección',
                 'onkeyup':'replaceDirection(this)','type':'text', 'required': 'required', 'autocomplete': 'off'}),
 			'cedula' : forms.TextInput(attrs={'class':'form-control', 'name':'cedula', 'placeholder': 'Nro. Cédula', 
-                'required':'required','onkeyup':'replaceABC(this)', 'autocomplete': 'off'}),
+                'required':'required','onkeyup':replace_abc, 'autocomplete': 'off'}),
 			'ruc_proveedor' : forms.TextInput(attrs={'class':'form-control', 'name': 'ruc_proveedor', 
-                'placeholder': 'RUC', 'required': 'required','type':'text','onkeyup':'replaceABC(this)', 'autocomplete': 'off'}),
+                'placeholder': 'RUC', 'required': 'required','type':'text','onkeyup':replace_abc, 'autocomplete': 'off'}),
 			'telefono' : forms.TextInput(attrs={'class':'form-control tel','placeholder': 'Telefono','type': 'tel', 
-                'name':'telefono', 'required':'required','autocomplete': 'off','onkeyup':'replaceABC(this)','pattern':'[^a-zA-Z\x22]+','title':'Evitar usar letras'}),
+                'name':'telefono', 'required':'required','autocomplete': 'off','onkeyup':replace_abc,
+                'pattern':'[^a-zA-Z\x22]+','title':'Evitar usar letras'}),
             'email' : forms.EmailInput(attrs={'class':'form-control optional', 'placeholder': 'Email','name':'email', 
                 'type':'email', 'id':'email', 'autocomplete': 'off'}),
 		}
@@ -33,8 +36,10 @@ class PedidoForm(forms.ModelForm):
         model = Pedido
         exclude = ['is_active']
         widgets = {		
-			'cantidad_pedido' : forms.TextInput(attrs={'class':'form-control', 'name':'cantidad_pedido', 'placeholder': 'Cantidad a pedir', 'required':'required','onkeyup':'replaceABC(this)'}),
-            'id_producto' : forms.Select(attrs={'class':'form-control', 'id': 'id_producto' ,'name':'id_producto', 'readonly': 'readonly'})
+			'cantidad_pedido' : forms.TextInput(attrs={'class':'form-control', 'name':'cantidad_pedido', 
+                                              'placeholder': 'Cantidad a pedir', 'required':'required','onkeyup':replace_abc}),
+            'id_producto' : forms.Select(attrs={'class':'form-control', 'id': 'id_producto' ,'name':'id_producto', 
+                                                'readonly': 'readonly'})
 		}
 
 class FacturaCompraForm(forms.ModelForm):
@@ -43,7 +48,8 @@ class FacturaCompraForm(forms.ModelForm):
         model = FacturaCompra
         exclude = ['is_active', 'estado']
         widgets = {
-			'nro_factura': forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off','name':'nro_factura','placeholder': 'Escriba el nro de factura','required':'required','onkeyup':'replaceABC(this)'}),
+			'nro_factura': forms.TextInput(attrs={'class': 'form-control', 'autocomplete': 'off','name':'nro_factura',
+                                         'placeholder': 'Escriba el nro de factura','required':'required','onkeyup':replace_abc}),
             'id_proveedor' : forms.Select(attrs={'class':'form-control', 'id': 'proveedor_select' ,'name':'id_proveedor'}),
             'fecha_emision_factura': forms.TextInput(attrs={'class': 'form-control',
                                             'id': 'datePick-emision-factura',
@@ -60,7 +66,9 @@ class FacturaCompraForm(forms.ModelForm):
                                             'placeholder': 'Selecciona la fecha de fin timbrado',
                                             'name':'fecha_vencimiento',
                                             'autocomplete': 'off'}),
-            'nro_timbrado': forms.TextInput(attrs={'class': 'form-control', 'name': 'nro_timbrado','autocomplete': 'off','placeholder': 'Escriba el nro del timbrado','required':'required','onkeyup':'replaceABC(this)'}),
+            'nro_timbrado': forms.TextInput(attrs={'class': 'form-control', 'name': 'nro_timbrado','autocomplete': 'off',
+                                                   'placeholder': 'Escriba el nro del timbrado','required':'required',
+                                                   'onkeyup':replace_abc}),
 		}
 
 
