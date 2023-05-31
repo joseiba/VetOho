@@ -237,6 +237,7 @@ def anular_factura_venta(request, id):
     try:
         factVenta = CabeceraVenta.objects.get(id=id)
         factVenta.is_active = "N"
+        factVenta.factura_caja = "S"
         factVenta.save()
         data = {
             'error':False, 
