@@ -6,8 +6,9 @@ from django.db.models import Q
 
 from apps.inventario.productos.models import Producto
 from apps.configuracion.configuracion_inicial.models import ConfiEmpresa
-from apps.utiles.views import cargar_vacunas_aplicadas, cargar_servicios_vendidos, cargar_productos_vendidos
-from apps.utiles.models import VacunasAplicadas, ServicioVendido, ProductoVendido
+from apps.utiles.views import (cargar_vacunas_aplicadas, cargar_servicios_vendidos,
+                               cargar_producto_vendido_mes)
+from apps.utiles.models import VacunasAplicadas, ServicioVendido, ProductoVendidoMes
 from apps.cliente.models import Cliente
 from apps.mascotas.models import HistoricoFichaMedica
 # Create your views here.
@@ -19,35 +20,63 @@ meses = [{'mes': 'Enero', 'numero': 1}, {'mes': 'Febrero', 'numero': 2}, {'mes':
         {'mes': 'Julio', 'numero': 7}, {'mes': 'Agosto', 'numero': 8}, {'mes': 'Septiembre', 'numero': 9}, 
         {'mes': 'Octubre', 'numero': 10}, {'mes': 'Noviembre', 'numero': 11}, {'mes': 'Diciembre', 'numero': 12}]
 
-
-# Create your views here.
 @login_required()
 @permission_required('reporte.view_reporte')
 def reporte_producto(request):
-    cargar_productos_vendidos()
-    return render(request, 'reporte/reporte_producto.html')
+    context = {'meses': meses}
+    cargar_producto_vendido_mes()
+    return render(request, 'reporte/reporte_producto.html', context)
 
-def reporte_prod_vendido(request):
+def get_producto_vendido_mes(request):
     query = request.GET.get('busqueda')
-    label_producto_ven = []
-    data_producto_ven = []
+    label = []
+    data = []
     mensaje = ""
     try:    
         if query != "":
-            produc_vendidos = ProductoVendido.objects.filter(Q(id_producto__nombre_producto__icontains=query))
+            prod = ProductoVendidoMes.objects.filter(anho__icontains=str(hoy.year))
+            prod = prod.filter(Q(label_mes__icontains=query))
         else:
-            produc_vendidos = ProductoVendido.objects.all()
+            prod = ProductoVendidoMes.objects.filter(anho=str(hoy.year))
 
-        for pv in produc_vendidos:
-            label_producto_ven.append(pv.id_producto.nombre_producto)
-            data_producto_ven.append(pv.cantidad_vendida_total)
+        for p in prod:
+            label.append(p.label_mes)
+            data.append(p.cantidad_vendida_total)
 
-        mensaje = "OK"
+        if len(data) > 0:    
+            mensaje = "OK"
+        else:
+            mensaje = "NA"
     except Exception as e:
         pass
-    response = {'label_producto_ven': label_producto_ven, 'data_producto_ven': data_producto_ven,'mensaje': mensaje}
+
+    response = {'label': label, 'data': data,'mensaje': mensaje}
     return JsonResponse(response)
 
+def get_rango_mes_pro_vendido(request):
+    anho = request.GET.get('anho')
+    desde = request.GET.get('desde')
+    hasta = request.GET.get('hasta')
+    label = []
+    data = []
+    mensaje = ""
+    try:    
+        pro = ProductoVendidoMes.objects.filter(anho=anho)
+        if pro.count() > 0:
+            for p in pro:
+                if int(desde) <= p.numero_mes and p.numero_mes <= int(hasta):
+                    label.append(p.label_mes)
+                    data.append(p.cantidad_vendida_total)
+            
+        if len(data) > 0:    
+            mensaje = "OK"
+        else:
+            mensaje = "NA"
+    except Exception as e:
+        pass
+
+    response = {'label': label, 'data': data,'mensaje': mensaje}
+    return JsonResponse(response)
 
 
 @login_required()

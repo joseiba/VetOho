@@ -12,6 +12,7 @@ from apps.agendamientos.models import Reserva
 from apps.mascotas.models import Mascota
 from apps.usuario.models import User
 from apps.utiles.models import VacunasAplicadas, ServicioVendido, ProductoVendido
+from apps.utiles.models import ProductoVendidoMes
 
 hoy = date.today()
 # Create your views here.
@@ -339,3 +340,34 @@ def cargar_productos_vendidos():
                                 produc.save()
     except Exception as e:
         pass
+
+def cargar_producto_vendido_mes():
+    facturaVenta = CabeceraVenta.objects.exclude(is_active='S')
+    try:
+        if facturaVenta is not None:
+            for fv in facturaVenta:
+                fecha_split = fv.fecha_alta.split('/')
+                facturaDetalle = DetalleVenta.objects.filter(id_factura_venta=fv.id)
+                for factDet in facturaDetalle:
+                    if factDet.tipo != 'S':
+                        if factDet.detalle_cargado_mes == 'N':
+                            factDet.detalle_cargado_mes = "S"
+                            factDet.save()
+                            try:
+                                produc = ProductoVendidoMes.objects.filter(anho=fecha_split[2])
+                                if produc.count() == 0:
+                                    produc = produc.get(anho=fecha_split[2])
+                                produc = produc.get(numero_mes=int(fecha_split[1]))
+                                produc.cantidad_vendida_total += factDet.cantidad
+                                produc.save()
+                            except Exception as e:
+                                produc = ProductoVendidoMes()
+                                pro_id = Producto.objects.get(id=factDet.id_producto.id)
+                                produc.id_producto = pro_id
+                                produc.label_mes = label_mes[int(fecha_split[1]) - 1]
+                                produc.numero_mes = int(fecha_split[1])
+                                produc.anho = fecha_split[2]
+                                produc.cantidad_vendida_total = factDet.cantidad
+                                produc.save()
+    except Exception as e:
+        pass    

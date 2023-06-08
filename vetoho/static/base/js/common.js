@@ -227,3 +227,18 @@ function return_colors(){
 	}
 	return colors;
 }
+
+
+var compareDate = function(fecha_emision, fecha_vencimiento){
+	var d1 = fecha_emision.split("/");
+	var d2 = fecha_vencimiento.split("/");
+	var c = new Date();
+
+	var from = new Date(d1[2], parseInt(d1[1])-1, d1[0]);  // -1 because months are from 0 to 11
+	var to   = new Date(d2[2], parseInt(d2[1])-1, d2[0]);
+	var check = new Date(c.getFullYear(), c.getMonth(), c.getDate());
+	if(check >= from && check <= to){
+		return true
+	}
+	return false
+}
