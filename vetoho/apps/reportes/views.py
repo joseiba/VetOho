@@ -7,7 +7,7 @@ from django.db.models import Q
 from apps.inventario.productos.models import Producto
 from apps.configuracion.configuracion_inicial.models import ConfiEmpresa
 from apps.utiles.views import (cargar_vacunas_aplicadas, cargar_servicios_vendidos,
-                               cargar_producto_vendido_mes)
+                               cargar_producto_vendido_mes, convert_dates)
 from apps.utiles.models import VacunasAplicadas, ServicioVendido, ProductoVendidoMes
 from apps.cliente.models import Cliente
 from apps.mascotas.models import HistoricoFichaMedica
@@ -54,19 +54,23 @@ def get_producto_vendido_mes(request):
     return JsonResponse(response)
 
 def get_rango_mes_pro_vendido(request):
-    anho = request.GET.get('anho')
     desde = request.GET.get('desde')
     hasta = request.GET.get('hasta')
+    fecha_convertida = convert_dates(desde, hasta)
+    print(fecha_convertida)
     label = []
     data = []
     mensaje = ""
     try:    
-        pro = ProductoVendidoMes.objects.filter(anho=anho)
+        pro = ProductoVendidoMes.objects.filter(date__range=[fecha_convertida.split('?')[0], 
+                                                                      fecha_convertida.split('?')[1]])
+        print(pro.count())
         if pro.count() > 0:
             for p in pro:
-                if int(desde) <= p.numero_mes and p.numero_mes <= int(hasta):
-                    label.append(p.label_mes)
-                    data.append(p.cantidad_vendida_total)
+                fecha_producto = "Fecha: {} Producto:{}".format(p.date.strftime("%d/%m/%Y"), 
+                                                            p.id_producto.nombre_producto)
+                label.append(fecha_producto)
+                data.append(p.cantidad_vendida_total)
             
         if len(data) > 0:    
             mensaje = "OK"
@@ -89,7 +93,9 @@ def get_producto_minimo(request):
     query = request.GET.get('busqueda')
     prod_minimo = []
     if query != "":
-        productos = Producto.objects.exclude(is_active="N").filter(Q(id__icontains=query) |Q(nombre_producto__icontains=query)).order_by('-last_modified')        
+        productos = Producto.objects.exclude(is_active="N").filter(Q(id__icontains=query) 
+                                                                   |Q(nombre_producto__icontains=query)
+                                                                   ).order_by('-last_modified')        
         productos = productos.exclude(servicio_o_producto="S")
         productos = productos.exclude(producto_vencido="S")
     else:
@@ -111,7 +117,8 @@ def get_producto_minimo(request):
         
         prod_minimo = prod_minimo[start:start + length]
 
-    data =[{'id': p.id, 'nombre': p.nombre_producto, 'descripcion': p.descripcion, 'stock_minimo': p.stock_minimo ,'stock_total': p.stock_total} for p in prod_minimo]        
+    data =[{'id': p.id, 'nombre': p.nombre_producto, 'descripcion': p.descripcion, 
+            'stock_minimo': p.stock_minimo ,'stock_total': p.stock_total} for p in prod_minimo]        
         
     response = {
         'data': data,
@@ -137,7 +144,9 @@ def get_producto_vencimiento(request):
         dias_compare = 30
     
     if query != "":
-        productos = Producto.objects.exclude(is_active="N").filter(Q(id__icontains=query) |Q(nombre_producto__icontains=query)).order_by('-last_modified')        
+        productos = Producto.objects.exclude(is_active="N").filter(Q(id__icontains=query) 
+                                                                   |Q(nombre_producto__icontains=query)
+                                                                   ).order_by('-last_modified')        
         productos = productos.exclude(servicio_o_producto="S")
     else:
         productos = Producto.objects.exclude(is_active="N").order_by('-last_modified')
@@ -159,7 +168,8 @@ def get_producto_vencimiento(request):
         prod_vencimiento = prod_vencimiento[start:start + length]
 
     data =[{'id': p.id, 'nombre': p.nombre_producto, 'descripcion': p.descripcion, 'stock_total': p.stock_total, 
-            'fecha_vencimiento': p.fecha_vencimiento, 'dias_vencimiento': rest_dates(p.fecha_vencimiento)} for p in prod_vencimiento]        
+            'fecha_vencimiento': p.fecha_vencimiento, 'dias_vencimiento': rest_dates(p.fecha_vencimiento)} 
+            for p in prod_vencimiento]        
         
     response = {
         'data': data,
@@ -176,21 +186,28 @@ def reporte_servicio_vendido(request):
     return render(request, 'reporte/servicio_vendido.html')
 
 def get_servicio_vendido(request):
-    query = request.GET.get('busqueda')
+    desde = request.GET.get('desde')
+    hasta = request.GET.get('hasta')
+    fecha_convertida = convert_dates(desde, hasta)
+    print(fecha_convertida)
     label = []
     data = []
     mensaje = ""
-    try:    
-        if query != "":
-            produc_vendidos = ServicioVendido.objects.filter(Q(id_producto__nombre_producto__icontains=query))
-        else:
-            produc_vendidos = ServicioVendido.objects.all()
 
+    try:    
+        produc_vendidos = ServicioVendido.objects.filter(date__range=[fecha_convertida.split('?')[0], 
+                                                                      fecha_convertida.split('?')[1]])
+        print(produc_vendidos.count())
         for pv in produc_vendidos:
-            label.append(pv.id_producto.nombre_producto)
+            fecha_producto = "Fecha: {} Producto:{}".format(pv.date.strftime("%d/%m/%Y"), 
+                                                            pv.id_producto.nombre_producto)
+            label.append(fecha_producto)
             data.append(pv.cantidad_vendida_total)
 
-        mensaje = "OK"
+        if len(data) > 0:    
+            mensaje = "OK"
+        else:
+            mensaje = "NA"
     except Exception as e:
         pass
     response = {'label': label, 'data': data, 'mensaje': mensaje}
@@ -234,9 +251,10 @@ def get_proximas_vacunas(request):
         
         ficha = ficha[start:start + length]
 
-    data =[{'id': f.id, 'cliente':try_exception_cliente(f.id_mascota.id_cliente), 'mascota': f.id_mascota.nombre_mascota,
+    data =[{'id': f.id, 'cliente':try_exception_cliente(f.id_mascota.id_cliente), 
+            'mascota': f.id_mascota.nombre_mascota,
             'telefono': f.id_mascota.id_cliente.telefono, 'vacuna': f.proxima_vacunacion, 
-                'fecha': f.fecha_proxima_aplicacion} for f in ficha]         
+            'fecha': f.fecha_proxima_aplicacion} for f in ficha]         
     response = {
         'data': data,
         'recordsTotal': total,
@@ -279,14 +297,16 @@ def try_exception_cliente(id):
             ruc_cedula = cli.cedula
         else:
             ruc_cedula = cli.ruc
-        return 'Nombre: ' + cli.nombre_cliente + " " + cli.apellido_cliente  +'</br> ' + 'Ruc/Cédula: ' + ruc_cedula
+        return ('Nombre: ' + cli.nombre_cliente + " " + cli.apellido_cliente  
+                +'</br> ' + 'Ruc/Cédula: ' + ruc_cedula)
     except Exception:
         return '-'
 
 def rest_dates(fecha_vencimiento):
     try:
         fecha_vencimiento_split = fecha_vencimiento.split('/')          
-        fecha_vencimiento_compare = date(int(fecha_vencimiento_split[2]), int(fecha_vencimiento_split[1]), int(fecha_vencimiento_split[0]))
+        fecha_vencimiento_compare = date(int(fecha_vencimiento_split[2]), int(fecha_vencimiento_split[1]), 
+                                         int(fecha_vencimiento_split[0]))
         return (fecha_vencimiento_compare - hoy).days if (fecha_vencimiento_compare - hoy).days >= 0 else 0
     except Exception:
         return 0
