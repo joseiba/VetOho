@@ -57,14 +57,12 @@ def get_rango_mes_pro_vendido(request):
     desde = request.GET.get('desde')
     hasta = request.GET.get('hasta')
     fecha_convertida = convert_dates(desde, hasta)
-    print(fecha_convertida)
     label = []
     data = []
     mensaje = ""
     try:    
         pro = ProductoVendidoMes.objects.filter(date__range=[fecha_convertida.split('?')[0], 
                                                                       fecha_convertida.split('?')[1]])
-        print(pro.count())
         if pro.count() > 0:
             for p in pro:
                 fecha_producto = "Fecha: {} Producto:{}".format(p.date.strftime("%d/%m/%Y"), 
@@ -189,7 +187,6 @@ def get_servicio_vendido(request):
     desde = request.GET.get('desde')
     hasta = request.GET.get('hasta')
     fecha_convertida = convert_dates(desde, hasta)
-    print(fecha_convertida)
     label = []
     data = []
     mensaje = ""
@@ -197,7 +194,6 @@ def get_servicio_vendido(request):
     try:    
         produc_vendidos = ServicioVendido.objects.filter(date__range=[fecha_convertida.split('?')[0], 
                                                                       fecha_convertida.split('?')[1]])
-        print(produc_vendidos.count())
         for pv in produc_vendidos:
             fecha_producto = "Fecha: {} Producto:{}".format(pv.date.strftime("%d/%m/%Y"), 
                                                             pv.id_producto.nombre_producto)
@@ -270,22 +266,27 @@ def reporte_vacunas_aplicadas(request):
     return render(request, 'reporte/vacunas_aplicadas.html')
 
 def reporte_get_vacunas_aplicada(request):
-    query = request.GET.get('busqueda')
+    desde = request.GET.get('desde')
+    hasta = request.GET.get('hasta')
+    fecha_convertida = convert_dates(desde, hasta)
     label = []
     data = []
     mensaje = ""
     try:    
-        if query != "":
-            vacunas = VacunasAplicadas.objects.filter(Q(id_producto__nombre_producto__icontains=query))
+        vacunas = VacunasAplicadas.objects.filter(date__range=[fecha_convertida.split('?')[0], 
+                                                                      fecha_convertida.split('?')[1]])
+        if vacunas.count() > 0:    
+            for va in vacunas:
+                fecha_vacuna = "Fecha: {} Producto:{}".format(va.date.strftime("%d/%m/%Y"), 
+                                                            va.id_producto.nombre_producto)
+                label.append(fecha_vacuna)
+                data.append(va.cantidad_aplicadas)
+
+        if len(data) > 0:    
+            mensaje = "OK"
         else:
-            vacunas = VacunasAplicadas.objects.all()
-
-        for va in vacunas:
-            label.append(va.id_producto.nombre_producto)
-            data.append(va.cantidad_aplicadas)
-
-        mensaje = "OK"
-    except Exception:
+            mensaje = "NA"    
+    except Exception as e:
         pass
     response = {'label': label, 'data': data,'mensaje': mensaje}
     return JsonResponse(response)

@@ -18,6 +18,7 @@ class Timbrado(models.Model):
 class VacunasAplicadas(models.Model):
     id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE, null=True)
     cantidad_aplicadas = models.FloatField(null=True, blank=True, default=0)
+    date = models.DateField(auto_now=False, null=True, blank=True)
 
 
 class ServicioVendido(models.Model):

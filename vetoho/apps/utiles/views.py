@@ -114,7 +114,6 @@ def total_producto():
         productos = Producto.objects.exclude(is_active="N").all()        
         productos = productos.exclude(servicio_o_producto="S")
         productos = productos.exclude(producto_vencido="S")
-        print(productos.count())
         return productos.count()
     except Exception as e:
         return 0
@@ -205,10 +204,11 @@ def cargar_vacunas_aplicadas():
                     produc = VacunasAplicadas.objects.get(id_producto=va.vacuna.id_producto.id)
                     produc.cantidad_aplicadas += 1
                     produc.save()
-                except Exception as e:
+                except Exception:
                     produc = VacunasAplicadas()
                     pro_id = Producto.objects.get(id=va.vacuna.id_producto.id)
                     produc.id_producto = pro_id
+                    produc.date = hoy
                     produc.cantidad_aplicadas = 1
                     produc.save()
     except Exception as e:
@@ -217,7 +217,6 @@ def cargar_vacunas_aplicadas():
 
 def rest_dates(fecha_vencimiento):
     try:
-        fechaDate = date(hoy.year, hoy.month, hoy.day)
         fecha_vencimiento_split = fecha_vencimiento.split('/')          
         fecha_vencimiento_compare = date(int(fecha_vencimiento_split[2]), int(fecha_vencimiento_split[1]), int(fecha_vencimiento_split[0]))
         return (fecha_vencimiento_compare - hoy).days if (fecha_vencimiento_compare - hoy).days >= 0 else 0
@@ -311,7 +310,6 @@ def cargar_servicios_vendidos():
                                 produc = ServicioVendido()
                                 pro_id = Producto.objects.get(id=factDet.id_producto.id)
                                 produc.id_producto = pro_id
-                                print("hoy:", hoy)
                                 produc.date = hoy
                                 produc.cantidad_vendida_total = factDet.cantidad
                                 produc.save()
@@ -345,14 +343,12 @@ def cargar_productos_vendidos():
 
 def cargar_producto_vendido_mes():
     facturaVenta = CabeceraVenta.objects.exclude(is_active='N')
-    print(len(facturaVenta))
     try:
         if facturaVenta is not None:
             for fv in facturaVenta:
                 facturaDetalle = DetalleVenta.objects.filter(id_factura_venta=fv.id)
                 for factDet in facturaDetalle:
                     if factDet.tipo != 'S':
-                        print("hola")
                         if factDet.detalle_cargado_mes == 'N':
                             factDet.detalle_cargado_mes = "S"
                             factDet.save()
@@ -364,7 +360,6 @@ def cargar_producto_vendido_mes():
                                 produc = ProductoVendidoMes()
                                 pro_id = Producto.objects.get(id=factDet.id_producto.id)
                                 produc.id_producto = pro_id
-                                print("hoy:", hoy)
                                 produc.date = hoy
                                 produc.cantidad_vendida_total = factDet.cantidad
                                 produc.save()
