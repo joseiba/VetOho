@@ -161,12 +161,10 @@ def add_factura_venta(request):
                 response = {'mensaje':mensaje }
                 return JsonResponse(response)
             except Exception as e:
-                print('segundo try: '+ str(e))
                 mensaje = 'error'
                 response = {'mensaje':mensaje }
                 return JsonResponse(response)
         except Exception as e:
-            print(e)
             mensaje = 'error'
             response = {'mensaje':mensaje }
         return JsonResponse(response)
