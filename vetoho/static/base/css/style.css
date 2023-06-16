@@ -9,7 +9,7 @@ span.error{
 .icon-info {
   left: 219px;
   bottom: 9px;
-    z-index: 99999;
+    z-index: 1;
 }
 
 .input-group.tooltip {

@@ -272,7 +272,7 @@ def reporte_get_vacunas_aplicada(request):
     mensaje = ""
     try:    
         vacunas = VacunasAplicadas.objects.filter(date__range=[fecha_convertida.split('?')[0], 
-                                                                      fecha_convertida.split('?')[1]])
+                                                                fecha_convertida.split('?')[1]])
         if vacunas.count() > 0:    
             for va in vacunas:
                 fecha_vacuna = "Vacuna:{}".format(va.id_producto.nombre_producto)
