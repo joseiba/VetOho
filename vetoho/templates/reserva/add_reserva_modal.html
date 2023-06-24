@@ -25,7 +25,8 @@
                 <label class="col-form-label col-md-6 col-sm-3">Descripción Reserva</label>
                 <div class="col-md-12 col-sm-6">
                     <textarea class="form-control optional" name="descripcion" id="descripcion"
-                        placeholder="Descripción de la reserva" onkeyup="aceptarNumerosYLetras(this)"></textarea>
+                        placeholder="Descripción de la reserva" onchange= 'validateSpaceBlank(this)' 
+                        onkeyup="aceptarNumerosYLetras(this)"></textarea>
                 </div>
             </div>
             <div id="id_fecha_reserva">

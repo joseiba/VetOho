@@ -57,6 +57,12 @@ function aceptarNumerosYLetras(e) {
 	e.value = e.value.replace(/[^A-Za-zÀ-ÿ0-9\u00f1\u00d1\s-/g]+$/g, '')
 }
 
+function validateSpaceBlank(e){
+	debugger
+	if (e.value.trim().length == 0)
+		e.value = ""
+}
+
 // Función para eliminar los registros de forma genérica
 // con el sweet alert
 function eliminar_registro(url, redirect_url) { 
